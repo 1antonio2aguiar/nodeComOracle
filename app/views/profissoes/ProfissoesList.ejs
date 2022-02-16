@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Profissões</title>
+
+        <!-- define a viewport -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+        <meta charset="utf-8">
+
+        <!-- adicionar CSS Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet" media="all">
+
+        <!-- css personalizado -->
+        <link href="css/estilo.css" rel="stylesheet" media="all">
+
+    </head>
+    <body> 
+        <div class="container-fluid" style="background-color: #efefef;">
+            <!-- Menu Principal -->
+            <% include ../index/menuInclude %>
+
+            <nav class="navbar navbar-filter navbar-inverse" role="navigation">
+                <form id="filter-form" action="/profissoesList" method="get">
+                    <input type="hidden" name="pagina" value="1">
+        
+                    <div class="form-row">
+                        <div class="col-md-3">
+                            <h3>Profissões</h3>
+                        </div>
+        
+                        <div class="form-group col-md-4">
+                            <label for="inputDescricao"></label>
+                            <input type="text" class="form-control" id="inputDescricao" name="inputDescricao" placeholder="Pesquisar por descrição" value="<%=descricao%>">
+                        </div>
+        
+                        <div class="col-md-5">
+                            <input type="submit" name="btnNew" id="btnNew" value="Novo" class="btn btn-primary pull-right h2">
+                        </div>
+                    </div>
+                </form>
+            </nav>
+        
+            <div id="list" class="row">
+                <div class="table-responsive col-md-12">
+                    <table class="table table-striped" cellspacing="0" cellpadding="0">
+                        <thead>
+                            <tr class="class_header_list">
+                                <th>ID</th>
+                                <th>Descrição</th>
+                                <th class="actions">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(var i = 0; i < profissoes.length; i++) { %>
+                                <tr>
+                                    <td><%=profissoes[i][0]%></td>
+                                    <td><%=profissoes[i][1]%></td>
+                                    <td class="actions">
+                                        <a class="btn btn-success btn-xs" href="#" disabled>Consultar</a>
+                                        <a class="btn btn-warning btn-xs view_edit" id="<%=profissoes[i][0]%>" descricao="<%=profissoes[i][1]%>" href="#">Editar</a>
+                                        <a class="btn btn-danger btn-xs view_data"  id="<%=profissoes[i][0]%>" descricao="<%=profissoes[i][1]%>" href="#">Excluir</a>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div> <!-- /#list -->
+        </div>
+
+        <nav class="class_paginator">
+            <ul class="pagination pagination-sm">
+                <li class="page-item">
+                    <span id="previous" class="btn btn-success btn-xs">Anterior</a>
+                </li>
+                <%- paginator %>                    
+                <li class="page-item">
+                    <span id="next" class="btn btn-success btn-xs">Próxima</a>
+                </li>
+            </ul>
+        </nav>
+    </body>
+
+    <input id="pagina" type="hidden" value="<%=metadata.page%>">
+    <input id="total-pagina" type="hidden" value="<%=metadata.totalPages%>">
+    <input id="descricao" type="hidden" value="<%=metadata.descricao%>">
+        
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- Modal edit e new -->
+    <% include modalProfissoes %> 
+
+    <!-- Modal Delete -->
+    <% include modalProfissoesDel %> 
+
+    <script>
+        $("#previous").click(function() {
+            previous();
+        });
+
+        $("#next").click(function() {
+            next();
+        });
+
+        function previous() {
+            var page     = parseInt($("#pagina").val());
+            var descricao = $("#descricao").val();
+            
+            if (page > 1) {
+                page--;
+                window.location = "/profissoesList?pagina=" + page + 
+                (descricao ? ( "&inputDescricao=" + descricao ) : "") ;
+            }
+        }
+
+        function next() {
+            var page      = parseInt($("#pagina").val());
+            var totalPage = parseInt($("#total-pagina").val());
+            var descricao = $("#descricao").val();
+
+            if (page <= totalPage) {
+                page++;
+                window.location = "/profissoesList?pagina=" + page + 
+                (descricao ? ( "&inputDescricao=" + descricao ) : "") ; 
+            }
+        }
+
+        $("#inputDescricao").keypress(function() {
+            var filter = $("#inputDescricao").val();
+            if (filter && filter.length >= 2) {
+
+                setTimeout(function() {
+                    $("#filter-form").submit();
+                }, 800);
+            }
+        }); 
+
+        function setHeaderFooter(data){
+            if(data == "N"){
+                //Novo
+                var element = document.getElementById("ModalHeader");
+                element.classList.remove("class_header_edit");
+                element.classList.add("class_header_new");
+                
+                var element = document.getElementById("ModalFooter");
+                element.classList.remove("class_footer_edit");
+                element.classList.add("class_footer_new");
+            } else if(data == "E"){
+                // Edita/Altera
+                var element = document.getElementById("ModalHeader");
+                element.classList.remove("class_header_edit");
+                element.classList.add("class_header_edit");
+                
+                var element = document.getElementById("ModalFooter");
+                element.classList.remove("class_footer_edit");
+                element.classList.add("class_footer_edit");
+                
+            } ;
+        };
+    </script>
+</html>

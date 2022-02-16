@@ -1,0 +1,118 @@
+﻿<div id="modalCepDelete"      class="modal bd-example-modal-lg-edit" tabindex="-1" role="dialog" aria-labelledby="modalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content edit">
+            <div id="ModalHeaderDelEmp" class="modal-header class_header_del">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 class="modal-title white-text w-100 font-weight-bold py-2">Confirma excluir Cep?</h4>
+            </div>
+
+            <form>
+                <div class="row">
+                    <input type="text" class="form-control" id="modDelCepId" name="modDelCepId" style="display:none;">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="modDelCidade">Cidade</label>
+                        <input type="text" class="form-control" id="modDelCidade" name="modDelCidade" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="modDelDistrito">Distrito</label>
+                        <input type="text" class="form-control" id="modDelDistrito" name="modDelDistrito" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="modDelBairro">Bairro</label>
+                        <input type="text" class="form-control" id="modDelBairro" name="modDelBairro" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="modDelLogradouro">Logradouro</label>
+                        <input type="text" class="form-control" id="modDelLogradouro" name="modDelLogradouro" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="modDelCep">cep</label>
+                        <input type="text" class="form-control" id="modDelCep" name="modDelCep" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="modDelNumInicial">Numero Inicial</label>
+                        <input type="text" class="form-control" id="modDelNumInicial" name="modDelNumInicial" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="modDelNumFinal">Numero Final</label>
+                        <input type="text" class="form-control" id="modDelNumFinal" name="modDelNumFinal" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="modDelIdentificacao">Identificação</label>
+                        <input type="text" class="form-control" id="modDelIdentificacao" name="modDelIdentificacao" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer"></div>
+    
+                    <div id="ModalFooterDelEmp" class="modal-footer class_footer_del">
+                        <button type="button" class="btn  btn-success" data-dismiss="modal">Não</button>
+                        <input type="button" onclick="excluir()" value="Sim" class="btn">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var id = 0;
+
+        // DELETE abre a modal.
+        $(document).on('click','.view_data', function(){
+            id = $(this).attr("id");
+            var dados  = { id: id };
+
+            $.ajax({
+                type: "get",
+                url: '/cepsEdit',
+                data: dados,
+                dataType: 'json',
+                success: function (dados) {
+                    $("#modDelCidade").val(dados.cep[0][9]);
+                    $("#modDelDistrito").val(dados.cep[0][10]);
+                    $("#modDelBairro").val(dados.cep[0][11]);
+                    $("#modDelLogradouro").val(dados.cep[0][13] + ' ' + dados.cep[0][12]);
+                    $("#modDelCep").val(dados.cep[0][5]);
+                    $("#modDelNumInicial").val(dados.cep[0][6]);
+                    $("#modDelNumFinal").val(dados.cep[0][7]);
+                    $("#modDelIdentificacao").val(dados.cep[0][8]);
+
+                    $('#modalCepDelete').modal({'show':true});   
+                } 
+            });
+        });
+
+        // Exclui o registro
+        function excluir() {
+            $.ajax({
+                type: "delete",
+                url: '/cepsDelete',
+                data: {id: id},
+                dataType: 'json',
+                success: function(response) {
+                    //fecha a janela
+                    $('#modalCepDelete').modal('hide');
+                    window.location = "/cepsList";
+                },
+                error: function(response) {
+                    //fecha a janela
+                    $('#modalCepDelete').modal('hide');
+                    window.location = "/cepsList";
+                }
+            });
+        };
+    </script>
+</div>
+    

@@ -1,0 +1,85 @@
+﻿<div class="tab-pane active" id="pessoa" role="tabpanel" aria-labelledby="home-tab">
+    <nav class="navbar navbar-filter-tab navbar-inverse" role="navigation">
+        <div class="col-md-11">
+            <p class="h4" style="margin-top:13px;">Pessoa: <%=pessoa[0][1]%></p>
+        </div>
+    </nav>
+    <form class="form-add">
+        <div class="form-row">
+            <input type="text" class="form-control" id="inputFilterNome" name="inputFilterNome" value="<%=filterNome%>" style="display:none;">
+            <input type="text" class="form-control" id="inputFiltercpf" name="inputFiltercpf" value="<%=filtercnpjcpf%>" style="display:none;">
+
+            <div class="form-row">
+                <div class="form-group col-md-1">
+                    <label for="inputNome">Id</label>
+                    <input type="text" class="form-control" id="inputIdpj" name="inputIdpj" value="<%=pessoa[0][0]%>" readonly>
+                </div>
+    
+                <div class="form-group col-md-5">
+                    <label for="inputNome">Nome</label>
+                    <input type="text" class="form-control" id="inputNomepj" name="inputNomepj" value="<%=pessoa[0][1]%>" readonly>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label for="inputCnpjpj">Tipo Pessoa</label>
+                    <input type="text" class="form-control" id="inputTipoPessoapj" name="inputTipoPessoapj" value="<%=pessoa[0][17]%>" readonly>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label for="inputCnpjpj">C.N.P.J</label>
+                    <input type="text" class="form-control" id="inputCnpjpj" name="inputCnpjpj" placeholder="CNPJ" value="<%=pessoa[0][8]%>" readonly>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label for="inputMicroEmpresapj">Micro Empresa?</label>
+                    <input type="text" class="form-control" id="inputMEpj" name="inputMEpj" value="<%=pessoa[0][12]%>" readonly>                
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="inputMicroEmpresapj">Tipo Empresa</label>
+                    <input type="text" class="form-control" id="inputTpempresapj" name="inputTpempresapj" value="<%=pessoa[0][18]%>" readonly>                
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="inputConjugepj">Conjuge</label>
+                    <input type="text" class="form-control" id="inputConjugepj" name="inputConjugepj" value="<%=pessoa[0][11]%>" readonly>
+                </div>
+                <div class="form-group col-md-1">
+                    <label for="inputMesEnvioSicompj">Mes Sicom</label>
+                    <input type="text" class="form-control" id="inputMesEnvioSicompj" name="inputMesEnvioSicompj" value="<%=pessoa[0][14]%>" disabled>
+                </div>
+                <div class="form-group col-md-1">
+                    <label for="inputAnoEnvioSicompj">Ano Sicom</label>
+                    <input type="text" class="form-control" id="inputAnoEnvioSicompj" name="inputAnoEnvioSicompj" value="<%=pessoa[0][13]%>" disabled>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="inputNmFantasiapj">Nome Fantasia</label>
+                    <input type="text" class="form-control" id="inputNmFantasiapj" name="inputNmFantasiapj" value="<%=pessoa[0][9]%>" readonly>
+                </div>
+            </div>
+    
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="inputObjSocialpj">Objeto social</label>
+                    <input type="text" class="form-control" id="inputObjSocialpj" name="inputObjSocialpj" value="<%=pessoa[0][10]%>" readonly>
+                </div>
+            </div>
+    
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="inputObspj">Observação</label>
+                    <input type="text" class="form-control" id="inputObspj" name="inputObspj" value="<%=pessoa[0][4]%>" readonly>
+                </div>
+            </div>
+
+            <div class="form-row" id="actions">
+                <div class="col-md-12 class_footer_buton">
+                    <button type="button" name="btnVoltar" id="btnVoltar" class="btn btn-outline-info" data-dismiss="modal">Voltar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

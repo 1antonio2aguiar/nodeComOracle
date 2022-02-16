@@ -1,0 +1,50 @@
+﻿<div class="tab-pane" id="origem" role="tabpanel" aria-labelledby="profile-tab">
+    <nav class="navbar navbar-filter-tab navbar-inverse" role="navigation">
+        <form id="filter-form" action="/origemList" method="get">
+            <input type="hidden" name="pagina" value="1">
+    
+            <div class="form-row">
+                <div class="col-md-11">
+                    <p class="h4" style="margin-top:15px;">Dados Origem de : <%=pessoa[0][1]%></p>
+                </div>
+            </div>
+        </form>
+    </nav>
+
+    <div id="list" class="row">
+        <div id="divTab" class="table-responsive col-md-12">
+            <table id="origemList" class="table table-striped" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th>Pessoa</th>
+                        <th>Nome</th>
+                        <th>CPF/CNPJ</th>
+                        <th>Banco</th>
+                    </tr>
+                    <tr>
+                        <th>Endereço</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(var i = 0; i < pessoasOrigem.length; i++) { %>
+                        <tr>
+                            <td><%=pessoasOrigem[i][0]%></td>
+                            <td><%=pessoasOrigem[i][1]%></td>
+                            <td><%=pessoasOrigem[i][2]%></td>
+                            <td><%=pessoasOrigem[i][3]%></td>
+                        </tr>
+                        <tr>
+                            <td><%=pessoasOrigem[i][4]%></td>
+                            <td><%=pessoasOrigem[i][5]%></td>
+                            <td><%=pessoasOrigem[i][6]%></td>
+                            <td><%=pessoasOrigem[i][7]%></td>
+                            <td><%=pessoasOrigem[i][8]%></td>
+                            <td><%=pessoasOrigem[i][9]%></td>
+                            <td><%=pessoasOrigem[i][10]%></td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

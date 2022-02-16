@@ -1,0 +1,111 @@
+﻿<div id="modalContatoDelete" class="modal hide bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true"  aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div id="ModalHeaderDelCon" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 class="modal-title modal-ender-title" id="example">Confirma Excluir Contato?</h4>
+            </div>
+
+            <form class="form-add" name="contatoModalDelete" id="contatoModalDelete" method="post">
+                <div class="form-row">
+                    <div class="row">
+                        <input type="text" class="form-control" id="modContatoDelId" name="modContatoDelId" style="display:none;">
+                    </div>
+
+                    <div class="form-group col-md-7">
+                        <label for="modContatoDelNome">Nome</label>
+                        <input type="text" class="form-control" id="modContatoDelNome" name="modContatoDelNome" readonly>
+                    </div>
+
+                    <div class="form-group col-md-5">
+                        <label id="lbModContatoDelCpfCnpj" for="modContatoNewDelCnpj"></label>
+                        <input type="text" class="form-control" id="modContatoDelCpfCnpj" name="modContatoDelCpfCnpj" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="modDelContatoTpContato">Tipo Contato</label>
+                        <input type="text" class="form-control" id="modDelContatoTpContato" name="modDelContatoTpContato" readonly>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="modDelContatoContato">Contato</label>
+                        <input type="text" class="form-control" id="modDelContatoContato" name="modDelContatoContato" readonly>
+                    </div>
+
+                    <div class="form-row"  id="actions">
+                        <div class="modal-footer">
+                        </div>
+    
+                        <div id="ModalFooterDelCon" class="modal-footer">
+                            <button type="button" class="btn  btn-success" data-dismiss="modal">Não</button>
+                            <input type="submit" name="btnDel" id="btnDel" value="Sim" class="btn btn-outline-info">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        //DELETE abre a janela modal
+        $(document).on('click', '.delete_contato', function () {
+
+            // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui Delete
+            setHeaderFooterCon("X");
+
+            idContato = $(this).attr("id");
+            contato = $(this).attr("contato");
+            tpContato = $(this).attr("tpContato");
+
+            var dados = { id: idContato };
+
+            var nomePessoa   = $("#inputNomepf").val();
+            cpfCnpj          = $("#inputCpfpf").val();
+
+            if(!cpfCnpj){
+                cpfCnpj      = $("#inputCnpjpj").val();
+                nomePessoa   = $("#inputNomepj").val();
+                document.getElementById("lbModDocDelCpfCnpj").innerHTML = 'C.N.P.J';
+            } else {
+                document.getElementById("lbModDocDelCpfCnpj").innerHTML = 'C.P.F';                
+            }
+
+
+            $("#modContatoDelNome").val(nomePessoa);
+            $("#modContatoDelCpfCnpj").val(cpfCnpj);
+
+            $("#modContatoDelNome").val(nomePessoa);
+            $("#modContatoDelId").val(idContato);
+            $("#modDelContatoContato").val(contato);
+            $("#modDelContatoTpContato").val(tpContato);
+
+            $('#modalContatoDelete').modal({'show':true}); 
+    
+        });
+    
+        $('#contatoModalDelete').on('submit', function(event){
+            event.preventDefault();
+            //receber dados do formulario
+            var dados = $("#contatoModalDelete").serialize();
+
+            $.post("contatoModalDelete",dados,function(response){
+                if(response){
+                    //limpa os dados
+                    $('#contatoModalDelete')[0].reset();
+                    //fecha a janela
+                    $('#modalContatoDelete').modal('hide');
+    
+                    // refaz a lista
+                    montaListaContatos();
+                } else {
+                    $("#msg").html(response);
+                }
+            });
+        });
+    </script>
+</div>

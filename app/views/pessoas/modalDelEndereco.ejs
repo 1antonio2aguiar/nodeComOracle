@@ -1,0 +1,160 @@
+﻿<div id="modalEnderDelete" class="modal hide bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true"  aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id="ModalHeaderDelEnd" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 class="modal-title modal-ender-title" id="example">Confirma Excluir endereço?</h4>
+            </div>
+
+            <form class="form-add" name="enderModalDelete" id="enderModalDelete" method="post">
+                <div class="row">
+                    <input type="text" class="form-control" id="modDelId" name="modDelId" style="display:none;">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-7">
+                        <label for="modDelNome">Nome</label>
+                        <input type="text" class="form-control" id="modDelNome" name="modDelNome" readonly>
+                    </div>
+
+                    <div class="form-group col-md-5">
+                        <label id="lbmodDelCpfCnpj"for="modDelCpfCnpj"></label>
+                        <input type="text" class="form-control" id="modDelCpfCnpj" name="modDelCpfCnpj" readonly>
+                    </div>
+                </div>
+
+
+                <div class="form-row">
+                    <div class="form-group col-md-7">
+                        <label for="modDelTipoEndereco">Tipo Endereço</label>
+                        <input type="text" class="form-control" id="modDelTipoEndereco" name="modDelTipoEndereco" readonly>
+                    </div>
+
+                    <div class="form-group col-md-5">
+                        <label for="modDelCep">C.E.P</label>
+                        <input type="text" class="form-control" id="modDelCep" name="modDelCep" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-5">
+                        <label for="modDelCidade">Cidade</label>
+                        <input type="text" class="form-control" id="modDelCidade" name="modDelCidade" readonly>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modDelestado">Estado</label>
+                        <input type="text" class="form-control" id="modDelestado" name="modDelestado" readonly>
+                    </div>
+
+                    <div class="form-group col-md-5">
+                        <label for="modDetBairro">Bairro</label>
+                        <input type="text" class="form-control" id="modDelBairro" name="modDelBairro" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label for="modDelTipoLogradouro">Tipo Logradouro</label>
+                        <input type="text" class="form-control" id="modDelTipoLogradouro" name="modDelTipoLogradouro" readonly>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="modDelNomeLogradouro">Nome Logradouro</label>
+                        <input type="text" class="form-control" id="modDelNomeLogradouro" name="modDelNomeLogradouro" readonly>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modDelNumero">Número</label>
+                        <input type="text" class="form-control" id="modDelNumero" name="modDelNumero" readonly>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modDelComplemento">Complemento</label>
+                        <input type="text" class="form-control" id="modDelComplemento" name="modDelComplemento" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer">
+                    </div>
+
+                    <div id="ModalFooterDelEnd" class="modal-footer">
+                        <button type="button" class="btn  btn-success" data-dismiss="modal">Não</button>
+                        <input type="submit" name="btnDel" id="btnDel" value="Sim" class="btn btn-outline-info">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    //abre a janela modal de DELETE
+    $(document).on('click', '.delete_endereco', function () {
+        // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui Delete
+        setHeaderFooterEnd("X");
+
+        id = $(this).attr("id");
+        cep = $(this).attr("cep");
+        var dados = { id: id, cep: cep };
+
+        $.ajax({
+            type: "POST",
+            url: '/enderecosModalDetails',
+            data: dados,
+            dataType: 'json',
+            success: function (response) {
+                var nomePessoa   = $("#inputNomepf").val();
+                cpfCnpj          = $("#inputCpfpf").val();
+
+                if(!cpfCnpj){
+                    cpfCnpj      = $("#inputCnpjpj").val();
+                    nomePessoa   = $("#inputNomepj").val();
+                    document.getElementById("lbModDocDelCpfCnpj").innerHTML = 'C.N.P.J';
+                } else {
+                    document.getElementById("lbModDocDelCpfCnpj").innerHTML = 'C.P.F';                
+                }
+
+                $("#modDelNome").val(nomePessoa);
+                $("#modDelCpfCnpj").val(cpfCnpj);
+                
+                $("#modDelId").val(response[0][0]);
+                $("#modDelTipoEndereco").val(response[0][1]);
+                $("#modDelCep").val(response[0][2]);
+                $("#modDelTipoLogradouro").val(response[0][6]);
+                $("#modDelNomeLogradouro").val(response[0][7]);
+                $("#modDelNumero").val(response[0][3]);
+                $("#modDelComplemento").val(response[0][5]);
+                $("#modDelBairro").val(response[0][8]);
+                $("#modDelCidade").val(response[0][10]);
+                $("#modDelestado").val(response[0][11]);
+
+                $('#modalEnderDelete').modal({'show':true});   
+            } 
+        });
+    });
+
+    // chama função que deleta os dados
+    $('#enderModalDelete').on('submit', function(event){
+        event.preventDefault();
+        //receber dados do formulario
+        var dados = $("#enderModalDelete").serialize();
+        
+        $.post("enderecosModalDelete",dados,function(response){
+            if(response){
+                //limpa os dados
+                $('#enderModalDelete')[0].reset();
+                //fecha a janela
+                $('#modalEnderDelete').modal('hide');
+
+                // refaz a lista
+                montaListaEnderecos();
+            }else{
+                $("#msg").html(response);
+            }
+        });
+    });
+</script>

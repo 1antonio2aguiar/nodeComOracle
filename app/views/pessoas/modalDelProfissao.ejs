@@ -1,0 +1,100 @@
+﻿<div id="modalProfisDelete" class="modal hide bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true"  aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id="ModalHeaderDelPro" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 class="modal-title modal-ender-title" id="example">Confirma Excluir Profissão?</h4>
+            </div>
+
+            <form class="form-add" name="profisModalDelete" id="profisModalDelete" method="post">
+                <div class="form-row">
+                    <div class="row">
+                        <input type="text" class="form-control" id="modalProfisDelId" name="modalProfisDelId" style="display:none;">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="modalProfisDelNome">Nome</label>
+                        <input type="text" class="form-control" id="modalProfisDelNome" name="modalProfisDelNome" readonly>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="modalProfisDelCpf">C.P.F</label>
+                        <input type="text" class="form-control" id="modalProfisDelCpf" name="modalProfisDelCpf" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="modalProfisDelDesc">Profissão</label>
+                        <input type="text" class="form-control" id="modalProfisDelDesc" name="modalProfisDelDesc" readonly>
+                    </div>
+
+                    <div class="form-row"  id="actions">
+                        <div class="modal-footer">
+                        </div>
+    
+                        <div id="ModalFooterDelPro" class="modal-footer">
+                            <button type="button" class="btn  btn-success" data-dismiss="modal">Não</button>
+                            <input type="submit" name="btnDel" id="btnDel" value="Sim" class="btn btn-outline-info">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        //DELETE - Abre a janela modal
+        $(document).on('click', '.delete_profissao', function () {
+
+            // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui Delete
+            setHeaderFooterPro("X");
+
+            idProfissao = $(this).attr("id");
+            profissao = $(this).attr("profissao");
+            
+            var dados = { id: idProfissao };
+
+            var nomePessoa   = $("#inputNomepf").val();
+            cpfCnpj          = $("#inputCpfpf").val();
+
+            if(!cpfCnpj){
+                cpfCnpj      = $("#inputCnpjpj").val();
+                nomePessoa   = $("#inputNomepj").val();
+                document.getElementById("lbModDelEmpCnpjCpf").innerHTML = 'C.N.P.J';
+            } else {
+                document.getElementById("lbModDelEmpCnpjCpf").innerHTML = 'C.P.F';                
+            }
+
+            $("#modalProfisDelNome").val(nomePessoa);
+            $("#modalProfisDelCpf").val(cpfCnpj);
+            $("#modalProfisDelId").val(idProfissao);
+            $("#modalProfisDelDesc").val(profissao);
+
+            $('#modalProfisDelete').modal({'show':true}); 
+        });
+        
+        // Faz delete
+        $('#profisModalDelete').on('submit', function(event){
+            event.preventDefault();
+            //receber dados do formulario
+            var dados = $("#profisModalDelete").serialize();
+
+            $.post("pessoasProfissoesModalDelete",dados,function(response){
+                if(response){
+                    //limpa os dados
+                    $('#profisModalDelete')[0].reset();
+                    //fecha a janela
+                    $('#modalProfisDelete').modal('hide');
+    
+                    // refaz a lista
+                    montaListaProfissoes();
+                } else {
+                    $("#msg").html(response);
+                }
+            });
+        });
+    </script>
+</div>

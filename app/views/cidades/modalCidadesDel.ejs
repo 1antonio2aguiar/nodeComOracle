@@ -1,0 +1,96 @@
+﻿<!-- Modal del cidade -->
+<div id="modalCidadeDel" class="modal fade" id="modalScrollable" tabindex="-1" role="dialog" aria-labelledby="modalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div id="ModalHeaderDelEmp" class="modal-header class_header_del">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 class="modal-title white-text w-100 font-weight-bold py-2">Confirma excluir Cidade?</h4>
+            </div>
+    
+            <form class="form-add" name="frmCidade" id="frmCidade" method="post">
+                <div class="form-row">
+                    <div class="row">
+                        <div class="alert alert-danger input-lg col-md-12" role="alert" name="msgErro" id="msgErro" style="display:none;"></div>
+                        <input type="text" value="0" class="form-control" id="modalDelId" name="modalDelId" style="display:none;">
+                    </div>
+    
+                    <div class="form-group col-md-6">
+                        <label for="modalDescricao">País</label>
+                        <input type="text" class="form-control" id="modalDelNmPais" name="modalDelNmPais" readonly>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="modalDescricao">Estado</label>
+                        <input type="text" class="form-control" id="modalDelNmEstado" name="modalDelNmEstado" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="modalDescricao">Nome</label>
+                        <input type="text" class="form-control" id="modalDelNmCidade" name="modalDelNmCidade" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer"></div>
+    
+                    <div id="ModalFooterDelEmp" class="modal-footer class_footer_del">
+                        <button type="button" class="btn  btn-success" data-dismiss="modal">Não</button>
+                        <input type="button" onclick="excluir()" value="Sim" class="btn">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+    
+<script>
+    var id = 0;
+
+    //Delete abre modal
+    $(document).on('click','.view_data', function(){
+
+        id = $(this).attr("id");
+        var dados = {id: id};
+
+        $.ajax({
+            type: "post",
+            url: '/cidadesEdit',
+            data: dados,
+            dataType: 'json',
+            success: function(response) {
+
+                id = response[0][0];
+                $("#modalDelId").val(response[0][0]);
+                $("#modalDelNmPais").val(response[0][10]);
+                $("#modalDelNmEstado").val(response[0][8]);
+                $("#modalDelNmCidade").val(response[0][2]);
+
+                $('#modalCidadeDel').modal({show: true}); 
+            }
+        });
+    });
+
+    // Exclui registro
+    function excluir() {
+        $.ajax({
+            type: "delete",
+            url: '/cidadesDelete',
+            data: {id: id},
+            dataType: 'json',
+            success: function(response) {
+                $('#modalCidadeDel').modal('hide');
+                window.location = '/cidadesList';
+            },
+            error: function(response) {
+                console.log(response);
+                $('#modalCidadeDel').modal('hide');
+                window.location = '/cidadesList';
+            }
+        });
+    };
+</script>
+    

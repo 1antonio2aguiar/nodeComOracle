@@ -1,0 +1,39 @@
+﻿<div class="tab-pane" id="documentos" role="tabpanel" aria-labelledby="profile-tab">
+    <nav class="navbar navbar-filter-tab navbar-inverse" role="navigation">
+        <form id="filter-form" action="/documentosList" method="get">
+            <input type="hidden" name="pagina" value="1">
+    
+            <div class="form-row">
+                <div class="col-md-11">
+                    <p class="h4" style="margin-top:15px;">Documentos de : <%=pessoa[0][1]%></p>
+                </div>
+            </div>
+        </form>
+    </nav>
+
+    <div id="list" class="row">
+        <div id="divTab" class="table-responsive col-md-12">
+            <table id="documentosList" class="table table-striped" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tipo</th>
+                        <th>Número</th>
+                        <th>Expedição</th>
+                        <th>Orgão</th>
+                        <th>Validade</th>
+                        <th>Categoria</th>
+                        <th>Zona</th>
+                        <th>Seção</th>
+                        <th>Termo</th>
+                        <th>Folha</th>
+                        <th>Livro</th>
+                    </tr>
+                </thead>
+                <tbody id="documentosSearchData">
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

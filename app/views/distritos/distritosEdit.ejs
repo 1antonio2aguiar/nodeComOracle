@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Distritos</title>
+
+    <!-- define a viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <meta charset="utf-8">
+
+    <!-- adicionar CSS Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="all">
+
+    <!-- css personalizado -->
+    <link href="css/estilo.css" rel="stylesheet" media="all">
+
+</head>
+<body> 
+    
+    <div id="main" class="container-fluid">
+        <h3 class="page-header">Editar Distrito</h3>
+    </div>
+    
+    <form class="form-add" action="/distritosUpdate" method="post">
+        <!-- area de campos do form -->
+
+        <div class="row">
+            <input type="text" class="form-control" id="id" name="id" value="<%=distrito[0][0]%>" style="display:none;">
+        </div>
+        
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label for="nome">Nome</label>
+                <input type="text" class="form-control" id="nome" name="nome" value="<%=distrito[0][2]%>">
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4">
+                <label for="tipo" class="col-xs-2 control-label">Cidade</label>
+                <select class="form-control" name="cidade">
+                    <option value="-1">Selecione...</option>
+                    <% for(var i = 0; i < cidades.length; i++) { %>
+                        <% if (distrito[0][4] == cidades[i][0]) { %>
+                            <option value="<%=cidades[i][0]%>" selected="true"><%=cidades[i][1]%> <%=cidades[i][2]%></option>
+                        <% } else { %>
+                            <option value="<%=cidades[i][0]%>"><%=cidades[i][1]%> <%=cidades[i][2]%></option>
+                        <% } %>
+                    <% } %>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-2">
+                <label for="codigo_inep">Codigo INEP</label>
+                <input type="text" class="form-control" id="codigo_inep" name="codigo_inep" value="<%=distrito[0][3]%>">
+            </div>
+        </div>
+            
+        <hr />
+        <div id="actions" class="row">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <a href="/distritosList" class="btn btn-default">Cancelar</a>
+            </div>
+        </div>
+    </form>
+    
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

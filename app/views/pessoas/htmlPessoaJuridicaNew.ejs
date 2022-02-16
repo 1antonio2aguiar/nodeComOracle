@@ -1,0 +1,85 @@
+﻿<div class="tab-pane" id="pessoaJuridica" role="tabpanel" aria-labelledby="home-tab">
+    <form class="form-add" action="/pessoaJuridicaSave" method="post" id="form-pessoa-juridica" name="form-pessoa-juridica"> 
+        <div class="alert alert-danger input-lg" role="alert" name="msgErropj" id="msgErropj" style="display:none;"></div>
+        
+        <div class="form-row">
+            <div class="row">
+                <input type="text" class="form-control" id="inputIdpj" name="inputIdpj" value="<%=id_pessoa%>" style="display:none;">
+                <input type="text" class="form-control" id="inputFisJurpj" name="inputFisJurpj" style="display:none;">
+            </div>
+            
+            <div class="form-group col-md-6">
+                <label for="inputNome">Nome</label>
+                <input type="text" class="form-control" id="inputNomepj" name="inputNomepj" placeholder="Nome" onkeyup="escondeMsg()">
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="inputTpPessoapj">Tipo Pessoa</label>
+                <select class="form-control" name="inputTpPessoapj" id="inputTpPessoapj" onchange="escondeMsg()">
+                    <option value="-1">Selecione...</option>
+                    <% for(var i = 0; i < tipos_pessoas.length; i++) { %>
+                        <option value="<%=tipos_pessoas[i][0]%>"><%=tipos_pessoas[i][1]%></option>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="inputCpf">C.N.P.J</label>
+                <input type="text" class="form-control" id="inputCnpj" name="inputCnpj" placeholder="CNPJ"  onfocus="$(this).mask('00.000.000/0000-00')" onkeyup="escondeMsg()">
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                <label for="inputMicroEmpresapj">Micro Empresa?</label>
+                <select class="form-control" name="inputMicroEmpresapj" id="inputMicroEmpresapj">
+                    <option value="S">SIM</option>
+                    <option value="N" selected="true">NÃO</option>
+                </select>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="inputTpEmpresapj">Tipo Empresa</label>
+                <select class="form-control" name="inputTpEmpresapj" id="inputTpEmpresapj" onchange="escondeMsg()">
+                    <option value="-1">Selecione...</option>
+                    <% for(var i = 0; i < tipos_empresas.length; i++) { %>
+                        <option value="<%=tipos_empresas[i][0]%>"><%=tipos_empresas[i][1]%></option>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="inputConjugepj">Conjuge</label>
+                <input type="text" class="form-control" id="inputConjugepj" name="inputConjugepj" placeholder="Conjuge">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="inputNmFantasiapj">Nome Fantasia</label>
+                <input type="text" class="form-control" id="inputNmFantasiapj" name="inputNmFantasiapj" placeholder="Nome Fantasia">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="inputObjSocialpj">Objeto social</label>
+                <input type="text" class="form-control" id="inputObjSocialpj" name="inputObjSocialpj" placeholder="Objeto Social">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="inputObspj">Observação</label>
+                <input type="text" class="form-control" id="inputObspj" name="inputObspj" placeholder="Observação">
+            </div>
+        </div>
+
+        <div class="form-row" id="actions">
+            <div class="col-md-12 class_footer_buton">
+                <a href="/pessoasList" class="btn btn-default">Cancelar</a>
+                <button type="button" class="btn btn-primary" onclick="validaCampospj();">Enviar</button>
+            </div>
+        </div>
+    </form>
+</div>

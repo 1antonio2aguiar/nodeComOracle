@@ -1,0 +1,96 @@
+﻿<div id="modalTpVinculoEmpresa" class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content edit">
+            <div id="ModalHeader" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 id="modal-title" class="modal-title white-text w-100 font-weight-bold py-2"></h4>
+            </div>
+
+            <form class="form-add" name="tipoVinculoEmpresa" id="tipoVinculoEmpresa" method="post">
+                <div class="form-row">
+
+                    <div class="row">
+                        <input type="text" value="0" class="form-control" id="modalId" name="modalId" style="display:none;">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="modalDescricao">Descrição</label>
+                        <input type="text" class="form-control" id="modalDescricao" name="modalDescricao" required>
+                    </div>
+
+                </div>
+    
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer">
+                    </div>
+
+                    <div id="ModalFooter" class="modal-footer">
+                        <button type="button" class="btn btn-outline-info" data-dismiss="modal">Fechar</button>
+                        <input type="submit" name="btnModSubmit" id="btnModSubmit" value="Enviar" class="btn btn-outline-info">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    //NOVO
+    $(document).on('click', '#btnNew', function () {
+        event.preventDefault();
+        $('#tipoVinculoEmpresa')[0].reset();
+        //Seta o título de acordo com a operacao
+        $("#modal-title").html("Novo Tipo Vinculo Empresa");
+        // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui novo
+        setHeaderFooter("N");
+        $('#modalTpVinculoEmpresa').modal({'show':true});
+    });
+
+    $('#tipoVinculoEmpresa').on('submit', function(event){
+        event.preventDefault();
+        //receber dados do formulario
+        var dados = $("#tipoVinculoEmpresa").serialize();
+
+        var id        = $("#modalId").val();
+        var descricao = $("#modalDescricao").val();
+        var dados = { id: id, descricao: descricao };
+
+        $.post("tiposVinculoEmpresaSave",dados,function(response){
+            if(response){
+
+                //limpa os dados
+                $('#tipoVinculoEmpresa')[0].reset();
+                // fecha janela
+                $('#modalTpVinculoEmpresa').modal('hide');
+                window.location.href = '/tiposVinculoEmpresaList';
+            }else{
+                $("#msg").html(response);
+            }
+        });
+    });
+
+    //EDIT
+    $(document).ready(function(){
+        $(document).on('click','.view_edit', function(){
+            var id = $(this).attr("id");
+            var descricao = $(this).attr("descricao");
+
+            $("#modalId").val(id);
+            $("#modalDescricao").val(descricao);
+
+            var dados = {id: id};
+
+            event.preventDefault();
+            //Seta o título de acordo com a operacao
+            $("#modal-title").html("Edita Tipo Vinculo Empresa");
+            // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui novo
+            setHeaderFooter("E");
+
+            $('#modalTpVinculoEmpresa').modal({'show':true});
+
+        });
+    });
+</script>

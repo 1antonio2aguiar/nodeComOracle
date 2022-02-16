@@ -1,0 +1,293 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Logradouro</title>
+
+        <!-- define a viewport 
+        
+        OBS: Este HTML é so pra usar a logica de busca por nome, caso precise.
+
+        -->
+
+
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+        <meta charset="utf-8">
+
+        <!-- adicionar CSS Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet" media="all">
+
+        <!-- css personalizado -->
+        <link href="css/estilo.css" rel="stylesheet" media="all">
+
+    </head>
+
+    <body> 
+        <div class="container container-fluid">
+            <form class="form-add" action="/logradourosSave" method="post">
+                <div class="row">
+                    <input type="text" class="form-control" id="inputId" name="inputId" value="<%=logradouro[0][0]%>" style="display:none;">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputCidade">Cidade</label>
+                        <select class="form-control" name="inputCidade" id="inputCidade" onchange="changeCidade()">
+                            <option value="-1">Selecione...</option>
+                            <% for(var i = 0; i < cidades.length; i++) { %>
+                                <option value="<%=cidades[i][0]%>"><%=cidades[i][1]%> <%=cidades[i][2]%></option>
+                            <% } %> 
+                        </select>
+                    </div>
+        
+                    <div class="form-group col-md-6">
+                        <label for="inputDistrito">Distrito</label>
+                        <select class="form-control" name="inputDistrito" id="inputDistrito" onchange="changeDistrito()">
+                            <option value="-1">Selecione...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label for="inputTpLograd">Tipo</label>
+                        <select class="form-control is-invalid" name="inputTpLograd" id="inputTpLograd">
+                            <option value="-1">Selecione...</option>
+                            <% for(var i = 0; i < tiposLogradouros.length; i++) { %>
+                                <option value="<%=tiposLogradouros[i][0]%>"><%=tiposLogradouros[i][1]%></option>
+                            <% } %> 
+                        </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="inputTituloPatente">Título Patente</label>
+                        <select class="form-control" name="inputTituloPatente" id="inputTituloPatente">
+                            <option value="-1">Selecione...</option>
+                            <% for(var i = 0; i < titulosPatentes.length; i++) { %>
+                                <option value="<%=titulosPatentes[i][1]%>"><%=titulosPatentes[i][1]%></option>
+                            <% } %>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="inputPreposicao">Preposição</label>
+                        <select class="form-control" name="inputPreposicao" id="inputPreposicao">
+                            <option value="-1">Selecione...</option>
+                            <% for(var i = 0; i < preposicao.length; i++) { %>
+                                <option value="<%=preposicao[i].value%>"><%=preposicao[i].value%></option>
+                            <% } %>  
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputNome">Nome</label>
+                        <input type="text" class="form-control" id="inputNome" name="inputNome" placeholder="Nome">
+                    </div>
+                    
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputNmReduzido">Nome Reduzido</label>
+                        <input type="text" class="form-control" id="inputNmReduzido" name="inputNmReduzido" placeholder="Nome Reduzido">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputNmSimples">Nome Simples</label>
+                        <input type="text" class="form-control" id="inputNmSimples" name="inputNmSimples" placeholder="Nome Simples">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="inputDtCriacao">Data Criação</label>
+                        <input type="date" id="inputDtCriacao" name="inputDtCriacao" class="form-control">
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="inputLeiCriacao">Lei Criação</label>
+                        <input type="text" class="form-control" id="inputLeiCriacao" name="inputLeiCriacao">
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="inputDtDecreto">Data Decreto</label>
+                        <input type="date" id="inputDtDecreto" name="inputDtDecreto" class="form-control">
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="inputDecreto">Decreto</label>
+                        <input type="text" class="form-control" id="inputDecreto" name="inputDecreto">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="inputDtPortaria">Data Portaria</label>
+                        <input type="date" id="inputDtPortaria" name="inputDtPortaria" class="form-control">
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="inputPortaria">Portaria</label>
+                        <input type="text" class="form-control" id="inputPortaria" name="inputPortaria">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <div class="row">
+                            <input type="text" class="form-control" id="inputIdVereador" name="inputIdVereador" style="display:none;">
+                        </div>
+                        <label for="inputNmVereador">Vereador</label>
+                        <input type="text" class="form-control" id="inputNmVereador" name="inputNmVereador">
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="inputCpfcnpjVereador">CPF/CNPJ</label>
+                        <input type="text" class="form-control" id="inputCpfcnpjVereador" name="inputCpfcnpjVereador">
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputComplemento">Complemento</label>
+                        <input type="text" class="form-control" id="inputComplemento" name="inputComplemento" placeholder="Complemento">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="inputObservacao">Observação</label>
+                        <input type="text" class="form-control" id="inputObservacao" name="inputObservacao" placeholder="Observação">
+                    </div>
+                </div>
+                
+                <div class="form-row" id="actions">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <a href="/logradourosList" class="btn btn-default">Cancelar</a>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        
+        <script src="js/jquery-1.11.1.min.js"></script>
+        <script src="js/jquery-3.4.1.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
+
+        <script>
+            $(document).ready(function(){
+                $(function () {
+                    $("#inputNmVereador").autocomplete({
+                        source: function (request, response) {
+                            $.ajax({
+                                url: "pessoasBuscaPorNome",
+                                dataType: "json",
+                                type: "post",
+                                data: {
+                                    search: request.term
+                                },
+                                success: function (data) {
+                                    var jsonObj = JSON.parse(data);
+                                    
+                                    response($.map(jsonObj, function (el) {
+                                        return {
+                                            id: el.id,
+                                            value: el.nome,
+                                            cgccpf: el.cgccpf
+                                        };
+                                    }));
+                                }
+                            });
+                        },
+                        
+                        // The minimum number of characters a user must type before a search is performed.
+                        minLength: 3,
+                        
+                        // set an onFocus event to show the result on input field when result is focused
+                        focus: function (event, ui) {
+                            this.value = ui.item.label;
+                            // Prevent other event from not being execute
+                            event.preventDefault();
+                        },
+                        select: function (event, ui) {
+                            // Prevent value from being put in the input:
+                            this.value = ui.item.label;
+                            $("#inputCpfcnpjVereador").val(ui.item.cgccpf);
+                            $("#inputIdVereador").val(ui.item.id);
+                            
+                            // Set the id to the next input hidden field
+                            $(this).next("input").val(ui.item.value);
+                            // Prevent other event from not being execute            
+                            event.preventDefault();
+                            // optionnal: submit the form after field has been filled up
+                            $('#inputNmVereador').submit();
+                        }
+                    });
+
+                });
+            });
+            
+            function changeCidade() {
+                var cidade = $("#inputCidade").val();
+                console.log(cidade);
+                if (cidade !== -1)  {
+                    $.ajax({
+                        type: "GET",
+                        url: '/distritos?cidade=' + cidade,
+                        dataType: 'json',
+                        success: function(response) {
+                            $("#inputDistrito option").each(function() {
+                                $(this).remove();
+                            });
+
+                            var distrito = $("#inputDistrito");
+                            distrito.append($("<option />").val("-1").text("Selecione..."));
+                            
+                            var temp = null;
+                            for (var i = 0; i < response.length; i++) {
+                                temp = response[i];
+                                distrito.append($("<option />").val(temp[0]).text(temp[1]));
+                            }
+                        },
+                        error: function(response) {
+                            console.log(response);
+                        }
+                    });
+                };
+            };
+
+            function changeDistrito() {
+                var cidade  ;
+                var distrito;
+
+                var dados = {
+                    cidade   : $("#inputCidade").val(),
+                    distrito : $("#inputDistrito").val() 
+                };
+
+                if (cidade !== -1  && distrito !== -1)  {
+                    $.ajax({
+                        type: "GET",
+                        data: dados,
+                        url: '/bairrosDdw',
+                        dataType: 'json',
+                        success: function(response) {
+                            $("#inputBairro option").each(function() {
+                                $(this).remove();
+                            });
+
+                            var bairro = $("#inputBairro");
+                            bairro.append($("<option />").val("-1").text("Selecione..."));
+
+                            var temp = null;
+                            for (var i = 0; i < response.length; i++) {
+                                temp = response[i];
+                                bairro.append($("<option />").val(temp[0]).text(temp[1]));
+                            }
+                        },
+                        error: function(response) {
+                            console.log(response);
+                        }
+                    });
+                };
+            };
+        </script>
+    </body>
+</html>

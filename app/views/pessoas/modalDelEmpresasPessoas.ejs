@@ -1,0 +1,138 @@
+﻿<div id="modalEmpresaDel" class="modal hide bd-example-modal-lg-edit" tabindex="-1" role="dialog-edit" aria-hidden="true"  aria-labelledby="myLargeModalLabelDel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content edit">
+
+            <div id="ModalHeaderDelEmp" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 class="modal-title white-text w-100 font-weight-bold py-2">Confirma Excluir Empresa?</h4>
+            </div>
+
+            <form class="form-add" name="empresaModalDel" id="empresaModalDel" method="post">
+                <div class="form-row">
+                    <div class="row">
+                        <input type="text" class="form-control" id="modDelEmpIdPessoa" name="modDelEmpIdPessoa" value="<%=pessoa[0][0]%>" style="display:none;">
+                        <input type="text" class="form-control" id="modDelIdEmpresaPessoa" name="modDelIdEmpresaPessoa" style="display:none;">
+                    </div>
+
+                    <div class="form-group col-md-7">
+                        <label for="modDelEmpNome">Nome</label>
+                        <input type="text" class="form-control" id="modDelEmpNome" name="modDelEmpNome" readonly>
+                    </div>
+
+                    <div class="form-group col-md-5">
+                        <label id="lbModDelEmpCnpjCpf" for="modDelEmpCpfCnpj"></label>
+                        <input type="text" class="form-control" id="modDelEmpCpfCnpj" name="modDelEmpCpfCnpj" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="modDelEmpTipoVinculo">Tipo Vinculo</label>
+                        <input type="text" class="form-control" name="modDelEmpTipoVinculo" id="modDelEmpTipoVinculo" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-row col-md-7">
+                        <label for="modDelEmpCnpjCpf">Nome Empresa</label>
+                        <input type="text" name="modDelEmpNomeEmpresa" class="form-control" id="modDelEmpNomeEmpresa" readonly>
+                    </div>
+
+                    <div class="form-row col-md-3">
+                        <label for="modDelEmpCnpjCpf">C.N.P.J / C.P.F</label>
+                        <input type="text" name="modNewCep" class="form-control" id="modDelEmpCnpjCpf" readonly>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modDelEmpNome">Participação</label>
+                        <input type="text" class="form-control" id="modDelEmpParticipacao" name="modDelEmpParticipacao" readonly>
+                    </div>
+                </div>
+                    
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer"></div>
+
+                    <div id="ModalFooterDelEmp" class="modal-footer">
+                        <button type="button" class="btn  btn-success" data-dismiss="modal">Não</button>
+                        <input type="button" name="btnmodDelEmpSubmit" id="btnmodDelEmpSubmit" value="Sim" class="btn">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var tiposVinculosList;
+        var tiposVinculosDdw;
+        var nomePessoa;
+        var cnpjcpf;
+        var tipoBusca ;
+
+        //Abre a modal de Deletar Empresa
+        $(document).on('click', '.delete_EmpPessoa', function () {
+            event.preventDefault();
+
+            // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui Exclui
+            setHeaderFooterEmp("X");
+
+            idEmpresaPessoa = $(this).attr("id");
+            var dados = { idEmpresaPessoa: idEmpresaPessoa };
+
+            var nomePessoa   = $("#inputNomepf").val();
+            cpfCnpj          = $("#inputCpfpf").val();
+
+            if(!cpfCnpj){
+                cpfCnpj      = $("#inputCnpjpj").val();
+                nomePessoa   = $("#inputNomepj").val();
+                document.getElementById("lbModDelEmpCnpjCpf").innerHTML = 'C.N.P.J';
+            } else {
+                document.getElementById("lbModDelEmpCnpjCpf").innerHTML = 'C.P.F';                
+            }
+
+            $("#modDelEmpNome").val(nomePessoa);
+            $("#modDelEmpCpfCnpj").val(cpfCnpj);
+
+            $.ajax({
+                type: "post",
+                data: dados,
+                url: '/empresasPessoasList',
+                dataType: 'json',
+                success: function (response) {
+                    
+                    $("#modDelIdEmpresaPessoa").val(response[0][0]);
+                    $("#modDelEmpCnpjCpf").val(response[0][9]);
+                    $("#modDelEmpNomeEmpresa").val(response[0][7]);
+                    $("#modDelEmpParticipacao").val(response[0][4]);
+                    $("#modDelEmpTipoVinculo").val(response[0][5]);
+                    
+                    $('#modalEmpresaDel').modal({'show':true});
+                }
+            }); 
+        });
+
+        //Click no botão para confirmar exclusão
+        $(document).on('click', '#btnmodDelEmpSubmit', function () {
+            event.preventDefault();
+
+            var dados = $("#empresaModalDel").serialize();
+
+            $.post("empresasPessoasDelete",dados,function(response){
+                if(response){
+                    //limpa os dados
+                    $('#empresaModalDel')[0].reset();
+
+                    //fecha a janela
+                    $('#modalEmpresaDel').modal('hide');
+
+                    // refaz a lista de Empresas
+                    montaListaEmpresasPessoas();
+
+                }else{
+                    $("#msg").html(response);
+                }
+            });
+        });
+    </script>
+</div>

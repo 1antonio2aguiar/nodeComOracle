@@ -1,0 +1,30 @@
+.JGridCell{
+	height: 20px;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	padding-left:1px;
+}
+.JGridRow{
+	height: 22px;
+	font-size: 14px;
+}
+.JGridFixedRow{
+	height: 23px;
+	font-weight: bold;
+}
+.JGridRowsContainer{
+	border: solid 1px #666666;
+	overflow-y: scroll;
+	overflow-x: scroll;
+}
+.JGridFixedRowsContainer{
+	height: 24px;
+	width: 1500px;
+	overflow-y: visible;
+	overflow-x: hidden;
+}
+.JGridDelimitFixedRows{
+	border: solid 1px #666666;
+	background-color: #999999;
+	overflow: hidden;
+}

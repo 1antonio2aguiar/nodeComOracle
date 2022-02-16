@@ -1,0 +1,121 @@
+﻿<div id="modalLogradouroDel"  class="modal bd-example-modal-lg-edit" tabindex="-1" role="dialog" aria-hidden="true"  aria-labelledby="myLargeModalLabelNew">        
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content edit">
+            <div id="ModalHeaderDelEmp" class="modal-header class_header_del">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 class="modal-title white-text w-100 font-weight-bold py-2">Confirma excluir Logradouro?</h4>
+            </div>
+
+            <form>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="modDelLogradCidade">Cidade</label>
+                        <input type="text" class="form-control" id="modDelLogradCidade" name="modDelLogradCidade" readonly>
+                    </div>
+        
+                    <div class="form-group col-md-4">
+                        <label for="modDelLogradDistrito">Distrito</label>
+                        <input type="text" class="form-control" id="modDelLogradDistrito" name="modDelLogradDistrito" readonly>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modalInputEstado">Estado</label>
+                        <input type="text" class="form-control" id="modDelLogradEstado" name="modDelLogradEstado" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="modDelLogradBairro">Bairro</label>
+                        <input type="text" class="form-control" id="modDelLogradBairro" name="modDelLogradBairro" disabled="true">
+                    </div>
+        
+                    <div class="form-group col-md-4">
+                        <label for="modDelLogradTpLograd">Tipo Logradouro</label>
+                        <input type="text" class="form-control" id="modDelLogradTpLograd" name="modDelLogradTpLograd" disabled="true">
+                    </div>
+
+                    <div class="form-group col-md-8">
+                        <label for="modDelLogradNmLograd">Nome</label>
+                        <input type="text" class="form-control" id="modDelLogradNmLograd" name="modDelLogradNmLograd" disabled="true">
+                    </div>
+                </div>
+
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer"></div>
+    
+                    <div id="ModalFooterDelEmp" class="modal-footer class_footer_del">
+                        <button type="button" class="btn  btn-success" data-dismiss="modal">Não</button>
+                        <input type="button" onclick="excluirLogradouro()" value="Sim" class="btn">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    var id = 0;
+    var bairro = 0;
+    var dados = {};
+
+    //Delete abre modal
+    $(document).ready(function(){
+        $(document).on('click','.view_data', function(){
+            id     = $(this).attr("id");
+            bairro = $(this).attr("bairro");
+
+            dados = { id: id, bairro: bairro };
+
+            $.ajax({
+                type: "get",
+                url: '/logradourosEdit',
+                data: dados,
+                dataType: 'json',
+                success: function (dados) {
+                    $("#modDelLogradCidade").val(dados.logradouro[0][0]);
+                    $("#modDelLogradDistrito").val(dados.logradouro[0][1]);
+                    $("#modDelLogradEstado").val(dados.logradouro[0][23]);
+                    $("#modDelLogradNmLograd").val(dados.logradouro[0][3]);
+
+                    for (var i = 0; i < dados.bairros.length; i++) {
+                        temp = dados.bairros[i];
+                        if(temp[0] == dados.bairroCep[0][0]){
+                            $("#modDelLogradBairro").val(temp[1]);
+                        };
+                    };
+
+                    for (var i = 0; i < dados.tiposLogradouros.length; i++) {
+                        temp = dados.tiposLogradouros[i];
+                        if(temp[0] == dados.logradouro[0][22]){
+                            $("#modDelLogradTpLograd").val(temp[1]);
+                        };
+                    };
+
+                    event.preventDefault();
+                    $('#modalLogradouroDel').modal({'show':true});
+                }
+            });
+        });
+    });
+
+    // Exclui registro
+    function excluirLogradouro() {
+        $.ajax({
+            type: "delete",
+            url: '/logradourosDelete',
+            data: dados,
+            dataType: 'json',
+            success: function(response) {
+                $('#modalLogradouroDel').modal('hide');
+                window.location = '/logradourosList';
+            },
+            error: function(response) {
+                $('#modalLogradouroDel').modal('hide');
+                window.location = '/logradourosList';
+            }
+        });
+    };
+</script>

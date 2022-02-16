@@ -1,0 +1,124 @@
+﻿<div id="modalPessoaDelete"   class="modal hide bd-example-modal-lg-edit" tabindex="-1" role="dialog-edit" aria-hidden="true"  aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form class="form-add" name="pessoaModalDelete" id="pessoaModalDelete" method="post">
+                <div id="ModalHeaderDelPes" class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">&times;</span>
+                    </button>
+                    <h4 class="modal-title white-text w-100 font-weight-bold py-2">Confirma Excluir Pessoa?</h4>
+                </div>
+
+                <div class="form-row">
+                    <div class="row">
+                        <input type="text" class="form-control" id="pessoaDelId" name="pessoaDelId" style="display:none;">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="pessoaDelNome">Nome</label>
+                        <input type="text" class="form-control" id="pessoaDelNome" name="pessoaDelNome" readonly>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label id="lbpessoaDelCnpj" for="pessoaDelCpfCnpj"></label>
+                        <input type="text" class="form-control" id="pessoaDelCpfCnpj" name="pessoaDelCpfCnpj" readonly>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label id="ldpessoaDelDtnasc" for="pessoaDelNome">Data Nascimento</label>
+                        <input type="text" class="form-control" id="pessoaDelDtnasc" name="pessoaDelDtnasc" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer"></div>
+
+                    <div id="ModalFooterDelPes" class="modal-footer">
+                        <button type="button" class="btn  btn-success" data-dismiss="modal">Não</button>
+                        <input type="submit" name="btnDel" id="btnDel" value="Sim" class="btn">
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var tiposContatosList;
+        var tiposContatosDdw;
+        var nomePessoa;
+        var cpf;
+        var tpContato = 0;
+        var contato = 0;
+
+        //DELETE abre a modal e move os dados
+        $(document).on('click', '.view_data', function () {
+            // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui Exclui
+            setHeaderFooterDelPessoa("X");
+
+            var id = $(this).attr("id");
+            var dados = { id: id };
+
+            $.ajax({
+                type: "get",
+                url: '/buscaPorId',
+                data: dados,
+                dataType: 'json',
+                success: function (dados) {
+                    if(dados[0][3] == 'F'){
+                        document.getElementById("lbpessoaDelCnpj").innerHTML = 'C.P.F';
+                        document.getElementById("ldpessoaDelDtnasc").style.display="inline";
+                        document.getElementById("pessoaDelDtnasc").style.display="inline";
+                        $("#pessoaDelNome").val(dados[0][2]);
+                        $("#pessoaDelCpfCnpj").val(dados[0][7]);
+                        $("#pessoaDelId").val(dados[0][0]);
+                        $("#pessoaDelDtnasc").val(dados[0][4]);
+                    } else {
+                        document.getElementById("lbpessoaDelCnpj").innerHTML = 'C.N.P.J';
+                        document.getElementById("ldpessoaDelDtnasc").style.display="none";
+                        document.getElementById("pessoaDelDtnasc").style.display="none";
+                        $("#pessoaDelNome").val(dados[0][2]);
+                        $("#pessoaDelCpfCnpj").val(dados[0][7]);
+                        $("#pessoaDelId").val(dados[0][0]);
+                    };
+                    
+                    $('#modalPessoaDelete').modal({'show':true}); 
+                } 
+            });
+
+        });
+
+        $('#pessoaModalDelete').on('submit', function(event){
+            event.preventDefault();
+            //receber dados do formulario
+            var dados = $("#pessoaModalDelete").serialize();
+
+            $.post("pessoaDelete",dados,function(response){
+                if(response){
+                    //limpa os dados
+                    $('#pessoaModalDelete')[0].reset();
+                    //fecha a janela
+                    $('#modalPessoaDelete').modal('hide');
+                } else {
+                    //$("#msg").html(response);
+                    $('#modalPessoaDelete').modal('hide');
+                }
+                window.location = "/pessoasList"
+            });
+        });
+
+        function setHeaderFooterDelPessoa(data){
+
+            if(data == "X"){
+                // Delete
+                var element = document.getElementById("ModalHeaderDelPes");
+                element.classList.remove("class_header_del");
+                element.classList.add("class_header_del");
+                
+                var element = document.getElementById("ModalFooterDelPes");
+                element.classList.remove("class_footer_del");
+                element.classList.add("class_footer_del");
+            }
+        };
+    </script>
+</div>

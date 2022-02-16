@@ -1,0 +1,151 @@
+﻿<div class="tab-pane" id="pessoaFisica" role="tabpanel" aria-labelledby="home-tab">
+    <form class="form-add" action="/pessoaFisicaSave" method="post" id="form-pessoa-fisica" name="form-pessoa-fisica">
+        <div class="alert alert-danger input-lg" role="alert" name="msgErropf" id="msgErropf" style="display:none;"></div>
+        
+        <div class="form-row">
+			<div class="row">
+                <input type="text" class="form-control" id="inputIdpf" name="inputIdpf" value="<%=id_pessoa%>" style="display:none;">    
+                <input type="text" class="form-control" id="inputFisJurpf" name="inputFisJurpf" style="display:none;">
+			</div>
+		
+            <div class="form-group col-md-6">
+                <label for="inputNome">Nome</label>
+                <input type="text" class="form-control" id="inputNomepf" name="inputNomepf" placeholder="Nome" onkeyup="escondeMsg()">
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="inputTpPessoapf">Tipo Pessoa</label>
+                <select class="form-control" name="inputTpPessoapf" id="inputTpPessoapf" onchange="escondeMsg()">
+                    <option value="-1">Selecione...</option>
+                    <% for(var i = 0; i < tipos_pessoas.length; i++) { %>
+                        <option value="<%=tipos_pessoas[i][0]%>"><%=tipos_pessoas[i][1]%></option>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="inputCpfpf">C.P.F</label>
+                <input type="text" class="form-control" id="inputCpfpf" name="inputCpfpf" placeholder="CPF"  onfocus="$(this).mask('000.000.000-00')">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="inputDtRegistropf">Data Nascimento</label>
+                <input type="date" id="inputDtRegistropf" name="inputDtRegistropf" class="form-control" onchange="escondeMsg()">
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="inputSexopf">Sexo</label>
+                <select class="form-control" name="inputSexopf" id="inputSexopf" onchange="escondeMsg()">
+                    <option value="-1">Selecione...</option>
+                        <option value="M">Masculino</option>
+                        <option value="F">Feminino</option>
+                </select>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="inputEstadoCivilpf">Estado Civil</label>
+                <select class="form-control" name="inputEstadoCivilpf" id="inputEstadoCivilpf" onchange="escondeMsg()">
+                    <option value="-1">Selecione...</option>
+                    <% for(var i = 0; i < estados_civis.length; i++) { %>
+                        <option value="<%=estados_civis[i][1]%>"><%=estados_civis[i][2]%></option>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="inputCartaoSuspf">Nº Cartão SUS</label>
+                <input type="text" class="form-control" id="inputCartaoSuspf" name="inputCartaoSuspf" placeholder="Nº Cartão SUS">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="inputRacapf">Raça</label>
+                <select class="form-control" name="inputRacapf" id="inputRacapf">
+                    <option value="-1">Selecione...</option>
+                    <% for(var i = 0; i < raca.length; i++) { %>
+                        <option value="<%=raca[i].value%>"><%=raca[i].display%></option>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="inputEtniapf">Etnia</label>
+                <select class="form-control" name="inputEtniapf" id="inputEtniapf">
+                    <option value="-1">Selecione...</option>
+                    <% for(var i = 0; i < etnias.length; i++) { %>
+                        <option value="<%=etnias[i][0]%>"><%=etnias[i][1]%></option>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="inputCorpf">Cor</label>
+                <select class="form-control" name="inputCorpf" id="inputCorpf">
+                    <option value="-1">Selecione...</option>
+                    <% for(var i = 0; i < cor.length; i++) { %>
+                        <option value="<%=cor[i].value%>"><%=cor[i].display%></option>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="inputBolsaFamiliapf">Bolsa Familia?</label>
+                <select class="form-control" name="inputBolsaFamiliapf" id="inputBolsaFamiliapf">
+                        <%var bolsaFamilia = 'N', descricao = 'NÃO'%>
+                        <% for(var i = 0; i < 2; i++) { %>
+                            <option value="<%=bolsaFamilia%>"><%=descricao%></option>
+                            <%bolsaFamilia = 'S', descricao = 'SIM'%>
+                        <% } %>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="inputTpPessoapf">Cidade Nascimento</label>
+                <select class="form-control" name="inputCidadeNascimentopf" id="inputCidadeNascimentopf">
+                    <% for(var i = 0; i < cidades.length; i++) { %>
+                        <% if (cidades[i][0] == 4047) { %>
+                            <option value="<%=cidades[i][0]%>" selected="true"><%=cidades[i][1]%></option>
+                        <% } else { %>
+                            <option value="<%=cidades[i][0]%>"><%=cidades[i][1]%></option>
+                        <% } %>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="inputNmsocialpf">Nome Social</label>
+                <input type="text" class="form-control" id="inputNmsocialpf" name="inputNmsocialpf" placeholder="Nome social">
+            </div>
+
+            <div class="col-md-3">
+                <label for="inputNomePaipf">Nome Pai</label>
+                <input type="email" class="form-control" id="inputNomePaipf" name="inputNomePaipf" placeholder="Nome do pai">
+            </div>
+
+            <div class="col-md-3">
+                <label for="inputNomeMaepf">Nome Mãe</label>
+                <input type="email" class="form-control" id="inputNomeMaepf" name="inputNomeMaepf" placeholder="Nome da mãe">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="inputObspf">Observação</label>
+                <input type="text" class="form-control" id="inputObspf" name="inputObspf" placeholder="Observação">
+            </div>
+        </div>
+
+
+        <div class="form-row" id="actions">
+            <div class="col-md-12 class_footer_buton">
+                <a href="/pessoasList" class="btn btn-default">Cancelar</a>
+                <button type="button" class="btn btn-primary" onclick="validaCampospf();">Enviar</button>
+            </div>
+        </div>
+    </form>
+</div>

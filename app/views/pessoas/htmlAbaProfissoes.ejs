@@ -1,0 +1,34 @@
+﻿<div class="tab-pane" id="profissoes" role="tabpanel" aria-labelledby="profile-tab">
+    <nav class="navbar navbar-filter-tab navbar-inverse" role="navigation">
+        <form id="filter-form" action="/profissoesList" method="get">
+            <input type="hidden" name="pagina" value="1">
+    
+            <div class="form-row">
+                <div class="col-md-11">
+                    <p class="h4" style="margin-top:13px;">Profissoes de: <%=pessoa[0][2]%></p>
+                </div>
+    
+                <div class="col-md-1">
+                    <input type="submit" name="btnNewProfissao" id="btnNewProfissao" value="Novo" class="btn btn-primary pull-right" style="margin-top:7px;">
+                </div>
+            </div>
+        </form>
+    </nav>
+
+    <div id="list" class="row">
+        <div id="divTab" class="table-responsive col-md-12">
+            <table id="documentosList" class="table table-striped" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr class="class_header_list">
+                        <th>ID</th>
+                        <th>Profissão</th>
+                        <th class="actions">Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="profissoesData">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

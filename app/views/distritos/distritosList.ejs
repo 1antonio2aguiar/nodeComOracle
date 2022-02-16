@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Distritos</title>
+
+    <!-- define a viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <meta charset="utf-8">
+
+    <!-- adicionar CSS Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="all">
+
+    <!-- css personalizado -->
+    <link href="css/estilo.css" rel="stylesheet" media="all">
+
+</head>
+    <body> 
+        
+        <!-- Menu Principal -->
+        <% include ../index/menuInclude %>
+        
+        <form id="filter-form" action="/distritosList" method="get">
+            <input type="hidden" name="pagina" value="1">
+            <div class="form-row">
+                <div class="col-md-3">
+                    <h3>Distritos</h3>
+                </div>
+    
+                <div class="form-group col-md-5">
+                    <label for="nomeLogradouro"></label>
+                    <input type="text" class="form-control" id="nomeCidade" name="nomeCidade" placeholder="Pesquisar por cidade" value="<%=nomeCidade%>">
+                </div>
+    
+                <div class="col-md-4">
+                    <a class="btn btn-primary pull-right h2" href="/distritosNew">Novo</a>
+                </div>
+            </div>
+        </form>
+        
+        <div id="list" class="row">
+            <div class="table-responsive col-md-12">
+                <table class="table table-striped" cellspacing="0" cellpadding="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cidade</th>
+                            <th>Distrito</th>
+                            <th>Código INEP</th>
+                            <th class="actions">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(var i = 0; i < distritos.length; i++) { %>
+                            <tr>
+                                <td><%=distritos[i][0]%></td>
+                                <td><%=distritos[i][4]%></td>
+                                <td><%=distritos[i][1]%></td>
+                                <td><%=distritos[i][2]%></td>
+                                <td class="actions">
+                                    <a class="btn btn-success btn-xs" href="/distritosSearch?id_distrito=<%=distritos[i][0]%>">Consultar</a>
+                                    <a class="btn btn-warning btn-xs" href="/distritosEdit?id_distrito=<%=distritos[i][0]%>">Editar</a>
+                                    <a class="btn btn-danger btn-xs view_data" id="<%=distritos[i][0]%>" href="#">Excluir</a>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div> <!-- /#list -->
+
+        <input id="pagina" type="hidden" value="<%=metadata.page%>">
+        <input id="total-pagina" type="hidden" value="<%=metadata.totalPages%>">
+
+        <nav>
+            <ul class="pagination pagination-sm">
+                <li class="page-item">
+                    <span id="previous" class="btn btn-success btn-xs">Anterior</a>
+                </li>
+                <%- paginator %>                    
+                <li class="page-item">
+                    <span id="next" class="btn btn-success btn-xs">Próxima</a>
+                </li>
+            </ul>
+        </nav>
+        
+        <script src="js/jquery-1.11.1.min.js"></script>
+        <script src="js/jquery-3.4.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
+        
+        <!-- Modal -->
+        <div id="modalDelete" class="modal fade" id="modalScrollable" tabindex="-1" role="dialog" aria-labelledby="modalScrollableTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="exampleModalScrollableTitle">Confirma deletar Distrito</h3>
+                </div>
+                <div class="modal-body">
+                    <span id="id" name="id" class="label label-danger"></span>
+                    <h3><span id="nome" class="label label-danger"></span></h3>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-info" data-dismiss="modal">Não</button>
+                    <button type="button" class="btn btn-outline-info" onclick="excluir()">Sim</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            var distrito = null;
+
+            $(document).ready(function() {
+
+                var nomeCidade = $('#nomeCidade').val();        
+                $('#nomeCidade').focus().val('').val(nomeCidade);  
+
+                $(document).on('click','.view_data', function(){
+
+                    var id = $(this).attr("id");
+                    var dados = {id: id};
+
+                    $.ajax({
+                        type: "POST",
+                        url: '/distritosModalVisu',
+                        data: dados,
+                        dataType: 'json',
+                        success: function(response) {
+
+                            distrito = response[0][0];
+
+                            //alert(response[0][1]);
+                            $("#id").html(response[0][0]);
+                            $("#nome").html(response[0][1]);
+                            $('#modalDelete').modal({show: true}); 
+                        }
+                    });
+                });
+            });
+
+            function excluir() {
+                $.ajax({
+                    type: "DELETE",
+                    url: '/distritosDelete',
+                    data: {id: distrito},
+                    dataType: 'json',
+                    success: function(response) {
+
+                    },
+                    error: function(response) {
+                        console.log(response);
+                    }
+                });
+                $('#modalDelete').modal('hide');
+                window.location.href = '/distritosList';
+            }
+
+            $("#previous").click(function() {
+                previous();
+            });
+
+            $("#next").click(function() {
+                next();
+            });
+
+            function previous() {
+                var page = parseInt($("#pagina").val());
+                if (page > 1) {
+                    var filter = $("#nomeCidade").val();
+                    page--;
+                    window.location = "/distritosList?pagina=" + page + (filter ? ("&nomeCidade=" + filter) : "");
+                }
+            }
+
+            function next() {
+                var page = parseInt($("#pagina").val());
+                var totalPage = parseInt($("#total-pagina").val());
+                console.log(page);
+                console.log(totalPage);
+                if (page <= totalPage) {
+                    var filter = $("#nomeCidade").val();
+                    page++;
+                    window.location = "/distritosList?pagina=" + page + (filter ? ("&nomeCidade=" + filter) : "");
+                }
+            }
+
+            $("#nomeCidade").keypress(function() {
+                var filter = $("#nomeCidade").val();
+                if (filter && filter.length >= 2) {
+
+                    setTimeout(function() {
+                        $("#filter-form").submit();
+                    }, 800);
+                }
+            });
+
+        </script>
+    </body>
+</html>

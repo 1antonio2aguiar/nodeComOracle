@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html style="background-color: #efefef;">
+
+    <head>
+        <title>Consulta Pessoa</title>
+
+        <!-- define a viewport -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="utf-8">
+
+        <!-- adicionar CSS Bootstrap -->
+        <link href="../css/bootstrap.min.css" rel="stylesheet" media="all">
+
+        <!-- css personalizado -->
+        <link href="../css/estilo.css" rel="stylesheet" media="all">
+    </head>
+
+    <body>
+        <div class="container-fluid" style="background-color: #efefef;">
+            <!-- Menu Principal -->
+            <% include ../index/menuInclude %>
+
+            <div class="col-xs-12" id="tabs" style="background-color: #efefef;">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="pessoa-tab" data-toggle="tab" href="#pessoa" role="tab"
+                            aria-controls="pessoa" aria-selected="true">Pessoa</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" id="pessoa-enderecos-tab" data-toggle="tab" href="#enderecos" role="tab"
+                            aria-controls="enderecos" aria-selected="false">Endereços</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" id="pessoa-documentos-tab" data-toggle="tab" href="#documentos" role="tab"
+                            aria-controls="documentos" aria-selected="false">Documentos</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" id="pessoa-contatos-tab" data-toggle="tab" href="#contatos" role="tab"
+                            aria-controls="contatos" aria-selected="false">Contatos</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" id="pessoa-origem-tab" data-toggle="tab" href="#origem" role="tab"
+                            aria-controls="origem" aria-selected="false">Dados de Origem</a>
+                    </li>
+
+                </ul>
+                
+                <div class="tab-content">
+                    <%if(pessoa[0][2] == 'F') { %>
+                        <!-- Arquivo com html da aba de pessoa Fisica -->
+                        <% include htmlAbaPFSearch %>
+                    <% } else { %>
+                        <!-- Arquivo com html da aba de pessoa Jurica -->
+                        <% include htmlAbaPJSearch %>
+                    <% } %>
+
+                    <!-- Arquivo com html da aba -->
+                    <% include htmlAbaEnderecosSearch %>
+
+                    <!-- Arquivo com html da aba -->
+                    <% include htmlAbaDocumentosSearch %>
+                    
+                    <!-- Arquivo com html da aba -->
+                    <% include htmlAbaContatosSearch %>
+
+                    <!-- Arquivo com html da aba com os dados de origem -->
+                    <% include htmlAbaOrigem %>
+
+                    <!-- Script monta listas -->
+                    <% include montaListasSearch %>
+
+                </div>
+            </div>
+        </div>
+        
+        <script src="js/jquery-1.11.1.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        
+        <script src="js/jquery-3.4.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>        
+        <script src="js/main.js"></script>
+
+        <script>
+            //var dateControl = document.querySelector('input[type="date"]');
+            //dateControl.value = pessoa[0][4];
+            var id_pessoa = null;
+
+            $(document).ready(function () {
+
+                $(document).on('click', '#pessoa-tab', function () {
+                    //$('#enderecosData')[0].reset();
+                });
+
+                // Monta a lista de enderecos
+                $("#pessoa-enderecos-tab").click(function() {
+                    montaListaEnderecosSearch();
+                });
+
+                // chama função que monta a lista de documentos
+                $("#pessoa-documentos-tab").click(function() {
+                    montaListaDocumentosSearch();
+                });
+
+                // Chama funcao que monta a lista de contatos que esta no arquivo monta listas Search
+                $("#pessoa-contatos-tab").click(function() {
+                    montaListaContatosSearch();
+                });
+
+
+                $("#btnVoltar").click(function() {
+                    var filtercnpjcpf      = $("#inputFiltercpf").val();
+                    var filternomePessoa   = $("#inputFilterNome").val();
+                    //alert('ta no voltar! ' + filtercnpjcpf + ' ' + filternomePessoa);
+
+                    window.location.href = "/pessoasList?inputNome="+filternomePessoa+"&&inputCpf="+filtercnpjcpf;
+                });
+                
+            });
+
+        </script>
+    </body>
+</html>
+
+
+

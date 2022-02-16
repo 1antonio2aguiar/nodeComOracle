@@ -1,0 +1,323 @@
+﻿<div id="modalDocumentEdit" class="modal hide bd-example-modal-lg-edit" tabindex="-1" role="dialog-edit" aria-hidden="true"  aria-labelledby="exampleModalScrollableTitle">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content edit">
+            <div id="ModalHeaderEditDoc" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 class="modal-title modal-edit-title" id="New">Edita Documento</h4>
+            </div>
+
+            <form class="form-add" name="documentModalUpdate" id="documentModalUpdate" method="post">
+                <div class="form-row">
+                    <div class="row">
+                        <input type="text" class="form-control" id="modDocEditId" name="modDocEditId" style="display:none;">
+                    </div>
+                    <div class="row">
+                        <input type="text" class="form-control" id="modEditIdPessoa" name="modEditIdPessoa" value="<%=pessoa[0][0]%>" style="display:none;">
+                    </div>
+
+                    <div class="form-group col-md-7">
+                        <label for="modDocEditNome">Nome</label>
+                        <input type="text" class="form-control" id="modDocEditNome" name="modDocEditNome" readonly>
+                    </div>
+
+                    <div class="form-group col-md-5">
+                        <label id="lbModDocEditCpfCnpj" for="modDocEditCpfCnpj"></label>
+                        <input type="text" class="form-control" id="modDocEditCpfCnpj" name="modDocEditCpfCnpj" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="row">
+                        <input type="text" class="form-control" id="modEditTipoDocumentoId" name="modEditTipoDocumentoId" style="display:none;">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="modEditTipoDocumento">Tipo Documento</label>
+                        <input type="text" class="form-control" id="modEditTipoDocumento" name="modEditTipoDocumento" readonly>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="modDocEditNroDocumento">Número Documento</label>
+                        <input type="text" class="form-control" id="modDocEditNroDocumento" name="modDocEditNroDocumento">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="modDocEditDocumentoDt">Data Documento</label>
+                        <input type="date" id="modDocEditDocumentoDt" name="modDocEditDocumentoDt" class="form-control">
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="modDocEditOrigem">Origem Documento</label>
+                        <input type="text" class="form-control" id="modDocEditOrigem" name="modDocEditOrigem">
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="modDocEditDtExpedicao">Data Expedição</label>
+                        <input type="date" id="modDocEditDtExpedicao" name="modDocEditDtExpedicao" class="form-control">
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="modDocEditExpedidor">Orgão Expedidor</label>
+                        <input type="text" class="form-control" id="modDocEditExpedidor" name="modDocEditExpedidor">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="modDocEditDtPricnh">Data Primeira CNH</label>
+                        <input type="date" id="modDocEditDtPricnh" name="modDocEditDtPricnh" class="form-control">
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="modDocEditDtValcnh">Data Validade CNH</label>
+                        <input type="date" id="modDocEditDtValcnh" name="modDocEditDtValcnh" class="form-control">
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modDocEditCatcnh">Categoria CNH</label>
+                        <input type="text" class="form-control" id="modDocEditCatcnh" name="modDocEditCatcnh">
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modDocEditZona">Zona</label>
+                        <input type="text" class="form-control" id="modDocEditZona" name="modDocEditZona">
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modDocEditSecao">Seção</label>
+                        <input type="text" class="form-control" id="modDocEditSecao" name="modDocEditSecao">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="modDocEditDtEmiscert">Emissão Certidão</label>
+                        <input type="date" id="modDocEditDtEmiscert" name="modDocEditDtEmiscert" class="form-control">
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="modDocEditTermo">Termo</label>
+                        <input type="text" class="form-control" id="modDocEditTermo" name="modDocEditTermo">
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="modDocEditLivro">Livro</label>
+                        <input type="text" class="form-control" id="modDocEditLivro" name="modDocEditLivro">
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="modDocEditFolha">Folha</label>
+                        <input type="text" class="form-control" id="modDocEditFolha" name="modDocEditFolha">
+                    </div>
+                    
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="modEditCartorio">Cartório</label>
+                        <select class="form-control" name="modEditCartorio" id="modEditCartorio">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer">
+                    </div>
+
+                    <div id="ModalFooterEditDoc" class="modal-footer">
+                        <button type="button" class="btn btn-outline-info" data-dismiss="modal">Fechar</button>
+                        <input type="submit" name="btnModSubmit" id="btnModSubmit" value="Enviar" class="btn btn-outline-info">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        //Abre a modal de edit documento e mostra os dados
+        $(document).on('click', '.edit_documento', function () {
+
+            // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui Edit
+            setHeaderFooterDoc("E");
+
+            id = $(this).attr("id");
+            var dados = { id: id };
+
+            var nomePessoa   = $("#inputNomepf").val();
+            cpfCnpj          = $("#inputCpfpf").val();
+
+            if(!cpfCnpj){
+                cpfCnpj      = $("#inputCnpjpj").val();
+                nomePessoa   = $("#inputNomepj").val();
+                document.getElementById("lbModDocEditCpfCnpj").innerHTML = 'C.N.P.J';
+            } else {
+                document.getElementById("lbModDocEditCpfCnpj").innerHTML = 'C.P.F';                
+            }
+
+            $("#modDocEditNome").val(nomePessoa);
+            $("#modDocEditCpfCnpj").val(cpfCnpj);
+
+            $.ajax({
+                type: "post",
+                url: '/documentosModalEdit',
+                data: dados,
+                dataType: 'json',
+                success: function (dados) {
+                    
+                    $("#modDocEditId").val(dados.documento[0][0]);
+                    $("#modNewIdPessoa").val(dados.documento[0][1]);
+                    $("#modEditTipoDocumentoId").val(dados.documento[0][2]);
+                    $("#modEditTipoDocumento").val(dados.documento[0][20]);
+                    $("#modDocEditNroDocumento").val(dados.documento[0][3]);
+                    $("#modDocEditDocumentoDt").val(dados.documento[0][4]);
+                    $("#modDocEditOrigem").val(dados.documento[0][6]);
+                    $("#modDocEditDtExpedicao").val(dados.documento[0][5]);
+                    $("#modDocEditExpedidor").val(dados.documento[0][7]);
+                    $("#modDocEditDtPricnh").val(dados.documento[0][9]);
+                    $("#modDocEditDtValcnh").val(dados.documento[0][10]);
+                    $("#modDocEditCatcnh").val(dados.documento[0][11]);
+                    $("#modDocEditZona").val(dados.documento[0][13]);
+                    $("#modDocEditSecao").val(dados.documento[0][14]);
+                    $("#modDocEditDtEmiscert").val(dados.documento[0][18]);
+                    $("#modDocEditTermo").val(dados.documento[0][15]);
+                    $("#modDocEditLivro").val(dados.documento[0][17]);
+                    $("#modDocEditFolha").val(dados.documento[0][16]);
+                    
+
+                    if(dados.documento[0][2] == 12 | dados.documento[0][2] == 13 | dados.documento[0][2] == 14 ){
+                        // Limpa o select cartorios
+                        $("#modEditCartorio option").each(function() {
+                            $(this).remove();
+                        });
+                        var cartorios = $("#modEditCartorio");
+                        var temp = null;
+                        
+                        for (var i = 0; i < dados.cartorios.length; i++) {
+                            temp = dados.cartorios[i];
+                            if(dados.documento[0][19] == temp[0]){
+                                cartorios.append($('<option / selected="true">').val(temp[0]).text(temp[2]));
+                            } else {
+                                cartorios.append($('<option />').val(temp[0]).text(temp[2]));
+                            }
+                        }
+                    } else {
+                       // Limpa o select cartorios
+                       $("#modEditCartorio option").each(function() {
+                            $(this).remove();
+                        }); 
+                        var cartorios = $("#modEditCartorio");
+                        cartorios.append($('<option />').val('-1').text(''));
+                    };
+
+                    desabilitaInputsEdit();
+                    habilitaInputsEdit(dados.documento[0][2]);
+                    
+                    $('#modalDocumentEdit').modal({'show':true});   
+
+                }
+            });
+        });
+
+        // manda os dados da modal para update
+        $('#documentModalUpdate').on('submit', function(event){
+
+            habilitaInputsEdit(999)
+            
+            event.preventDefault();
+            //receber dados do formulario
+            var dados = $("#documentModalUpdate").serialize();
+            
+            $.post("documentosModalUpdate",dados,function(response){
+                if(response){
+                    //limpa os dados
+                    $('#documentModalUpdate')[0].reset();
+                    //fecha a janela
+                    $('#modalDocumentEdit').modal('hide');
+
+                    //atualiza lista de endereços
+                    montaListaDocumentos();
+                }else{
+                    $("#msg").html(response);
+                }
+            });
+        });
+
+        function desabilitaInputsEdit() {
+            document.getElementById("modDocEditDocumentoDt").disabled = true;
+            document.getElementById("modDocEditOrigem").disabled = true;
+            document.getElementById("modDocEditDtExpedicao").disabled = true;
+            document.getElementById("modDocEditExpedidor").disabled = true;
+            document.getElementById("modDocEditDtPricnh").disabled = true;
+            document.getElementById("modDocEditDtValcnh").disabled = true;
+            document.getElementById("modDocEditCatcnh").disabled = true;
+            document.getElementById("modDocEditZona").disabled = true;
+            document.getElementById("modDocEditSecao").disabled = true;
+            document.getElementById("modDocEditDtEmiscert").disabled = true;
+            document.getElementById("modDocEditTermo").disabled = true;
+            document.getElementById("modDocEditFolha").disabled = true;
+            document.getElementById("modDocEditLivro").disabled = true;
+            document.getElementById("modEditCartorio").disabled = true;
+        };
+
+        function habilitaInputsEdit(tipoDocumento) {
+            if (tipoDocumento == 999){
+                document.getElementById("modDocEditDocumentoDt").disabled = false;
+                document.getElementById("modDocEditOrigem").disabled = false;
+                document.getElementById("modDocEditDtExpedicao").disabled = false;
+                document.getElementById("modDocEditExpedidor").disabled = false;
+                document.getElementById("modDocEditDtPricnh").disabled = false;
+                document.getElementById("modDocEditDtValcnh").disabled = false;
+                document.getElementById("modDocEditCatcnh").disabled = false;
+                document.getElementById("modDocEditZona").disabled = false;
+                document.getElementById("modDocEditSecao").disabled = false;
+                document.getElementById("modDocEditDtEmiscert").disabled = false;
+                document.getElementById("modDocEditTermo").disabled = false;
+                document.getElementById("modDocEditFolha").disabled = false;
+                document.getElementById("modDocEditLivro").disabled = false;
+                document.getElementById("modEditCartorio").disabled = false;
+
+            } else {
+                if(tipoDocumento == 1  | tipoDocumento == 3  | tipoDocumento == 11 | 
+                    tipoDocumento == 12 | tipoDocumento == 13 | tipoDocumento == 14 ){
+                    if(tipoDocumento == 1){
+                        document.getElementById("modDocEditDocumentoDt").disabled = false;
+                        document.getElementById("modDocEditOrigem").disabled = false;
+                        document.getElementById("modDocEditDtExpedicao").disabled = false;
+                        document.getElementById("modDocEditExpedidor").disabled = false;
+                    }
+
+                    if(tipoDocumento == 3){
+                        document.getElementById("modDocEditDtPricnh").disabled = false;
+                        document.getElementById("modDocEditDtValcnh").disabled = false;
+                        document.getElementById("modDocEditCatcnh").disabled = false;
+                    }
+
+                    if(tipoDocumento == 11){
+                        document.getElementById("modDocEditZona").disabled = false;
+                        document.getElementById("modDocEditSecao").disabled = false;
+                    }
+
+                    if(tipoDocumento == 12 | tipoDocumento == 13 | tipoDocumento == 14){
+                        document.getElementById("modDocEditDtEmiscert").disabled = false;
+                        document.getElementById("modDocEditTermo").disabled = false;
+                        document.getElementById("modDocEditFolha").disabled = false;
+                        document.getElementById("modDocEditLivro").disabled = false;
+                        document.getElementById("modEditCartorio").disabled = false;
+                    }
+
+                } else {
+                    document.getElementById("modDocEditDocumentoDt").disabled = false;
+                    document.getElementById("modDocEditOrigem").disabled = false;
+                    document.getElementById("modDocEditDtExpedicao").disabled = false;
+                };
+            }
+            
+        };
+        
+    
+    </script>
+</div>
+    

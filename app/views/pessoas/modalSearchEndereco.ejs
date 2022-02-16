@@ -1,0 +1,133 @@
+﻿<div id="modalEnderDetails" class="modal hide bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true"  aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id="ModalHeaderSeaEnd" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 class="modal-title modal-edit-title" id="search">Detalha Endereço</h4>
+            </div>
+
+            <form>
+                <div class="form-row">
+                    <div class="form-group col-md-7">
+                        <label for="modDetNome">Nome</label>
+                        <input type="text" class="form-control" id="modDetNome" name="modDetNome" readonly>
+                    </div>
+
+                    <div class="form-group col-md-5">
+                        <label id="lbmodDetCpfCnpj"for="modDetCpfCnpj"></label>
+                        <input type="text" class="form-control" id="modDetCpfCnpj" name="modDetCpfCnpj" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-7">
+                        <label for="modDetTipoEndereco">Tipo Endereço</label>
+                        <input type="text" class="form-control" id="modDetTipoEndereco" name="modDetTipoEndereco" readonly>
+                    </div>
+
+                    <div class="form-group col-md-5">
+                        <label for="modDetCep">C.E.P</label>
+                        <input type="text" class="form-control" id="modDetCep" name="modDetCep" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-5">
+                        <label for="modDetCidade">Cidade</label>
+                        <input type="text" class="form-control" id="modDetCidade" name="modDetCidade" readonly>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modDetestado">Estado</label>
+                        <input type="text" class="form-control" id="modDetestado" name="modDetestado" readonly>
+                    </div>
+                    
+                    <div class="form-group col-md-5">
+                        <label for="modDetBairro">Bairro</label>
+                        <input type="text" class="form-control" id="modDetBairro" name="modDetBairro" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label for="modDetTipoLogradouro">Tipo Logradouro</label>
+                        <input type="text" class="form-control" id="modDetTipoLogradouro" name="modDetTipoLogradouro" readonly>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="modDetNomeLogradouro">Nome Logradouro</label>
+                        <input type="text" class="form-control" id="modDetNomeLogradouro" name="modDetNomeLogradouro" readonly>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modDetNumero">Número</label>
+                        <input type="text" class="form-control" id="modDetNumero" name="modDetNumero" readonly>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modDetComplemento">Complemento</label>
+                        <input type="text" class="form-control" id="modDetComplemento" name="modDetComplemento" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="modal-footer">
+                    </div>
+                    
+                    <div id="ModalFooterSeaEnd" class="modal-footer">
+                        <button type="button" class="btn btn-outline-info" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).on('click', '.detail_endereco', function () {
+        // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui consulta
+        setHeaderFooterEnd("S");
+
+        id = $(this).attr("id");
+        cep = $(this).attr("cep");
+        var dados = { id: id, cep: cep };
+
+        $.ajax({
+            type: "POST",
+            url: '/enderecosModalDetails',
+            data: dados,
+            dataType: 'json',
+            success: function (response) {
+
+                var nomePessoa   = $("#inputNomepf").val();
+                cpfCnpj          = $("#inputCpfpf").val();
+
+                if(!cpfCnpj){
+                    cpfCnpj      = $("#inputCnpjpj").val();
+                    nomePessoa   = $("#inputNomepj").val();
+                    document.getElementById("lbModDocDelCpfCnpj").innerHTML = 'C.N.P.J';
+                } else {
+                    document.getElementById("lbModDocDelCpfCnpj").innerHTML = 'C.P.F';                
+                }
+
+                $("#modDetNome").val(nomePessoa);
+                $("#modDetCpfCnpj").val(cpfCnpj);
+
+                $("#modDetTipoEndereco").val(response[0][1]);
+                $("#modDetCep").val(response[0][2]);
+                $("#modDetTipoLogradouro").val(response[0][6]);
+                $("#modDetNomeLogradouro").val(response[0][7]);
+                $("#modDetNumero").val(response[0][3]);
+                $("#modDetComplemento").val(response[0][5]);
+                $("#modDetBairro").val(response[0][8]);
+                $("#modDetCidade").val(response[0][10]);
+                $("#modDetestado").val(response[0][11]);
+
+                $('#modalEnderDetails').modal({'show':true});   
+            } 
+        });
+    });
+</script>

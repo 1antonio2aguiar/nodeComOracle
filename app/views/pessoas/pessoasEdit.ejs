@@ -1,0 +1,231 @@
+﻿<!DOCTYPE html>
+<html style="background-color: #efefef;">
+
+    <head>
+        <title>Pessoa Física</title>
+
+        <!-- define a viewport -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="utf-8">
+
+        <!-- adicionar CSS Bootstrap -->
+        <link href="../css/bootstrap.min.css" rel="stylesheet" media="all">
+
+        <!-- css personalizado -->
+        <link href="../css/estilo.css" rel="stylesheet" media="all">
+    </head>
+
+    <body>
+        <div class="container-fluid" style="background-color: #efefef;">
+            <!-- Menu Principal -->
+            <% include ../index/menuInclude %>
+            
+            <div class="col-xs-12" id="tabs" style="background-color: #efefef;">
+                <ul class="nav nav-tabs nav-pills" id="myTab" role="tablist" style="background-color: #B9D3EE;">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="pessoa-tab" data-toggle="tab" href="#pessoa" role="tab"
+                            aria-controls="pessoa" aria-selected="true">Pessoa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="enderecos-tab" data-toggle="tab" href="#enderecos" role="tab"
+                            aria-controls="enderecos" aria-selected="false">Endereços</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="documentos-tab" data-toggle="tab" href="#documentos" role="tab"
+                            aria-controls="documentos" aria-selected="false">Documentos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="contatos-tab" data-toggle="tab" href="#contatos" role="tab"
+                            aria-controls="settings" aria-selected="false">Contatos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="profissoes-tab" data-toggle="tab" href="#profissoes" role="tab"
+                            aria-controls="settings" aria-selected="false">Profissões</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="empresas-tab" data-toggle="tab" href="#empresas" role="tab"
+                            aria-controls="settings" aria-selected="false">Empresas</a>
+                    </li>
+                </ul>
+                
+                <div class="tab-content">
+                    <!-- Arquivo com html da aba de pessoa fisica -->
+                    <% include htmlAbaPessoaFisica %>
+
+                    <!-- Arquivo com html da aba de endereços -->
+                    <% include htmlAbaEnderecos %>
+
+                    <!-- Arquivo com html da aba de documentos -->
+                    <% include htmlAbaDocumentos %>
+                    
+                    <!-- Arquivo com html da aba de contados -->
+                    <% include htmlAbaContatos %>
+
+                    <!-- Arquivo com html da aba de profissoes -->
+                    <% include htmlAbaProfissoes %>
+
+                    <!-- Arquivo com html da aba de empresas -->
+                    <% include htmlAbaEmpresas %>
+
+
+                    <!-- Tab Empresas -->
+                    <div class="tab-pane" id="empresas" role="tabpanel" aria-labelledby="profile-tab">
+                        <form id="filter-form" action="/empresasList" method="get">
+                            <input type="hidden" name="pagina" value="1">
+            
+                            <div class="form-row">
+                                <div class="col-md-11">
+                                    <p class="h4">Empresas de: <%=pessoa[0][2]%></p>
+                                </div>
+            
+                                <div class="col-md-1">
+                                    <a class="btn btn-primary pull-right h2" href="/empresasPessoasSearch">Novo</a>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div id="list" class="row">
+                            <div id="divTab" class="table-responsive col-md-12">
+                                <table id="documentosList" class="table table-striped" cellspacing="0" cellpadding="0">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Empresa</th>
+                                            <th>C.N.P.J</th>
+                                            <th class="actions">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="empresasData">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+            
+            <script src="js/jquery-1.11.1.min.js"></script>
+            <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+            
+            <script src="js/jquery-3.4.1.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+            <script src="js/bootstrap.min.js"></script>
+            <script src="js/bootstrap.bundle.min.js"></script>        
+            <script src="js/main.js"></script>
+
+            
+
+            <!-- Modal Detalha endereço -->
+            <% include modalSearchEndereco %>
+
+            <!-- Modal Edita endereço -->
+            <% include modalEditEndereco %>
+
+            <!-- Modal Deleta endereço -->
+            <% include modalDelEndereco %>
+
+            <!-- Modal Novo Endereço -->
+            <% include modalNewEndereco %>
+
+            <!-- Modal Novo Documento -->
+            <% include modalNewDocumento %>
+
+            <!-- Modal Edita Documento -->
+            <% include modalEditDocumento %>
+
+            <!-- Modal Deleta Documento -->
+            <% include modalDelDocumento %>
+
+            <!-- Modal Consulta Documento -->
+            <% include modalSearchDocumento %>
+
+            <!-- Modal Novo Contato -->
+            <% include modalNewContato %>
+
+            <!-- Modal Deleta Contato -->
+            <% include modalDelContato %>
+
+            <!-- Modal Nova Profissão -->
+            <% include modalNewProfissao %>
+
+            <!-- Modal Deleta Profissao -->
+            <% include modalDelProfissao %>
+
+            <!-- Modal Nova Empresa -->
+            <% include modalNewEmpresa %>
+            
+            <!-- Modal lista de empresas -->
+            <% include modalListEmpresas %>
+
+            <!-- Modal Deleta Empresa -->
+            <% include modalDelEmpresasPessoas %>
+
+            <!-- Script monta listas -->
+            <% include montaListas %>
+        </div>
+    </body>
+
+    <script>
+        //var dateControl = document.querySelector('input[type="date"]');
+        //dateControl.value = pessoa[0][4];
+        var id_pessoa = null;
+
+        $(document).ready(function () {
+
+            $(document).on('click', '#pessoa-tab', function () {
+                //$('#enderecosData')[0].reset();
+            });
+
+            // chama função que monta a lista de documentos
+            $("#documentos-tab").click(function() {
+                montaListaDocumentos();
+            });
+
+            // Chama funcao que monta a lista de enderecos
+            $("#enderecos-tab").click(function() {
+                montaListaEnderecos();
+            });
+
+            $("#btnCancelar").click(function() {
+                var filtercnpjcpf      = $("#inputFiltercpf").val();
+                var filternomePessoa   = $("#inputFilterNome").val();
+                //alert('ta no voltar! ' + filtercnpjcpf + ' ' + filternomePessoa);
+
+                window.location.href = "/pessoasList?inputNome="+filternomePessoa+"&&inputCpf="+filtercnpjcpf;
+            });
+        });
+
+        // Chama funcao que monta a lista de contatos que esta no arquivo monta listas
+        $("#contatos-tab").click(function() {
+            montaListaContatos();
+        });
+
+        // Chama funcao que monta a lista de profissoes que esta no arquivo monta listas
+        $("#profissoes-tab").click(function() {
+            montaListaProfissoes();
+        });
+
+        // Chama funcao que monta a lista de empresas que esta no arquivo monta listas
+        $("#empresas-tab").click(function() {
+            montaListaEmpresasPessoas();
+        });
+
+        function escondeMsg() {
+            statusChangeSelect=true;
+            submitNewDoc=true;
+            document.getElementById("msgErro").style.display = "none";
+            document.getElementById("msgErroNewDoc").style.display = "none";
+        };
+
+        
+    </script>
+</html>
+
+
+

@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Catórios</title>
+
+        <!-- define a viewport -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+        <meta charset="utf-8">
+
+        <!-- adicionar CSS Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet" media="all">
+
+        <!-- css personalizado -->
+        <link href="css/estilo.css" rel="stylesheet" media="all">
+
+    </head>
+    <body> 
+
+        <!-- Menu Principal -->
+        <% include ../index/menuInclude %>
+        
+        <div class="col-md-11">
+            <h3>Cartórios</h3>
+        </div>
+        
+        <div class="col-md-1">
+            <a class="btn btn-primary pull-right h2" href="/cartoriosNew">Novo</a>
+        </div>
+        
+        <div id="list" class="row">
+            <div class="table-responsive col-md-12">
+                <table class="table table-striped" cellspacing="0" cellpadding="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>C.N.P.J</th>
+                            <th class="actions">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(var i = 0; i < cartorios.length; i++) { %>
+                            <tr>
+                                <td><%=cartorios[i][0]%></td>
+                                <td><%=cartorios[i][2]%></td>
+                                <td><%=cartorios[i][3]%></td>
+                                <td class="actions">
+                                    <a class="btn btn-success btn-xs" href="#" disabled>Consultar</a>
+                                    <a class="btn btn-warning btn-xs" href="#" disabled>Editar</a>
+                                    <a class="btn btn-danger btn-xs view_data"  id="<%=cartorios[i][0]%>" href="#">Excluir</a>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div> <!-- /#list -->
+        
+        <script src="js/jquery-1.11.1.min.js"></script>
+        <script src="js/jquery-3.4.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
+
+        
+        <!-- Modal -->
+        <div id="modalDelete" class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="exampleModalScrollableTitle">Confirma deletar Cartório?</h3>
+                </div>
+                <div class="modal-body">
+                    <span id="id" name="id" class="label label-danger"></span>
+                    <h3><span id="nome" class="label label-danger"></span></h3>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-info" data-dismiss="modal">Não</button>
+                    <button type="button" class="btn btn-outline-info" onclick="excluir()">Sim</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            var id = null;
+
+            $(document).ready(function(){
+                $(document).on('click','.view_data', function(){
+
+                    id = $(this).attr("id");
+                    var dados = {id: id};
+
+                    $.ajax({
+                        type: "POST",
+                        url: '/cartoriosModalVisu',
+                        data: dados,
+                        dataType: 'json',
+                        success: function(response) {
+
+                            $("#id").html(response[0][0]);
+                            $("#nome").html(response[0][2]);
+                            $('#modalDelete').modal({show: true}); 
+                        }
+                    });
+                });
+            });
+
+            function excluir() {
+                $.ajax({
+                    type: "DELETE",
+                    url: '/cartorioDelete',
+                    data: {id: id},
+                    dataType: 'json',
+                    success: function(response) {
+
+                    },
+                    error: function(response) {
+                        console.log(response);
+                    }
+                });
+                $('#modalDelete').modal('hide');
+                window.location.href = '/cartoriosList';
+            };
+        </script>
+    </body>
+</html>

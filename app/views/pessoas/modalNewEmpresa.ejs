@@ -1,0 +1,388 @@
+﻿<div id="modalEmpresaNew" class="modal hide bd-example-modal-lg-edit" tabindex="-1" role="dialog-edit" aria-hidden="true"  aria-labelledby="myLargeModalLabelNew">
+    <div class="modal-dialog modal-lg" role="document"> 
+        <div class="modal-content edit">
+
+            <div id="ModalHeaderEmp" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 id="modal-title" class="modal-title white-text w-100 font-weight-bold py-2"></h4>
+            </div>	
+
+            <form class="form-add" name="empresaModalNew" id="empresaModalNew" method="post">
+                <div class="form-row">
+                    <div class="row">
+                        <div class="alert alert-danger input-lg" role="alert" name="msgErro" id="msgErro" style="display:none;"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="alert alert-danger input-lg hide" role="alert" name="msgErro" id="msgErro"></div>
+                        <input type="text" class="form-control" id="modNewEmpIdPessoa" name="modNewEmpIdPessoa" value="<%=pessoa[0][0]%>" style="display:none;">
+                        <input type="text" class="form-control" id="modNewIdEmpresaPessoa" name="modNewIdEmpresaPessoa" style="display:none;">
+                    </div>
+
+                    <div class="form-group col-md-7">
+                        <label for="modNewEmpNome">Nome</label>
+                        <input type="text" class="form-control" id="modNewEmpNome" name="modNewEmpNome" readonly>
+                    </div>
+
+                    <div class="form-group col-md-5">
+                        <label id="lbModEmpresaCpfCnpj" for="modNewEmpCpfCnpj"></label>
+                        <input type="text" class="form-control" id="modNewEmpCpfCnpj" name="modNewEmpCpfCnpj" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="modNewEmpTipoVinculo">Tipo Vinculo</label>
+                        <select class="form-control" name="modNewEmpTipoVinculo" id="modNewEmpTipoVinculo" onchange="escondeMsg()">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-row col-md-7">
+                        <input type="text" class="form-control" id="modNewEmpIdEmpresa" name="modNewEmpIdEmpresa" style="display:none;">
+
+                        <label for="modNewEmpCnpjCpf">Nome Empresa</label>
+                        <div class="input-group">
+                            <input name="modNewEmpNomeEmpresa" class="form-control is-invalid" id="modNewEmpNomeEmpresa" type="text" onchange="escondeMsg()">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" name="btnNomeEmpresa" id="btnNomeEmpresa">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-row col-md-3">
+                        <label for="modNewEmpCnpjCpf">C.N.P.J / C.P.F</label>
+                        <div class="input-group">
+                            <input name="modNewEmpCnpjCpf" class="form-control is-invalid" id="modNewEmpCnpjCpf" type="text" onchange="escondeMsg()">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" name="btnCnpjCpf" id="btnCnpjCpf">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modNewEmpNome">Participação</label>
+                        <input type="text" class="form-control" id="modNewEmpParticipacao" name="modNewEmpParticipacao">
+                    </div>
+                </div>
+                    
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer"></div>
+
+                    <div id="ModalFooterEmp" class="modal-footer">
+                        <button type="button" class="btn" data-dismiss="modal">Fechar</button>
+                        <input type="button" name="btnModNewEmpSubmit" id="btnModNewEmpSubmit" value="Enviar" class="btn text-dark" onclick="validaCampos();">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var tiposVinculosList;
+        var tiposVinculosDdw;
+        var nomePessoa;
+        var cnpjcpf;
+        var tipoBusca ;
+
+        //Abre a modal de nova Empresa
+        $(document).on('click', '#btnNewEmpresa', function () {
+            event.preventDefault();
+            $("#modal-title").html("Nova Empresa");
+
+            // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui novo
+            setHeaderFooterEmp("N");
+            
+            $("#modNewEmpTipoVinculo option").each(function() {
+                $(this).remove();
+            });
+
+            var nomePessoa   = $("#inputNomepf").val();
+            cpfCnpj          = $("#inputCpfpf").val();
+
+            if(!cpfCnpj){
+                cpfCnpj      = $("#inputCnpjpj").val();
+                nomePessoa   = $("#inputNomepj").val();
+                document.getElementById("lbModEmpresaCpfCnpj").innerHTML = 'C.N.P.J';
+            } else {
+                document.getElementById("lbModEmpresaCpfCnpj").innerHTML = 'C.P.F';                
+            }
+
+            $("#modNewEmpNome").val(nomePessoa);
+            $("#modNewEmpCpfCnpj").val(cpfCnpj);
+
+            $.ajax({
+                type: "GET",
+                url: '/empresasPessoasModalNew',
+                dataType: 'json',
+                success: function (response) {
+                    $("#modNewEmpTipoVinculo option").each(function() {
+                        $(this).remove();
+                    });
+
+                    $("#modNewEmpCnpjCpf").val('');
+                    $("#modNewEmpNomeEmpresa").val('');
+                    $("#modNewEmpParticipacao").val(0);
+                    
+                    tiposVinculosList = response;
+                    tiposVinculosDdw = $("#modNewEmpTipoVinculo");
+                    tiposVinculosDdw.append($("<option />").val("-1").text("Selecione..."));
+                    
+                    var temp = null;
+                    for (var i = 0; i < tiposVinculosList.length; i++) {
+                        temp = tiposVinculosList[i];
+                        tiposVinculosDdw.append($("<option />").val(temp[0]).text(temp[1]));
+                    }
+                    $('#modalEmpresaNew').modal({'show':true});
+                }
+            }); 
+            document.getElementById("modNewEmpTipoVinculo").disabled = false;
+            document.getElementById("modNewEmpCnpjCpf").disabled = false;
+            document.getElementById("modNewEmpNomeEmpresa").disabled = false;
+            document.getElementById("btnNomeEmpresa").disabled = false;
+            document.getElementById("btnCnpjCpf").disabled = false;
+        });
+
+        //Clik no botão cpf cnpj
+        $(document).on('click', '#btnCnpjCpf', function () {
+            cpfCnpj = $("#modNewEmpCnpjCpf").val();
+
+            // retira os (.) e (-) do código do cpf ou cnpj
+            cpfCnpj = cpfCnpj.normalize('NFD').replace(/([\u0300-\u036f]|[^0-9a-zA-Z])/g, '');
+
+            cpf_ou_cnpj = cpfCnpj.length;
+            cpf_ou_cnpj <= 11 ? tipoBusca = 'F' : tipoBusca = 'J';
+
+            var dados = {
+                tipoBusca,
+                cpfCnpj,
+                nomePessoa
+            };
+
+            $.ajax({
+                type: "GET",
+                data: dados,
+                url: '/empresasPessoasBuscaPorDocNome',
+                dataType: 'json',
+                success: function (response) {
+                    $("#modNewEmpIdEmpresa").val(response[0][2]);
+                    $("#modNewEmpNomeEmpresa").val(response[0][0]);
+                    $("#modNewEmpCnpjCpf").val(response[0][1]);
+                }
+            });
+        });
+
+        //Clik no botão nome empresa
+        $(document).on('click', '#btnNomeEmpresa', function () {
+            nomePessoa = $("#modNewEmpNomeEmpresa").val();
+
+            var dados = {
+                tipoBusca: 'N',
+                cpfCnpj: 0,
+                nomePessoa
+            };
+
+            $.ajax({
+                type: "GET",
+                data: dados,
+                url: '/empresasPessoasBuscaPorDocNome',
+                dataType: 'json',
+                success: function (response) {
+
+                    console.log(response);
+
+                    if(response.length == 1){
+                        $("#modNewEmpIdEmpresa").val(response[0][2]);
+                        $("#modNewEmpNomeEmpresa").val(response[0][0]);
+                        $("#modNewEmpCnpjCpf").val(response[0][1]);
+                    } else {
+                        var html = '';
+
+                        for (var i = 0; i < response.length; i++) {
+                            html += '<tr>' +
+                            '<td>' +
+                                '<input type="checkbox" class="custom-control-input" id="modallistEmpChecked" onclick="SetSel(this,'+response[i][2]+', '+"'"+response[i][1]+"'"+',' +"'"+response[i][0]+"'" +');">' +
+                            '</td>' +
+                            '<td id="listEmpresasId">' + response[i][2] + '</td>' +
+                            '<td id="listEmpresasNome">' + response[i][0] + '</td>' +
+                            '<td id="listEmpresasCpfCgc">' + response[i][1] + '</td>' +
+                            '<td id="row" style="display:none;">' + i + '</td>' +
+                            '</tr>';
+                        };
+                        $("#modalEmpresasListData").html(html);
+
+                        $('#modalListEmpresas').modal({'show':true});
+                    };
+                }
+            });
+        });
+
+        // click no checkbox
+        function SetSel(elem,id,cnpjcpf,nome) {
+            var lista = document.getElementsByClassName("custom-control-input");
+            var currentState = elem.checked;
+            var elemsLength = lista.length;
+
+            $("#modNewEmpIdEmpresa").val(id);
+            $("#modNewEmpCnpjCpf").val(cnpjcpf);
+            $("#modNewEmpNomeEmpresa").val(nome);
+
+            for(i=0; i<elemsLength; i++)
+            {
+                if(lista[i].type === "checkbox")
+                {
+                    lista[i].checked = false;   
+                }
+            }
+            elem.checked = currentState;
+        };
+
+        function validaCampos(){
+            var html = '';
+            var submit = true;
+            var value  = '';
+
+            value = document.getElementById("modNewEmpTipoVinculo").value; //valor do select
+            if(value == '-1'){
+                var html = 'Informe o tipo de Vinculo!';
+                //$("#msgErro").html(html);
+                document.getElementById("msgErro").style.display = "block";
+                submit = false;
+                return;
+            };
+
+            value = document.getElementById("modNewEmpNomeEmpresa").value;
+            if (!value ){
+                var html = 'Informe o nome da empresa!';
+                $("#msgErro").html(html);
+                $("#msgErro").show();
+                submit = false;
+                return;
+            };
+            value = document.getElementById("modNewEmpCnpjCpf").value;
+            if (!value ){
+                var html = 'Informe o CNPJ ou CPF da empresa!';
+                $("#msgErro").html(html);
+                $("#msgErro").show();
+                submit = false;
+                return;
+            };
+            
+            if(submit){
+                // Insere os dados
+                event.preventDefault();
+                var dados = $("#empresaModalNew").serialize();
+
+                $.post("empresasPessoasModalSubmit",dados,function(response){
+                    if(response){
+                        //limpa os dados
+                        $('#empresaModalNew')[0].reset();
+
+                        //fecha a janela
+                        $('#modalEmpresaNew').modal('hide');
+
+                        // refaz a lista de Empresas
+                        montaListaEmpresasPessoas();
+
+                    }else{
+                        $("#msg").html(response);
+                    }
+                });
+            };
+        };
+
+        //Abre a mesma modal de new, porem aqui clica no botão edit
+        // Aqui não e possível alterar o campo tipo Empresa, por isso recupera apenas o que esta gravado
+        $(document).on('click', '.edit_EmpPessoa', function () {
+            event.preventDefault();
+            $("#modal-title").html("Edita Empresa");
+
+            // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui Edit
+            setHeaderFooterEmp("E");
+
+            $("#modNewEmpTipoVinculo option").each(function() {
+                $(this).remove();
+            });
+
+            idEmpresaPessoa = $(this).attr("id");
+
+            var dados = { idEmpresaPessoa: idEmpresaPessoa };
+
+            var nomePessoa   = $("#inputNomepf").val();
+            cpfCnpj          = $("#inputCpfpf").val();
+
+            if(!cpfCnpj){
+                cpfCnpj      = $("#inputCnpjpj").val();
+                nomePessoa   = $("#inputNomepj").val();
+                document.getElementById("lbModEmpresaCpfCnpj").innerHTML = 'C.N.P.J';
+            } else {
+                document.getElementById("lbModEmpresaCpfCnpj").innerHTML = 'C.P.F';                
+            }
+
+            $("#modNewEmpNome").val(nomePessoa);
+            $("#modNewEmpCpfCnpj").val(cpfCnpj);
+
+            $.ajax({
+                type: "post",
+                data: dados,
+                url: '/empresasPessoasList',
+                dataType: 'json',
+                success: function (response) {
+                    
+                    $("#modNewIdEmpresaPessoa").val(response[0][0]);
+                    $("#modNewEmpCnpjCpf").val(response[0][9]);
+                    $("#modNewEmpNomeEmpresa").val(response[0][7]);
+                    $("#modNewEmpParticipacao").val(response[0][4]);
+                    tipoVinculo = $("#modNewEmpTipoVinculo");
+                    tipoVinculo.append($("<option />").val(response[0][3]).text(response[0][5]));
+                    
+                    $('#modalEmpresaNew').modal({'show':true});
+                }
+            }); 
+            document.getElementById("modNewEmpTipoVinculo").disabled = true;
+            document.getElementById("modNewEmpCnpjCpf").disabled = true;
+            document.getElementById("modNewEmpNomeEmpresa").disabled = true;
+            document.getElementById("btnNomeEmpresa").disabled = true;
+            document.getElementById("btnCnpjCpf").disabled = true;
+        });
+
+        function setHeaderFooterEmp(data){
+
+            if(data == "N"){
+                //Novo
+                var element = document.getElementById("ModalHeaderEmp");
+                element.classList.remove("class_header_edit");
+                element.classList.add("class_header_new");
+                
+                var element = document.getElementById("ModalFooterEmp");
+                element.classList.remove("class_footer_edit");
+                element.classList.add("class_footer_new");
+            } else if(data == "E"){
+                // Edita/Altera
+                var element = document.getElementById("ModalHeaderEmp");
+                element.classList.remove("class_header_edit");
+                element.classList.add("class_header_edit");
+                
+                var element = document.getElementById("ModalFooterEmp");
+                element.classList.remove("class_footer_edit");
+                element.classList.add("class_footer_edit");
+            } else if(data == "X"){
+                // Delete
+                var element = document.getElementById("ModalHeaderDelEmp");
+                element.classList.remove("class_header_del");
+                element.classList.add("class_header_del");
+                
+                var element = document.getElementById("ModalFooterDelEmp");
+                element.classList.remove("class_footer_del");
+                element.classList.add("class_footer_del");
+            }
+        }; 
+    </script>
+</div>

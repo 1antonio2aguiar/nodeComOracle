@@ -1,0 +1,164 @@
+﻿<div id="modalBairroSearch" class="modal bd-example-modal-lg-edit" tabindex="-1" role="dialog-edit" aria-hidden="true"  aria-labelledby="myLargeModalLabelNew">    
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content edit">
+            <div id="ModalHeaderDelEmp" class="modal-header class_header_Sea">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 class="modal-title white-text w-100 font-weight-bold py-2">Consulta Bairro</h4>
+            </div>
+    
+            <form>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="modConCidade">Cidade</label>
+                        <input type="text" class="form-control" id="modConCidade" name="modConCidade" disabled="true">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="modConDistrito">Distrito</label>
+                        <input type="text" class="form-control" id="modConDistrito" name="modConDistrito" disabled="true">
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modConEstado">Estado</label>
+                        <input type="text" class="form-control" id="modConEstado" name="modConEstado" disabled="true">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="modConNome">Nome</label>
+                        <input type="text" class="form-control" id="modConNome" name="modConNome" disabled="true">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="modConNmAbrev">Nome Abreviado</label>
+                        <input type="text" class="form-control" id="modConNmAbrev" name="modConNmAbrev" disabled="true">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="modConDtCriacao">Data Criação</label>
+                        <input type="date" id="modConDtCriacao" name="modConDtCriacao" class="form-control" disabled="true">
+                    </div>
+    
+                    <div class="form-group col-md-3">
+                        <label for="modConLeiCriacao">Lei Criação</label>
+                        <input type="text" class="form-control" id="modConLeiCriacao" name="modConLeiCriacao" disabled="true">
+                    </div>
+    
+                    <div class="form-group col-md-3">
+                        <label for="modConDtDecreto">Data Decreto</label>
+                        <input type="date" id="modConDtDecreto" name="modConDtDecreto" class="form-control" disabled="true">
+                    </div>
+    
+                    <div class="form-group col-md-3">
+                        <label for="modConDecreto">Decreto</label>
+                        <input type="text" class="form-control" id="modConDecreto" name="modConDecreto" disabled="true">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="modConDtPortaria">Data Portaria</label>
+                        <input type="date" id="modConDtPortaria" name="modConDtPortaria" class="form-control" disabled="true">
+                    </div>
+    
+                    <div class="form-group col-md-3">
+                        <label for="modConPortaria">Portaria</label>
+                        <input type="text" class="form-control" id="modConPortaria" name="modConPortaria" disabled="true">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="modConNmPopular">Nome Popular</label>
+                            <input type="text" class="form-control" id="modConNmPopular" name="modConNmPopular" disabled="true">
+                        </div>
+    
+                        <div class="form-group col-md-2">
+                            <label for="modConZonaRural">Zona Rural</label>
+                            <select class="form-control" name="modConZonaRural" id="modConZonaRural" disabled="true">
+                                <option value="N">NÃO</option>
+                                <option value="S">SIM</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-8">
+                        <label for="modConNmLoteadora">Loteadora</label>
+                        <input type="text" class="form-control" id="modConNmLoteadora" name="modConNmLoteadora" disabled="true">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="modConCnpjCpfLoteadora">CNPJ</label>
+                        <input type="text" class="form-control" id="modConCnpjCpfLoteadora" name="modConCnpjCpfLoteadora" disabled="true">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-8">
+                        <label for="modConNmVereador">Vereador</label>
+                        <input type="text" class="form-control" id="modConNmVereador" name="modConNmVereador" disabled="true">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="modConCnpjCpfVereador">CPF</label>
+                        <input type="text" class="form-control" id="modConCnpjCpfVereador" name="modConCnpjCpfVereador" disabled="true">
+                    </div>
+                </div>
+
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer"></div>
+    
+                    <div id="ModalFooterDelEmp" class="modal-footer class_footer_Sea">
+                        <button type="button" class="btn  btn-success" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    //Consulta -- Abre modal
+    $(document).on('click','.view_detail', function(){
+        var id     = $(this).attr("id");
+        var dados  = { id: id };
+
+        event.preventDefault();
+        $('#modalBairroSearch').modal({'show':true});  
+
+        $.ajax({
+            type: "get",
+            url: '/bairrosSearch',
+            data: dados,
+            dataType: 'json',
+            success: function (dados) {
+                $("#modConCidade").val(dados[0][0]);
+                $("#modConDistrito").val(dados[0][1]);
+                $("#modConEstado").val(dados[0][22]);
+                $("#modConNome").val(dados[0][2]);
+                $("#modConNmAbrev").val(dados[0][3]);
+                $("#modConDtCriacao").val(dados[0][4]);
+                $("#modConLeiCriacao").val(dados[0][5]);
+                $("#modConDtDecreto").val(dados[0][6]);
+                $("#modConDecreto").val(dados[0][7]);
+                $("#modConDtPortaria").val(dados[0][8]);
+                $("#modConPortaria").val(dados[0][9]);
+                $("#modConNmPopular").val(dados[0][12]);
+                $("#modConZonaRural").val(dados[0][13]);
+                $("#modConNmLoteadora").val(dados[0][15]);
+                $("#modConCnpjCpfLoteadora").val(dados[0][19]);
+                $("#modConNmVereador").val(dados[0][14]);
+                $("#modConCnpjCpfVereador").val(dados[0][18]);                
+
+                event.preventDefault();
+                $('#modalBairroSearch').modal({'show':true});    
+            }
+        });
+    });
+
+
+
+</script>

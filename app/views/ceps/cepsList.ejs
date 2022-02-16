@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Ceps</title>
+
+        <!-- define a viewport -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+        <meta charset="utf-8">
+
+        <!-- adicionar CSS Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet" media="all">
+
+        <!-- css personalizado -->
+        <link href="css/estilo.css" rel="stylesheet" media="all">
+
+    </head>
+
+    <body>
+        <div class="container-fluid" style="background-color: #efefef;">
+            <!-- Menu Principal -->
+            <% include ../index/menuInclude %>
+
+            <nav class="navbar navbar-filter navbar-inverse" role="navigation">
+                <form id="filter-form" action="/cepsList" method="get">
+                    <input type="hidden" name="pagina" value="1">
+
+                    <div class="col-md-1">
+                        <div class="input-group navbar-brand">
+                            <h4>Ceps</h4>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="input-group h2">
+                            <input name="inputCidade" class="form-control" id="inputCidade" type="text" value="<%=nomeCidade%>" placeholder="Pesquisar por Cidade">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" name="btnCidade" id="btnCidade">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="input-group h2">
+                            <input name="inputNomeLogradouro" class="form-control" id="inputNomeLogradouro" type="text" value="<%=nomeLogradouro%>" placeholder="Pesquisar por nome">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" name="btnLogradouro" id="btnLogradouro">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="input-group h2">
+                            <input name="inputCep" class="form-control" id="inputCep" type="text" value="<%=metadata.cep%>"placeholder="Pesquisar por CEP">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" name="btnCep" id="btnCep">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-1">
+                        <input type="submit" name="btnNew" id="btnNew" value="Novo" class="btn btn-primary pull-right h2">
+                    </div>
+                </form>
+            </nav>
+
+            <div id="list" class="row">
+                <div class="table-responsive col-md-12">
+                    <table class="table table-striped" cellspacing="0" cellpadding="0">
+                        <thead>
+                            <tr class="class_header_list">
+                                <th>ID</th>
+                                <th>Cidade</th>
+                                <th>Bairro</th>
+                                <th>Tipo</th>
+                                <th>Logradouro</th>
+                                <th>Cep</th>
+                                <th>Numero Inicial</th>
+                                <th>Numero Final</th>
+                                <th>Identificação</th>
+                                <th class="actions">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(var i = 0; i < ceps.length; i++) { %>
+                                <tr>
+                                    <td><%=ceps[i][0]%></td>
+                                    <td><%=ceps[i][7]%></td>
+                                    <td><%=ceps[i][9]%></td>
+                                    <td><%=ceps[i][12]%></td>
+                                    <td><%=ceps[i][10]%></td>
+                                    <td><%=ceps[i][3]%></td>
+                                    <td><%=ceps[i][4]%></td>
+                                    <td><%=ceps[i][5]%></td>
+                                    <td><%=ceps[i][6]%></td>
+                                    <td class="actions">
+                                        <a class="btn btn-success btn-xs disabled" href="#">Consultar</a>
+                                        <a class="btn btn-warning btn-xs view_edit" id="<%=ceps[i][0]%>" href="#">Editar</a>
+                                        <a class="btn btn-danger btn-xs  view_data" id="<%=ceps[i][0]%>" href="#">Excluir</a>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <nav class="class_paginator">
+                <ul class="pagination pagination-sm">
+                    <li class="page-item">
+                        <span id="previous" class="btn btn-success btn-xs">Anterior</a>
+                    </li>
+                    <%- paginator %>                    
+                    <li class="page-item">
+                        <span id="next" class="btn btn-success btn-xs">Próxima</a>
+                    </li>
+                </ul>
+            </nav>
+        </div> 
+
+        <input id="pagina" type="hidden" value="<%=metadata.page%>">
+        <input id="total-pagina" type="hidden" value="<%=metadata.totalPages%>">
+        <input id="nmCidade" type="hidden" value="<%=metadata.nmCidade%>">
+        <input id="nmLogradouro" type="hidden" value="<%=metadata.nmLogradouro%>">
+        <input id="cep" type="hidden" value="<%=metadata.cep%>">
+
+        <script src="js/jquery-1.11.1.min.js"></script>
+        <script src="js/jquery-3.4.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+        
+    </body>
+    
+    <!-- Modal edit e new -->
+    <% include modalCep %>
+
+    <!-- Modal Lista de Bairros -->
+    <% include modalListBairros %>
+
+    <!-- Modal Lista de Logradouros -->
+    <% include modalListLogradouros %>
+
+    <!-- Modal Delete -->
+    <% include modalCepDel %>
+
+    <script>
+        var cep = null;
+        var id  = null;
+        
+        $("#previous").click(function() {
+            previous();
+        });
+
+        $("#next").click(function() {
+            next();
+        });
+
+        function previous() {
+            var page      = parseInt($("#pagina").val());
+            var totalPage = parseInt($("#total-pagina").val());
+            var cep = parseInt($("#cep").val());
+            var nmCidade = $("#nmCidade").val();
+            var nmLogradouro  = $("#nmLogradouro").val();
+
+            if (page > 1) {
+                page--;
+                window.location = "/cepsList?pagina=" + page + 
+                (nmCidade ? ("&inputCidade=" + nmCidade) : "")  + 
+                (nmLogradouro ? ("&inputNomeLogradouro=" + nmLogradouro) : "") +
+                (cep ? ("&inputCep=" + cep ) : "") ;
+            };
+        };
+
+        function next() {
+            var page      = parseInt($("#pagina").val());
+            var totalPage = parseInt($("#total-pagina").val());
+            var cep = parseInt($("#cep").val());
+            var nmCidade = $("#nmCidade").val();
+            var nmLogradouro  = $("#nmLogradouro").val();
+
+            if (page <= totalPage) {
+                page++;
+                window.location = "/cepsList?pagina=" + page + 
+                (nmCidade ? ("&inputCidade=" + nmCidade) : "") + 
+                (nmLogradouro ? ("&inputNomeLogradouro=" + nmLogradouro) : "") +
+                (cep ? ("&inputCep=" + cep ) : "");  
+            };
+        };
+
+        // Troquei a busca automatica pelo botão
+        /*$("#seachNmLogradouro").keypress(function() {
+            var filter = $("#seachNmLogradouro").val();
+            if (filter && filter.length >= 2) {
+
+                setTimeout(function() {
+                    $("#filter-form").submit();
+                }, 800);
+            }
+        }); */
+
+        // botão cidade
+        $("#btnCidade").click(function() {
+            $("#inputCep").val(null);
+            $("#filter-form").submit();
+        });
+
+
+        $("#btnLogradouro").click(function() {
+            $("#inputCep").val(null);
+            $("#filter-form").submit();
+        });
+
+        // botão Cep
+        $("#btnCep").click(function() {
+            $("#inputCidade").val(null);
+            $("#inputNomeLogradouro").val(null);
+            $("#filter-form").submit();
+        });
+
+        function setHeaderFooter(data){
+            if(data == "N"){
+                //Novo
+                var element = document.getElementById("ModalHeader");
+                element.classList.remove("class_header_edit");
+                element.classList.add("class_header_new");
+                
+                var element = document.getElementById("ModalFooter");
+                element.classList.remove("class_footer_edit");
+                element.classList.add("class_footer_new");
+            } else if(data == "E"){
+                // Edita/Altera
+                var element = document.getElementById("ModalHeader");
+                element.classList.remove("class_header_edit");
+                element.classList.add("class_header_edit");
+                
+                var element = document.getElementById("ModalFooter");
+                element.classList.remove("class_footer_edit");
+                element.classList.add("class_footer_edit");
+                
+            } ;
+        };
+
+        function escondeMsg() {
+            submit=true;
+            document.getElementById("msgErro").style.display = "none";
+        };
+
+    </script>
+</html>
+

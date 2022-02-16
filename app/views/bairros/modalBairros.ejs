@@ -1,0 +1,571 @@
+﻿﻿<div id="modalBairro" class="modal bd-example-modal-lg-edit" tabindex="-1" role="dialog-edit" aria-hidden="true"  aria-labelledby="myLargeModalLabelNew">    
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content edit">
+            <div id="ModalHeader" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 id="modal-title" class="modal-title white-text w-100 font-weight-bold py-2"></h4>
+            </div>
+    
+            <form class="form-add" name="form-Bairros" id="form-Bairros" method="post">
+                <div class="form-row">
+                    <div class="row">
+                        <div class="alert alert-danger input-lg col-md-12 msg-error" role="alert" name="msgErro" id="msgErro" style="display:none;"></div>
+                        <input type="text" class="form-control" id="modalBairroId" name="modalBairroId" style="display:none;">
+                        <input type="text" class="form-control" id="modalBairroDadosId" name="modalBairroDadosId" style="display:none;">
+                        <input type="text" class="form-control" id="modalTpOperacao" name="modalTpOperacao" style="display:none;">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputCidade">Cidade</label>
+                        <select class="form-control" name="modalSelCidade" id="modalSelCidade" onchange="changeCidade(), escondeMsg()">
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="modalSelDistrito">Distrito</label>
+                        <select class="form-control" name="modalSelDistrito" id="modalSelDistrito" onchange="escondeMsg()">
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modalInputEstado">Estado</label>
+                        <input type="text" class="form-control" id="modalInputEstado" name="modalInputEstado" disabled="true">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="modInputNome">Nome</label>
+                        <input type="text" class="form-control" id="modInputNome" name="modInputNome" placeholder="Nome" onkeyup="escondeMsg()">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="modInputNmAbrev">Nome Abreviado</label>
+                        <input type="text" class="form-control" id="modInputNmAbrev" name="modInputNmAbrev" placeholder="Nome Abreviado">
+                    </div>
+                </div>
+
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="modalDtCriacao">Data Criação</label>
+                        <input type="date" id="modalDtCriacao" name="modalDtCriacao" class="form-control">
+                    </div>
+    
+                    <div class="form-group col-md-3">
+                        <label for="modalInputLeiCriacao">Lei Criação</label>
+                        <input type="text" class="form-control" id="modalInputLeiCriacao" name="modalInputLeiCriacao">
+                    </div>
+    
+                    <div class="form-group col-md-3">
+                        <label for="modalDtDecreto">Data Decreto</label>
+                        <input type="date" id="modalDtDecreto" name="modalDtDecreto" class="form-control">
+                    </div>
+    
+                    <div class="form-group col-md-3">
+                        <label for="modalInputDecreto">Decreto</label>
+                        <input type="text" class="form-control" id="modalInputDecreto" name="modalInputDecreto">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="modalDtPortaria">Data Portaria</label>
+                        <input type="date" id="modalDtPortaria" name="modalDtPortaria" class="form-control">
+                    </div>
+    
+                    <div class="form-group col-md-3">
+                        <label for="modalInputPortaria">Portaria</label>
+                        <input type="text" class="form-control" id="modalInputPortaria" name="modalInputPortaria">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="modalInputNmPopular">Nome Popular</label>
+                            <input type="text" class="form-control" id="modalInputNmPopular" name="modalInputNmPopular">
+                        </div>
+    
+                        <div class="form-group col-md-2">
+                            <label for="modalSelZonaRural">Zona Rural</label>
+                            <select class="form-control" name="modalSelZonaRural" id="modalSelZonaRural">
+                                <option value="N">NÃO</option>
+                                <option value="S">SIM</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-row col-md-8">
+                            <input type="text" class="form-control" id="modImputIdLoteadora" name="modImputIdLoteadora" style="display:none;">
+    
+                            <label for="modInputNmLoteadora">Loteadora</label>
+                            <div class="input-group">
+                                <input name="modInputNmLoteadora" class="form-control is-invalid" id="modInputNmLoteadora" type="text">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" type="button" name="btnNomeLoteadora" id="btnNomeLoteadora">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+    
+                        <div class="form-row col-md-4">
+                            <label for="modCnpjCpfLoteadora">CNPJ</label>
+                            <div class="input-group">
+                                <input name="modCnpjCpfLoteadora" class="form-control is-invalid" id="modCnpjCpfLoteadora" type="text">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" type="button" name="btnCnpjCpfLoteadora" id="btnCnpjCpfLoteadora">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+    
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-row col-md-8">
+                        <input type="text" class="form-control" id="modImputIdVereador" name="modImputIdVereador" style="display:none;">
+
+                        <label for="modInputNmVereador">Vereador</label>
+                        <div class="input-group">
+                            <input name="modInputNmVereador" class="form-control is-invalid" id="modInputNmVereador" type="text">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" name="btnNomeVereador" id="btnNomeVereador">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-row col-md-4">
+                        <label for="modCnpjCpfVereador">CPF</label>
+                        <div class="input-group">
+                            <input name="modCnpjCpfVereador" class="form-control is-invalid" id="modCnpjCpfVereador" type="text">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" name="btnCnpjCpfVereador" id="btnCnpjCpfVereador">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer">
+                    </div>
+
+                    <div id="ModalFooter" class="modal-footer">
+                        <button type="button" class="btn btn-outline-info" data-dismiss="modal">Fechar</button>
+                        <input type="submit" name="btnModSubmit" id="btnModSubmit" value="Enviar" class="btn btn-outline-info">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    var submit = new Boolean(true);
+    var temp   = null;
+
+    //Novo -- Abre modal
+    $(document).on('click', '#btnNew', function () {
+        //limpa os dados
+        $('#form-Bairros')[0].reset();
+        $("#modalTpOperacao").val('N'); // Novo registro
+
+        $("#modalSelCidade option").each(function() {$(this).remove();});
+        $("#modalSelDistrito option").each(function() {$(this).remove();});
+
+        document.getElementById("modalSelCidade").disabled = false;
+        document.getElementById("modalSelDistrito").disabled = false;
+        document.getElementById("modInputNmVereador").disabled = false;
+        document.getElementById("modCnpjCpfVereador").disabled = false;
+        document.getElementById("btnNomeVereador").disabled = false;
+        document.getElementById("btnCnpjCpfVereador").disabled = false;
+        document.getElementById("modInputNmLoteadora").disabled = false;
+        document.getElementById("modCnpjCpfLoteadora").disabled = false;
+        document.getElementById("btnNomeLoteadora").disabled = false;
+        document.getElementById("btnCnpjCpfLoteadora").disabled = false;
+
+        //Seta o título de acordo com a operacao
+        $("#modal-title").html("Novo Bairro");
+        // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui novo
+        setHeaderFooter("N");
+
+        $.ajax({
+            type: "get",
+            url: '/BairrosNew',
+            dataType: 'json',
+            success: function (dados) {
+                var cidades  = $("#modalSelCidade");
+                cidades.append($('<option selected="true"/>').val("-1").text("Selecione..."));
+                for (var i = 0; i < dados.cidades.length; i++) {
+                    temp = dados.cidades[i];
+                    cidades.append($("<option />").val(temp[0]).text(temp[1]));
+                };
+                $("#modalBairroId").val(dados.bairro[0][0]);
+            }
+        });
+        event.preventDefault();
+        $('#modalBairro').modal({'show':true});        
+    });
+
+    //Update -- Abre modal
+    $(document).on('click','.view_edit', function(){
+        $('#form-Bairros')[0].reset();
+        $("#modalTpOperacao").val('U'); // Update no registro
+        
+        //Seta o título de acordo com a operacao
+        $("#modal-title").html("Edita Bairro");
+        // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui novo
+        setHeaderFooter("E");
+
+        $("#modalSelCidade option").each(function() {$(this).remove();});
+        $("#modalSelDistrito option").each(function() {$(this).remove();});
+
+        document.getElementById("modalSelCidade").disabled = true;
+        document.getElementById("modalSelDistrito").disabled = true;
+
+        var id     = $(this).attr("id");
+        var dados  = { id: id };
+
+        $.ajax({
+            type: "get",
+            url: '/bairrosSearch',
+            data: dados,
+            dataType: 'json',
+            success: function (dados) {
+                console.log(dados);
+                var cidade = $("#modalSelCidade");
+                cidade.append($("<option />").val(dados[0][0]).text(dados[0][0]));
+                
+                var distrito = $("#modalSelDistrito");
+                distrito.append($("<option />").val(dados[0][1]).text(dados[0][1]));
+                
+                $("#modalBairroId").val(dados[0][20]);
+                $("#modalBairroDadosId").val(dados[0][21]);
+                $("#modalInputEstado").val(dados[0][22]);
+                $("#modInputNome").val(dados[0][2]);
+                $("#modInputNmAbrev").val(dados[0][3]);
+                $("#modalDtCriacao").val(dados[0][4]);
+                $("#modalInputLeiCriacao").val(dados[0][5]);
+                $("#modalDtDecreto").val(dados[0][6]);
+                $("#modalInputDecreto").val(dados[0][7]);
+                $("#modalDtPortaria").val(dados[0][8]);
+                $("#modalInputPortaria").val(dados[0][9]);
+                $("#modalInputNmPopular").val(dados[0][12]);
+                $("#modalSelZonaRural").val(dados[0][13]);
+
+                if(dados[0][11]){
+                    $("#modImputIdLoteadora	").val(dados[0][11]);
+                    $("#modInputNmLoteadora").val(dados[0][15]);
+                    $("#modCnpjCpfLoteadora").val(dados[0][19]);
+                    document.getElementById("modInputNmLoteadora").disabled = true;
+                    document.getElementById("modCnpjCpfLoteadora").disabled = true;
+                    document.getElementById("btnNomeLoteadora").disabled = true;
+                    document.getElementById("btnCnpjCpfLoteadora").disabled = true;
+                } else {
+                    document.getElementById("modInputNmLoteadora").disabled = false;
+                    document.getElementById("modCnpjCpfLoteadora").disabled = false;
+                    document.getElementById("btnNomeLoteadora").disabled = false;
+                    document.getElementById("btnCnpjCpfLoteadora").disabled = false;
+                };
+
+                if(dados[0][10]){
+                    $("#modImputIdVereador").val(dados[0][10]);
+                    $("#modInputNmVereador").val(dados[0][14]);
+                    $("#modCnpjCpfVereador").val(dados[0][18]);
+                    document.getElementById("modInputNmVereador").disabled = true;
+                    document.getElementById("modCnpjCpfVereador").disabled = true;
+                    document.getElementById("btnNomeVereador").disabled = true;
+                    document.getElementById("btnCnpjCpfVereador").disabled = true;
+                } else {
+                    document.getElementById("modInputNmVereador").disabled = false;
+                    document.getElementById("modCnpjCpfVereador").disabled = false;
+                    document.getElementById("btnNomeVereador").disabled = false;
+                    document.getElementById("btnCnpjCpfVereador").disabled = false;
+                };
+
+                event.preventDefault();
+                $('#modalBairro').modal({'show':true});    
+
+            }
+        });
+    });
+
+    // Botão de salvar
+    $('#form-Bairros').on('submit', function(event){
+        value = document.getElementById("modalSelCidade").value;
+        if(value == '-1'){
+            var html = 'Informe a Cidade!';
+            $("#msgErro").html(html);
+            $("#msgErro").show();
+            submit = false;
+            return false;
+        };
+
+        value = document.getElementById("modalSelDistrito").value;
+        if(value == '-1'){
+            var html = 'Informe a Distrito!';
+            $("#msgErro").html(html);
+            $("#msgErro").show();
+            submit = false;
+            return false;
+        };
+
+        value = document.getElementById("modInputNome").value;
+        if(!value){
+            var html = 'Informe o nome!';
+            $("#msgErro").html(html);
+            $("#msgErro").show();
+            submit = false;
+            return false;
+        };
+
+        if(submit){
+            // Insere ou faz update dos dados
+            event.preventDefault();
+            //receber dados do formulario
+            var dados = $("#form-Bairros").serialize();
+
+            $.post("bairrosSave",dados,function(response){
+                if(response){
+                    //limpa os dados
+                    $('#form-Bairros')[0].reset();
+
+                    //fecha a janela
+                    $('#modalBairro').modal('hide');
+                    
+                    window.location = "/bairrosList";
+                }else{
+                    $("#msgErro").html(response);
+                }
+            });
+        };
+
+    });
+
+    //Clik no botão nome vereador
+    $(document).on('click', '#btnNomeVereador', function () {
+        nomePessoa = $("#modInputNmVereador").val();
+
+        var dados = {
+            tipoBusca: 'N',
+            cpfCnpj: 0,
+            nomePessoa
+        };
+
+        $.ajax({
+            type: "GET",
+            data: dados,
+            url: '/empresasPessoasBuscaPorDocNome',
+            dataType: 'json',
+            success: function (dados) {
+
+                if(dados.length == 1){
+                    $("#modImputIdVereador").val(dados[0][2]);
+                    $("#modInputNmVereador").val(dados[0][0]);
+                    $("#modCnpjCpfVereador").val(dados[0][1]);
+                } else {
+                    var html = '';
+
+                    for (var i = 0; i < dados.length; i++) {
+                        html += '<tr>' +
+                        '<td>' +
+                            '<input type="checkbox" class="custom-control-input" id="modallistVerChecked" onclick="SetSelVer(this,'+dados[i][2]+', '+"'"+dados[i][1]+"'"+',' +"'"+dados[i][0]+"'" +');">' +
+                        '</td>' +
+                        '<td id="listVereadoresId">' + dados[i][2] + '</td>' +
+                        '<td id="listVereadoresNome">' + dados[i][0] + '</td>' +
+                        '<td id="listVereadoresCpfCgc">' + dados[i][1] + '</td>' +
+                        '<td id="row" style="display:none;">' + i + '</td>' +
+                        '</tr>';
+                    };
+                    $("#modalVereadoresListData").html(html);
+
+                    $('#modalListVereadores').modal({'show':true});
+                };
+            }
+        }); 
+    });
+
+    // click no checkbox Vereador
+    function SetSelVer(elem,id,cnpjcpf,nome) {
+        var lista = document.getElementsByClassName("custom-control-input");
+        var currentState = elem.checked;
+        var elemsLength = lista.length;
+
+        $("#modImputIdVereador").val(id);
+        $("#modCnpjCpfVereador").val(cnpjcpf);
+        $("#modInputNmVereador").val(nome);
+
+        for(i=0; i<elemsLength; i++)
+        {
+            if(lista[i].type === "checkbox")
+            {
+                lista[i].checked = false;   
+            }
+        }
+        elem.checked = currentState;
+    };
+
+    //Clik no botão cpf vereador
+    $(document).on('click', '#btnCnpjCpfVereador', function () {
+        cpfCnpj = $("#modCnpjCpfVereador").val();
+
+        // retira os (.) e (-) do código do cpf ou cnpj
+        cpfCnpj = cpfCnpj.normalize('NFD').replace(/([\u0300-\u036f]|[^0-9a-zA-Z])/g, '');
+
+        cpf_ou_cnpj = cpfCnpj.length;
+        cpf_ou_cnpj <= 11 ? tipoBusca = 'F' : tipoBusca = 'J';
+        nomePessoa = '';
+
+        var dados = {
+            tipoBusca,
+            cpfCnpj,
+            nomePessoa 
+        };
+
+        $.ajax({
+            type: "GET",
+            data: dados,
+            url: '/empresasPessoasBuscaPorDocNome',
+            dataType: 'json',
+            success: function (dados) {
+                $("#modImputIdVereador").val(dados[0][2]);
+                $("#modInputNmVereador").val(dados[0][0]);
+                $("#modCnpjCpfVereador").val(dados[0][1]);
+            }
+        });
+    });
+    // Fim busca vereador
+
+    // Inicio loteadora Clik no botão nome loteadora
+    $(document).on('click', '#btnNomeLoteadora', function () {
+        nomePessoa = $("#modInputNmLoteadora").val();
+
+        var dados = {
+            tipoBusca: 'N',
+            cpfCnpj: 0,
+            nomePessoa
+        };
+
+        $.ajax({
+            type: "GET",
+            data: dados,
+            url: '/empresasPessoasBuscaPorDocNome',
+            dataType: 'json',
+            success: function (dados) {
+                if(dados.length == 1){
+                    $("#modImputIdLoteadora").val(dados[0][2]);
+                    $("#modInputNmLoteadora").val(dados[0][0]);
+                    $("#modCnpjCpfLoteadora").val(dados[0][1]);
+                } else {
+                    var html = '';
+
+                    for (var i = 0; i < dados.length; i++) {
+                        html += '<tr>' +
+                        '<td>' +
+                            '<input type="checkbox" class="custom-control-input" id="modallistVerChecked" onclick="SetSelLot(this,'+dados[i][2]+', '+"'"+dados[i][1]+"'"+',' +"'"+dados[i][0]+"'" +');">' +
+                        '</td>' +
+                        '<td id="listLoteadorasId">' + dados[i][2] + '</td>' +
+                        '<td id="listLoteadoraNome">' + dados[i][0] + '</td>' +
+                        '<td id="listLoteadoraCpfCgc">' + dados[i][1] + '</td>' +
+                        '<td id="row" style="display:none;">' + i + '</td>' +
+                        '</tr>';
+                    };
+                    $("#modalLoteadorasListData").html(html);
+
+                    $('#modalListLoteadoras').modal({'show':true});
+                };
+            }
+        }); 
+    });
+
+    // click no checkbox Loteadora
+    function SetSelLot(elem,id,cnpjcpf,nome) {
+        var lista = document.getElementsByClassName("custom-control-input");
+        var currentState = elem.checked;
+        var elemsLength = lista.length;
+
+        $("#modImputIdLoteadora").val(id);
+        $("#modCnpjCpfLoteadora").val(cnpjcpf);
+        $("#modInputNmLoteadora").val(nome);
+
+        for(i=0; i<elemsLength; i++)
+        {
+            if(lista[i].type === "checkbox")
+            {
+                lista[i].checked = false;   
+            }
+        }
+        elem.checked = currentState;
+    };
+
+    //Clik no botão cnpj loteadora
+    $(document).on('click', '#btnCnpjCpfLoteadora', function () {
+        cpfCnpj = $("#modCnpjCpfLoteadora").val();
+
+        // retira os (.) e (-) do código do cpf ou cnpj
+        cpfCnpj = cpfCnpj.normalize('NFD').replace(/([\u0300-\u036f]|[^0-9a-zA-Z])/g, '');
+
+        cpf_ou_cnpj = cpfCnpj.length;
+        cpf_ou_cnpj <= 11 ? tipoBusca = 'F' : tipoBusca = 'J';
+        nomePessoa = '';
+
+        var dados = {
+            tipoBusca,
+            cpfCnpj,
+            nomePessoa 
+        };
+
+        $.ajax({
+            type: "GET",
+            data: dados,
+            url: '/empresasPessoasBuscaPorDocNome',
+            dataType: 'json',
+            success: function (dados) {
+                $("#modImputIdLoteadora").val(dados[0][2]);
+                $("#modInputNmLoteadora").val(dados[0][0]);
+                $("#modCnpjCpfLoteadora").val(dados[0][1]);
+            }
+        });
+    });
+    // Fim busca loteadora
+
+    function changeCidade() {
+        var cidade = $("#modalSelCidade").val();
+        if (cidade !== -1)  {
+            $.ajax({
+                type: "GET",
+                url: '/distritos?cidade=' + cidade,
+                dataType: 'json',
+                success: function(response) {
+                    $("#modalInputEstado").val(response[0][2]);
+
+                    $("#modalSelDistrito option").each(function() {
+                        $(this).remove();
+                    });
+
+                    var distrito = $("#modalSelDistrito");
+                    distrito.append($("<option />").val("-1").text("Selecione..."));
+                    
+                    var temp = null;
+                    for (var i = 0; i < response.length; i++) {
+                        temp = response[i];
+                        distrito.append($("<option />").val(temp[0]).text(temp[1]));
+                    }
+                },
+                error: function(response) {
+                    console.log(response);
+                }
+            });
+        };
+    };
+
+</script>

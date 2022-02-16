@@ -1,0 +1,86 @@
+﻿<!-- Modal Del tipo logradouro -->
+<div id="modalDelete" class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div id="ModalHeaderDelEmp" class="modal-header class_header_del">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 class="modal-title white-text w-100 font-weight-bold py-2">Confirma excluir Tipo Logradouro?</h4>
+            </div>
+
+            <form class="form-add" name="tveModalDel" id="tveModalDel" method="post">
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label for="modDelTpLogradId">id</label>
+                        <input type="text" class="form-control" id="modDelTpLogradId" name="modDelTpLogradId" readonly>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="modDelTpLogradDescricao">Descrição</label>
+                        <input type="text" class="form-control" id="modDelTpLogradDescricao" name="modDelTpLogradDescricao" readonly>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="modDelTpLogradSigla">Sigla</label>
+                        <input type="text" class="form-control" id="modDelTpLogradSigla" name="modDelTpLogradSigla" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer"></div>
+    
+                    <div id="ModalFooterDelEmp" class="modal-footer class_footer_del">
+                        <button type="button" class="btn  btn-success" data-dismiss="modal">Não</button>
+                        <input type="button" onclick="excluir()" value="Sim" class="btn">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var id = 0;
+
+        $(document).ready(function(){
+            $(document).on('click','.view_data', function(){
+
+                id = $(this).attr("id");
+                var dados = {id: id};
+
+                $.ajax({
+                    type: "post",
+                    url: '/tiposLogradourosModalVisu',
+                    data: dados,
+                    dataType: 'json',
+                    success: function(response) {
+
+                        id = response[0][0];
+
+                        $("#modDelTpLogradId").val(response[0][0]);
+                        $("#modDelTpLogradDescricao").val(response[0][1]);
+                        $("#modDelTpLogradSigla").val(response[0][2]);
+                        $('#modalDelete').modal({show: true}); 
+                    }
+                });
+            });
+        });
+
+        function excluir() {
+
+            $.ajax({
+                type: "delete",
+                url: '/tiposLogradourosDelete',
+                data: {id: id},
+                dataType: 'json',
+                success: function(response) {
+                    $('#modalDelete').modal('hide');
+                    window.location.href = '/tiposLogradourosList';
+                },
+                error: function(response) {
+                    console.log(response);
+                }
+            });
+        }
+    </script>
+</div>

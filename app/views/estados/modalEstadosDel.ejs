@@ -1,0 +1,92 @@
+﻿<!-- Modal -->
+<div id="modalEstadoDel" class="modal fade" id="modalScrollable" tabindex="-1" role="dialog" aria-labelledby="modalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div id="ModalHeaderDelEmp" class="modal-header class_header_del">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 class="modal-title white-text w-100 font-weight-bold py-2">Confirma excluir Estado?</h4>
+            </div>
+
+            <form class="form-add" name="estadoModalDelete" id="estadoModalDelete" method="post">
+                <div class="form-group col-md-2">
+                    <label for="modalEstadoId">Id</label>
+                    <input type="text" class="form-control" id="modalEstadoId" name="modalEstadoId" readonly>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label for="modalEstadoPais">País</label>
+                    <input type="text" class="form-control" id="modalEstadoPais" name="modalEstadoPais" readonly>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="modalEstadoNome">Nome</label>
+                    <input type="text" class="form-control" id="modalEstadoNome" name="modalEstadoNome" readonly>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label for="modalEstadoSigla">Sigla</label>
+                    <input type="text" class="form-control" id="modalEstadoSigla" name="modalEstadoSigla" readonly>
+                </div>
+
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer"></div>
+    
+                    <div id="ModalFooterDelEmp" class="modal-footer class_footer_del">
+                        <button type="button" class="btn  btn-success" data-dismiss="modal">Não</button>
+                        <input type="button" onclick="excluir()" value="Sim" class="btn">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+    
+<script>
+    var id = 0;
+
+    $(document).ready(function(){
+        $(document).on('click','.view_data', function(){
+
+            id = $(this).attr("id");
+            var dados = {id: id};
+
+            $.ajax({
+                type: "post",
+                url: '/estadosEdit',
+                data: dados,
+                dataType: 'json',
+                success: function(response) {
+
+                    id = response[0][0];
+
+                    $("#modalEstadoId").val(response[0][0]);
+                    $("#modalEstadoPais").val(response[0][3]);
+                    $("#modalEstadoNome").val(response[0][1]);
+                    $("#modalEstadoSigla").val(response[0][2]);
+
+
+                    $('#modalEstadoDel').modal({show: true}); 
+                }
+            });
+        });
+    });
+
+    function excluir() {
+        $.ajax({
+            type: "delete",
+            url: '/estadosDelete',
+            data: {id: id},
+            dataType: 'json',
+            success: function(response) {
+                $('#modalDelete').modal('hide');
+                window.location.href = '/estadosList';
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+    }
+</script>
+    

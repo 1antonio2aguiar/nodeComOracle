@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html style="background-color: #efefef;">
+    <head>
+        <title>Pessoa Jurídica</title>
+
+        <!-- define a viewport -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="utf-8">
+
+        <!-- adicionar CSS Bootstrap -->
+        <link href="../css/bootstrap.min.css" rel="stylesheet" media="all">
+
+        <!-- css personalizado -->
+        <link href="../css/estilo.css" rel="stylesheet" media="all">
+    </head>
+    <body>
+        <div class="container-fluid" style="background-color: #efefef;">
+            <!-- Menu Principal -->
+            <% include ../index/menuInclude %>
+        
+            <div class="col-xs-12" id="tabs" style="background-color: #efefef;">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="pessoa-tab" data-toggle="tab" href="#pessoaPj" role="tab"
+                            aria-controls="pessoaJuridica" aria-selected="true">Pessoa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="enderecos-tab" data-toggle="tab" href="#enderecos" role="tab"
+                            aria-controls="enderecosPessoaJuridica" aria-selected="false">Endereços</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="documentos-tab" data-toggle="tab" href="#documentos" role="tab"
+                            aria-controls="documentos" aria-selected="false">Documentos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="contatos-tab" data-toggle="tab" href="#contatos" role="tab"
+                            aria-controls="settings" aria-selected="false">Contatos</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <!-- Arquivo com html da aba de pessoa juridica -->
+                    <% include htmlAbaPessoaJuridica %>
+
+                    <!-- Arquivo com html da aba de endereços -->
+                    <% include htmlAbaEnderecos %>
+                    
+                    <!-- Arquivo com html da aba de documentos -->
+                    <% include htmlAbaDocumentos %>
+
+                    <!-- Arquivo com html da aba de contados -->
+                    <% include htmlAbaContatos %>
+
+                </div>
+            </div>
+        </div>
+
+        <script src="js/jquery-1.11.1.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        
+        <script src="js/jquery-3.4.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>        
+        <script src="js/main.js"></script>
+
+    </body>
+
+    <!-- Modal Novo Endereço -->
+    <% include modalNewEndereco %>
+
+    <!-- Modal Edita endereço -->
+    <% include modalEditEndereco %>
+
+    <!-- Modal Detalha endereço -->
+    <% include modalSearchEndereco %>
+
+    <!-- Modal Deleta endereço -->
+    <% include modalDelEndereco %>
+
+    <!-- Modal Novo Documento -->
+    <% include modalNewDocumento %>
+
+    <!-- Modal Edita Documento -->
+    <% include modalEditDocumento %>
+
+    <!-- Modal Deleta Documento -->
+    <% include modalDelDocumento %>
+
+    <!-- Modal Consulta Documento -->
+    <% include modalSearchDocumento %>
+
+    <!-- Modal Novo Contato -->
+    <% include modalNewContato %>
+
+    <!-- Modal Deleta Contato -->
+    <% include modalDelContato %>
+
+
+    <!-- Script monta listas -->
+    <% include montaListas %>
+
+    <script>
+        var id_pessoa = null;
+
+        $(document).ready(function () {
+
+            // Chama funcao que monta a lista de enderecos que esta no arquivo monta listas
+            $("#enderecos-tab").click(function() {
+                montaListaEnderecos();
+            });
+
+            // Chama funcao que monta a lista de documentos que esta no arquivo monta listas
+            $("#documentos-tab").click(function() {
+                montaListaDocumentos();
+            });
+
+            // Chama funcao que monta a lista de contatos que esta no arquivo monta listas
+            $("#documentos-tab").click(function() {
+                montaListaContatos();
+            });
+
+            $("#btnCancelar").click(function() {
+                var filtercnpjcpf      = $("#inputFiltercpf").val();
+                var filternomePessoa   = $("#inputFilterNome").val();
+                //alert('ta no voltar! ' + filtercnpjcpf + ' ' + filternomePessoa);
+
+                window.location.href = "/pessoasList?inputNome="+filternomePessoa+"&&inputCpf="+filtercnpjcpf;
+            });
+            
+        });
+
+
+    </script>
+
+</html>

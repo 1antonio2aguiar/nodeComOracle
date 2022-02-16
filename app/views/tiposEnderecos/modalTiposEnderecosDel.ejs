@@ -1,0 +1,67 @@
+﻿<div id="modalDelete" class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div id="ModalHeaderDelEmp" class="modal-header class_header_del">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 class="modal-title white-text w-100 font-weight-bold py-2">Confirma excluir Tipo Endereço?</h4>
+            </div>
+
+            <form class="form-add" name="tveModalDel" id="tveModalDel" method="post">
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label for="modDelTpEnderecoId">id</label>
+                        <input type="text" class="form-control" id="modDelTpEnderecoId" name="modDelTpEnderecoId" disabled="true">
+                    </div>
+
+                    <div class="form-group col-md-10">
+                        <label for="modDelTpEnderecoDescricao">Descrição</label>
+                        <input type="text" class="form-control" id="modDelTpEnderecoDescricao" name="modDelTpEnderecoDescricao" disabled="true">
+                    </div>
+                </div>
+
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer"></div>
+    
+                    <div id="ModalFooterDelEmp" class="modal-footer class_footer_del">
+                        <button type="button" class="btn  btn-success" data-dismiss="modal">Não</button>
+                        <input type="button" onclick="excluir()" value="Sim" class="btn">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    var id = 0;
+    var descricao = '';
+
+    $(document).on('click','.view_data', function(){
+
+        id        = $(this).attr("id");
+        descricao = $(this).attr("descricao");
+
+        $("#modDelTpEnderecoId").val(id);
+        $("#modDelTpEnderecoDescricao").val(descricao);
+
+        $('#modalDelete').modal({show: true}); 
+    });
+
+    function excluir() {
+        $.ajax({
+            type: "delete",
+            url: '/tiposEnderecosDelete',
+            data: {id: id},
+            dataType: 'json',
+            success: function(response) {
+                $('#modalDelete').modal('hide');
+                window.location.href = '/tiposEnderecosList';
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+    }
+</script>

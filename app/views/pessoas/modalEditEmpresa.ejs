@@ -1,0 +1,68 @@
+﻿<div id="modalEmpresaNew" class="modal hide bd-example-modal-lg-edit" tabindex="-1" role="dialog-edit" aria-hidden="true"  aria-labelledby="myLargeModalLabelNew">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content edit">
+            <div class="modal-header">
+                <h3 class="modal-edit-title" id="New">Nova Empresa</h3>
+            </div>
+
+            <form class="form-add" name="empresaModalNew" id="empresaModalNew" method="post">
+                <div class="form-row">
+                    <div class="row">
+                        <input type="text" class="form-control" id="empModalNewIdPessoa" name="empModalNewIdPessoa" value="<%=pessoa[0][0]%>" style="display:none;">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="empModalNewNome">Nome</label>
+                        <input type="text" class="form-control" id="empModalNewNome" name="empModalNewNome" readonly>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="empModalNewCpf">C.P.F</label>
+                        <input type="text" class="form-control" id="empModalNewCpf" name="empModalNewCpf" readonly>
+                    </div>
+                </div>
+
+
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-info" data-dismiss="modal">Fechar</button>
+                        <input type="submit" name="btnModSubmit" id="btnModSubmit" value="Enviar" class="btn btn-outline-info">
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    //abre modal para novo registro
+    $(document).on('click', '#btnNewEmpresa', function () {
+        event.preventDefault();
+        
+        var nomePessoa   = $("#inputNome").val();
+        var cpf          = $("#inputCpf").val();
+
+        $("#empModalNewNome").val(nomePessoa);
+        $("#empModalNewCpf").val(cpf);
+
+        $('#modalEmpresaNew').modal({'show':true});
+
+        /*$.ajax({
+            type: "GET",
+            url: '/enderecosModalNew',
+            data: dados,
+            dataType: 'json',
+            success: function (response) {
+                var html = '';
+
+                $('#modalEnderNew').modal({'show':true});
+            }
+        });*/
+    });
+</script>

@@ -1,0 +1,203 @@
+﻿<div class="tab-pane active" id="pessoa" role="tabpanel" aria-labelledby="home-tab">
+    <nav class="navbar navbar-filter-tab navbar-inverse" role="navigation">
+        <div class="col-md-11">
+            <p class="h4" style="margin-top:13px;">Pessoa: <%=pessoa[0][2]%></p>
+        </div>
+    </nav>
+    <form class="form-add" action="/pessoaFisicaUpdate" method="post">
+        
+        <input type="text" class="form-control" id="inputFilterNome" name="inputFilterNome" value="<%=filterNome%>" style="display:none;">
+        <input type="text" class="form-control" id="inputFiltercpf" name="inputFiltercpf" value="<%=filtercnpjcpf%>" style="display:none;">
+
+        <div class="form-row">
+            <div class="form-group col-md-1">
+                <label for="inputNomepf">ID</label>
+                <input type="text" class="form-control" id="inputIdpf" name="inputIdpf" value="<%=pessoa[0][0]%>" readonly>
+            </div>
+
+            <div class="form-group col-md-5">
+                <label for="inputNomepf">Nome</label>
+                <input type="text" class="form-control" id="inputNomepf" name="inputNomepf" placeholder="Nome" value="<%=pessoa[0][2]%>">
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="inputTpPessoapf">Tipo Pessoa</label>
+                <select class="form-control" name="inputTpPessoapf" id="inputTpPessoapf">
+                    <option value="-1">Selecione...</option>
+                    <% for(var i = 0; i < tipos_pessoas.length; i++) { %>
+                        <% if (tipos_pessoas[i][0] == pessoa[0][1]) { %>
+                        <option value="<%=tipos_pessoas[i][0]%>" selected="true"><%=tipos_pessoas[i][1]%>
+                        </option>
+                        <% } else { %>
+                        <option value="<%=tipos_pessoas[i][0]%>"><%=tipos_pessoas[i][1]%></option>
+                        <% } %>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="inputCpfpf">C.P.F</label>
+                <input type="text" class="form-control" id="inputCpfpf" name="inputCpfpf" placeholder="CPF"  onfocus="$(this).mask('000.000.000-00')" value="<%=pessoa[0][6]%>">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="inputDtRegistropf">Data Registro/Nascimento</label>
+                <input type="date" id="inputDtRegistropf" name="inputDtRegistropf" class="form-control"
+                    value="<%=pessoa[0][4]%>">
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="inputSexopf">Sexo</label>
+                <select class="form-control" name="inputSexopf" id="inputSexopf">
+                    <option value="-1">Selecione...</option>
+                    <%var sexo = 'M', descricao = 'MASCULINO'%>
+                    <% for(var i = 0; i < 2; i++) { %>
+                        <% if (pessoa[0][13] == sexo) { %>
+                            <option value="<%=sexo%>" selected="true"><%=descricao%></option>
+                        <% } else { %>
+                            <option value="<%=sexo%>"><%=descricao%></option>
+                        <% } %>
+                        <%sexo = 'F', descricao = 'FEMININO'%>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="inputEstadoCivilpf">Estado Civil</label>
+                <select class="form-control" name="inputEstadoCivilpf" id="inputEstadoCivilpf">
+                    <option value="-1">Selecione...</option>
+                    <% for(var i = 0; i < estados_civis.length; i++) { %>
+                        <% if (pessoa[0][14] == estados_civis[i][1]) { %>
+                            <option value="<%=estados_civis[i][1]%>" selected="true"><%=estados_civis[i][2]%> </option>
+                        <% } else { %>
+                            <option value="<%=estados_civis[i][1]%>"><%=estados_civis[i][2]%></option>
+                        <% } %>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="inputCartaoSuspf">Nº Cartão SUS</label>
+                <input type="text" class="form-control" id="inputCartaoSuspf" name="inputCartaoSuspf"
+                    placeholder="Nº Cartão SUS" value="<%=pessoa[0][12]%>">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="inputRacapf">Raça</label>
+                <select class="form-control" name="inputRacapf" id="inputRacapf">
+                    <option value="-1">Selecione...</option>
+                    <% for(var i = 0; i < raca.length; i++) { %>
+                        <% if (raca[i].selected == true) { %>
+                            <option value="<%=raca[i].value%>" selected="true"><%=raca[i].display%></option>
+                        <% } else { %>
+                            <option value="<%=raca[i].value%>"><%=raca[i].display%></option>
+                        <% } %>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="inputEtniapf">Etnia</label>
+                <select class="form-control" name="inputEtniapf" id="inputEtniapf">
+                    <option value="-1">Selecione...</option>
+                    <% for(var i = 0; i < etnias.length; i++) { %>
+                        <% if (pessoa[0][9] == etnias[i][0]) { %>
+                            <option value="<%=etnias[i][0]%>" selected="true"><%=etnias[i][1]%></option>
+                        <% } else { %>
+                            <option value="<%=etnias[i][0]%>"><%=etnias[i][1]%></option>
+                        <% } %>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="inputCorpf">Cor</label>
+                <select class="form-control" name="inputCorpf" id="inputCorpf">
+                    <option value="-1">Selecione...</option>
+                    <% for(var i = 0; i < cor.length; i++) { %>
+                        <% if (cor[i].selected == true) { %>
+                            <option value="<%=cor[i].value%>" selected="true"><%=cor[i].display%></option>
+                        <% } else { %>
+                            <option value="<%=cor[i].value%>"><%=cor[i].display%></option>
+                        <% } %>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="inputBolsaFamiliapf">Bolsa Familia?</label>
+                <select class="form-control" name="inputBolsaFamiliapf" id="inputBolsaFamiliapf">
+                    <% if (pessoa[0][11] == 'S') { %>
+                        <option value="S" selected="true">SIM</option>
+                        <option value="N">NÃO</option>
+                    <% } else { %>
+                        <option value="S">SIM</option>
+                        <option value="N" selected="true">NÃO</option>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="col-md-1">
+                <label for="inputMesEnvioSicompf">Mes Sicom</label>
+                <input type="text" class="form-control" id="inputMesEnvioSicompf" name="inputMesEnvioSicompf" value="<%=pessoa[0][18]%>" disabled>
+            </div>
+
+            <div class="col-md-1">
+                <label for="inputAnoEnvioSicompf">Ano Sicom</label>
+                <input type="text" class="form-control" id="inputAnoEnvioSicompf" name="inputAnoEnvioSicompf" value="<%=pessoa[0][19]%>" disabled>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="inputTpPessoapf">Cidade Nascimento</label>
+                <select class="form-control" name="inputCidadeNascimentopf" id="inputCidadeNascimentopf">
+                    <option value="-1">Selecione...</option>
+                    <% for(var i = 0; i < cidades.length; i++) { %>
+                        <% if (cidades[i][0] == pessoa[0][15]) { %>
+                            <option value="<%=cidades[i][0]%>" selected="true"><%=cidades[i][1]%></option>
+                        <% } else { %>
+                            <option value="<%=cidades[i][0]%>"><%=cidades[i][1]%></option>
+                        <% } %>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="inputNmsocialpf">Nome Social</label>
+                <input type="text" class="form-control" id="inputNmsocialpf" name="inputNmsocialpf" placeholder="Nome social" value="<%=pessoa[0][7]%>">
+            </div>
+
+            <div class="col-md-3">
+                <label for="inputNomePaipf">Nome Pai</label>
+                <input type="text" class="form-control" id="inputNomePaipf" name="inputNomePaipf" placeholder="Nome do pai" value="<%=pessoa[0][17]%>">
+            </div>
+
+            <div class="col-md-3">
+                <label for="inputNomeMaepf">Nome Mãe</label>
+                <input type="text" class="form-control" id="inputNomeMaepf" name="inputNomeMaepf" placeholder="Nome da mãe" value="<%=pessoa[0][16]%>">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="inputObspf">Observação</label>
+                <input type="text" class="form-control" id="inputObspf" name="inputObspf"
+                    placeholder="Observação" value="<%=pessoa[0][5]%>">
+            </div>
+        </div>
+
+        <div class="form-row" id="actions">
+            <div class="col-md-12 class_footer_buton">
+                <button type="button" name="btnCancelar" id="btnCancelar" class="btn btn-outline-info" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-outline-info">Enviar</button>
+            </div>
+        </div>
+
+        
+    </form>
+</div>

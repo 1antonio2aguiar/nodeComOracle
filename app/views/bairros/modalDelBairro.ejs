@@ -1,0 +1,93 @@
+﻿<div id="modalBairroDel"  class="modal bd-example-modal-lg-edit" tabindex="-1" role="dialog" aria-hidden="true"  aria-labelledby="myLargeModalLabelNew">        
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content edit">
+            <div id="ModalHeaderDelEmp" class="modal-header class_header_del">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 class="modal-title white-text w-100 font-weight-bold py-2">Confirma excluir Bairro?</h4>
+            </div>
+
+            <form>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="modDelBairroCidade">Cidade</label>
+                        <input type="text" class="form-control" id="modDelBairroCidade" name="modDelBairroCidade" readonly>
+                    </div>
+        
+                    <div class="form-group col-md-4">
+                        <label for="modDelBairroDistrito">Distrito</label>
+                        <input type="text" class="form-control" id="modDelBairroDistrito" name="modDelBairroDistrito" readonly>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modDelBairroEstado">Estado</label>
+                        <input type="text" class="form-control" id="modDelBairroEstado" name="modDelBairroEstado" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="modDelBairroBairro">Bairro</label>
+                        <input type="text" class="form-control" id="modDelBairroBairro" name="modDelBairroBairro" disabled="true">
+                    </div>
+                </div>
+
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer"></div>
+    
+                    <div id="ModalFooterDelEmp" class="modal-footer class_footer_del">
+                        <button type="button" class="btn  btn-success" data-dismiss="modal">Não</button>
+                        <input type="button" onclick="excluirBairro()" value="Sim" class="btn">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    var id = 0;
+    var dados = {};
+
+    //Delete abre modal
+    $(document).on('click','.view_data', function(){
+        id     = $(this).attr("id");
+
+        dados = { id: id };
+
+        $.ajax({
+            type: "get",
+            url: '/bairrosSearch',
+            data: dados,
+            dataType: 'json',
+            success: function (dados) {
+                $("#modDelBairroCidade").val(dados[0][0]);
+                $("#modDelBairroDistrito").val(dados[0][1]);
+                $("#modDelBairroEstado").val(dados[0][22]);
+                $("#modDelBairroBairro").val(dados[0][2]);
+                
+                event.preventDefault();
+                $('#modalBairroDel').modal({'show':true});
+            }
+        });
+    });
+
+    // Exclui registro
+    function excluirBairro() {
+        $.ajax({
+            type: "delete",
+            url: '/bairrosDelete',
+            data: dados,
+            dataType: 'json',
+            success: function(response) {
+                $('#modalBairroDel').modal('hide');
+                window.location = '/BairrosList';
+            },
+            error: function(response) {
+                $('#modalBairroDel').modal('hide');
+                window.location = '/BairrosList';
+            }
+        });
+    };
+</script>

@@ -1,0 +1,26 @@
+{
+  "name": "pessoas",
+  "version": "1.0.0",
+  "description": "novo cadastro de pessoas.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./index.js"
+  },
+  "author": "Antonio Aguiar",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "consign": "^0.1.6",
+    "ejs": "^2.6.2",
+    "express": "^4.17.1",
+    "express-session": "^1.16.2",
+    "express-validator": "^5.3.1",
+    "js-hibernate": "^1.0.14",
+    "moment": "^2.24.0",
+    "oracledb": "file:node-oracledb"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  }
+}

@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html style="background-color: #efefef;">
+    <head>
+        <title>Cadastro de Pessoas</title>
+
+        <!-- define a viewport -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="utf-8">
+
+        <!-- adicionar CSS Bootstrap -->
+        <link href="../css/bootstrap.min.css" rel="stylesheet" media="all">
+
+        <!-- css personalizado -->
+        <link href="../css/estilo.css" rel="stylesheet" media="all">
+    </head>
+    <body>
+        <div class="container-fluid" style="background-color: #efefef;">
+            <!-- Menu Principal -->
+            <% include ../index/menuInclude %>
+            
+            <div class="col-xs-12" id="tabs" style="background-color: #efefef;">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="pessoa-fisica-tab" data-toggle="tab" href="#pessoaFisica" role="tab"
+                            aria-controls="pessoaFisica" aria-selected="true">Pessoa Física</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pessoa-juridica-tab" data-toggle="tab" href="#pessoaJuridica" role="tab"
+                            aria-controls="pessoaJuridica" aria-selected="false">Pessoa Jurídica</a>
+                    </li>
+                </ul>
+    
+                <div class="tab-content">
+                    <!-- Arquivo com html da aba de pessoa fisica -->
+                    <% include htmlPessoaFisicaNew %>
+    
+                    <!-- Arquivo com html da aba de pessoa fisica -->
+                    <% include htmlPessoaJuridicaNew %>
+                </div>
+            </div>
+        </div>
+        
+        <script src="js/jquery-3.4.1.min.js"></script>
+        <script src="js/jquery-1.11.1.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        
+        <script src="js/jquery-3.4.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>        
+        <script src="js/main.js"></script>
+        <script src='http://momentjs.com/downloads/moment.min.js'></script>
+
+    </body>
+
+    <script>
+        var html = '';
+        var submit = true;
+        var value  = '';
+
+        function validaCampospj(){
+            value = document.getElementById("inputNomepj").value;
+            if (!value ){
+                var html = 'Informe o nome!';
+                $("#msgErropj").html(html);
+                $("#msgErropj").show();
+                submit = false;
+                return;
+            };
+
+            value = document.getElementById("inputTpPessoapj").value; //valor do select
+            if(value == '-1'){
+                var html = 'Informe o tipo de pessoa!';
+                $("#msgErropj").html(html);
+                $("#msgErropj").show();
+                submit = false;
+                return;
+            };
+
+            value = document.getElementById("inputCnpj").value;
+            if (!value ){
+                var html = 'Informe o CNPJ!';
+                $("#msgErropj").html(html);
+                $("#msgErropj").show();
+                submit = false;
+                return;
+            };
+
+            value = document.getElementById("inputTpEmpresapj").value; //valor do select
+            if(value == '-1'){
+                var html = 'Informe o tipo da empresa!';
+                $("#msgErropj").html(html);
+                $("#msgErropj").show();
+                submit = false;
+                return;
+            };
+
+            if(submit){
+                $("#form-pessoa-juridica").submit();
+            }
+        };
+        
+        function validaCampospf(){
+            value = document.getElementById("inputNomepf").value;
+            if (!value ){
+                var html = 'Informe o nome pessoa!';
+                $("#msgErropf").html(html);
+                $("#msgErropf").show();
+                submit = false;
+                return;
+            };
+
+            value = document.getElementById("inputTpPessoapf").value;//valor do select
+            if(value == '-1'){
+                var html = 'Informe o tipo de pessoa!';
+                $("#msgErropf").html(html);
+                $("#msgErropf").show();
+                submit = false;
+                return;
+            };
+
+            value = document.getElementById("inputDtRegistropf").value;
+            if (!value ){
+                var html = 'Informe a data de nascimento da pessoa!';
+                $("#msgErropf").html(html);
+                $("#msgErropf").show();
+                submit = false;
+                return;
+            } else {
+                if(moment(value).isAfter(new Date())){
+                    var html = 'A data de nascimento não pode ser maior que a data atual!';
+                    $("#msgErropf").html(html);
+                    $("#msgErropf").show();
+                    submit = false;
+                    return;
+                }
+            };
+            value = document.getElementById("inputSexopf").value;
+            if(value == '-1'){
+                var html = 'Informe o sexo da pessoa!';
+                $("#msgErropf").html(html);
+                $("#msgErropf").show();
+                submit = false;
+                return;
+            };
+
+            value = document.getElementById("inputEstadoCivilpf").value;
+            if(value == '-1'){
+                var html = 'Informe o estado civil da pessoa!';
+                $("#msgErropf").html(html);
+                $("#msgErropf").show();
+                submit = false;
+                return;
+            };
+
+            if(submit){
+                $("#form-pessoa-fisica").submit();
+            }
+        };
+
+        function escondeMsg() {
+            document.getElementById("msgErropf").style.display = "none";
+            document.getElementById("msgErropj").style.display = "none";
+        };
+
+        // Seta fisica ou Juridica de acordo com a aba clicada
+        $("#pessoa-fisica-tab").click(function() {
+            $("#inputFisJur").val('F');
+        });
+
+        $("#pessoa-juridica-tab").click(function() {
+            $("#inputFisJurpj").val('J');
+        });
+        
+    </script>
+</html>

@@ -1,0 +1,497 @@
+﻿<div id="modalEnderNew" class="modal hide bd-modal-lg-edit" tabindex="-1" role="dialog-edit" aria-hidden="true"  aria-labelledby="myLargeModalLabelNew">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content edit">
+            <div id="ModalHeaderNewEnd" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 class="modal-title modal-edit-title" id="New">Novo Endereço</h4>
+            </div>
+
+            <form class="form-add" name="enderModalNew" id="enderModalNew" method="post">
+                <div class="form-row">
+                    <div class="row">
+                        <div class="alert alert-danger input-lg col-md-12 msg-error" role="alert" name="msgErro" id="msgErro" style="display:none;"></div>
+                        <input type="text" class="form-control" id="modNewIdPessoa" name="modNewIdPessoa" value="<%=pessoa[0][0]%>"style="display:none;">
+                    </div>
+
+                    <div class="form-group col-md-7">
+                        <label for="modNewNome">Nome</label>
+                        <input type="text" class="form-control" id="modNewNome" name="modNewNome" readonly>
+                    </div>
+
+                    <div class="form-group col-md-5">
+                        <label id="lbmodNewCpfCnpj"for="modNewCpfCnpj"></label>
+                        <input type="text" class="form-control" id="modNewCpfCnpj" name="modNewCpfCnpj" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="modNewTipoEndereco">Tipo Endereço</label>
+                        <select class="form-control" name="modNewTipoEndereco" id="modNewTipoEndereco" onchange="escondeMsg()">
+                            <option value="-1">Selecione...</option>
+                            <% for(var i = 0; i < tiposEndereco.length; i++) { %>
+                                <option value="<%=tiposEndereco[i][0]%>"><%=tiposEndereco[i][1]%></option>
+                            <% } %> 
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="modNewNomeCidade">Cidade</label>
+                        <select class="form-control" name="modNewCidade" id="modNewCidade" onchange="changeCidade(), escondeMsg()">
+                            <option value="-1">Selecione...</option>
+                            <% for(var i = 0; i < cidades.length; i++) { %>
+                                <option value="<%=cidades[i][0]%>"><%=cidades[i][1]%> - <%=cidades[i][2]%></option>
+                            <% } %> 
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="modNewDistrito">Distrito</label>
+                        <select class="form-control" name="modNewDistrito" id="modNewDistrito" onchange="changeDistrito(), escondeMsg()">
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="modNewBairro">Bairro</label>
+                        <select class="form-control" name="modNewBairro" id="modNewBairro" onchange="escondeMsg()">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label for="modNewTipoLogradouro">Tipo Logradouro</label>
+                        <select class="form-control" name="modNewTipoLogradouro" id="modNewTipoLogradouro" onchange="escondeMsg()">
+                            <option value="-1">Selecione...</option>
+                            <% for(var i = 0; i < tiposLogradouros.length; i++) { %>
+                                <option value="<%=tiposLogradouros[i][0]%>"><%=tiposLogradouros[i][1]%></option>
+                            <% } %> 
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="modNewLogradouro">Logradouro</label>
+                        <select class="form-control" name="modNewLogradouro" id="modNewLogradouro" onchange="escondeMsg()">
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modNewNumero">Número</label>
+                        <input type="text" class="form-control is-invalid" id="modNewNumero" name="modNewNumero" onchange="changeNumero()">
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modNewComplemento">Complemento</label>
+                        <input type="text" class="form-control" id="modNewComplemento" name="modNewComplemento">
+                    </div>
+                </div>
+
+                <div class="form-row col-md-4">
+                        <label for="modNewCep">C.E.P</label>
+                    <div class="input-group">
+                        <input name="modNewCep" class="form-control is-invalid" id="modNewCep" type="text" onfocus="$(this).mask('00.000-000')" onchange="escondeMsg()">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button" name="btnModNewCep" id="btnModNewCep">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                    <div class="row">
+                        <input type="text" class="form-control" id="modNewIdCep" name="modNewIdCep" value="<%=pessoa[0][0]%>" style="display:none;">
+                    </div>
+                </div>
+
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer">
+                    </div>
+
+                    <div id="ModalFooterNewEnd" class="modal-footer">
+                        <button type="button" class="btn btn-outline-info" data-dismiss="modal">Fechar</button>
+                        <input type="button" name="btnModSubmit" id="btnModSubmit" value="Enviar" class="btn btn-outline-info" onclick="validaCamposEndereco();">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var statusChangeSelect = new Boolean(false);
+
+        //NOVO
+        $(document).on('click', '#btnNew', function () {
+            // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui novo
+            setHeaderFooterEnd("N");
+
+            // Limpa a lista
+            $("#modNewDistrito option").each(function() {$(this).remove();});
+            $("#modNewBairro option").each(function() {$(this).remove();});
+            $("#modNewLogradouro option").each(function() {$(this).remove();});
+
+            //esconde msg de erro
+            document.getElementById("msgErro").style.display = "none";
+            //limpa os dados
+            $('#enderModalNew')[0].reset();
+
+            event.preventDefault();
+            
+            var nomePessoa   = $("#inputNomepf").val();
+            cpfCnpj          = $("#inputCpfpf").val();
+
+            if(!cpfCnpj){
+                cpfCnpj      = $("#inputCnpjpj").val();
+                nomePessoa   = $("#inputNomepj").val();
+                document.getElementById("lbmodNewCpfCnpj").innerHTML = 'C.N.P.J';
+            } else {
+                document.getElementById("lbmodNewCpfCnpj").innerHTML = 'C.P.F';                
+            }
+
+            $("#modNewNome").val(nomePessoa);
+            $("#modNewCpfCnpj").val(cpfCnpj);
+
+            $.ajax({
+                type: "GET",
+                url: '/enderecosModalNew',
+                dataType: 'json',
+                success: function (response) {
+                    var html = '';
+                    $('#modalEnderNew').modal({'show':true});
+                }
+            });
+        });
+
+        function changeCidade() {
+            var cidade = $("#modNewCidade").val();
+
+            if (cidade !== -1)  {
+                $.ajax({
+                    type: "GET",
+                    url: '/distritos?cidade=' + cidade,
+                    dataType: 'json',
+                    success: function(response) {
+                        $("#modNewDistrito option").each(function() {
+                            $(this).remove();
+                        });
+
+                        var distrito = $("#modNewDistrito");
+                        distrito.append($("<option />").val("-1").text("Selecione..."));
+                        
+                        var temp = null;
+                        for (var i = 0; i < response.length; i++) {
+                            temp = response[i];
+                            distrito.append($("<option />").val(temp[0]).text(temp[1]));
+                        }
+                    },
+                    error: function(response) {
+                        console.log(response);
+                    }
+                });
+            };
+        };
+
+
+        function changeDistrito() {
+            var cidade  ;
+            var distrito;
+
+            var dados = {
+                cidade   : $("#modNewCidade").val(),
+                distrito : $("#modNewDistrito").val() 
+            };
+
+            if (cidade !== -1  && distrito !== -1)  {
+                $.ajax({
+                    type: "GET",
+                    data: dados,
+                    url: '/bairrosDdw',
+                    dataType: 'json',
+                    success: function(response) {
+                        $("#modNewBairro option").each(function() {
+                            $(this).remove();
+                        });
+
+                        var bairro = $("#modNewBairro");
+                        bairro.append($("<option />").val("-1").text("Selecione..."));
+
+                        var temp = null;
+                        for (var i = 0; i < response.length; i++) {
+                            temp = response[i];
+                            bairro.append($("<option />").val(temp[0]).text(temp[1]));
+                        }
+                    },
+                    error: function(response) {
+                        console.log(response);
+                    }
+                });
+
+                $.ajax({
+                    type: "GET",
+                    data: dados,
+                    url: '/logradourosDdw',
+                    dataType: 'json',
+                    success: function(response) {
+                        $("#modNewLogradouro option").each(function() {
+                            $(this).remove();
+                        });
+
+                        var logradouro = $("#modNewLogradouro");
+                        logradouro.append($("<option />").val("-1").text("Selecione..."));
+
+                        var temp = null;
+                        for (var i = 0; i < response.length; i++) {
+                            temp = response[i];
+                            logradouro.append($("<option />").val(temp[0]).text(temp[2]));
+                        }
+                    },
+                    error: function(response) {
+                        console.log(response);
+                    }
+                });
+            };
+        };
+
+        function changeNumero() {
+            var dados = {
+                bairro     : $("#modNewBairro").val() ,
+                logradouro : $("#modNewLogradouro").val() ,
+                numero     : $("#modNewNumero").val() ,
+                cep        : $("#modNewCep").val()  
+            };
+
+            if (!dados.cep)  {
+                $.ajax({
+                    type: "GET",
+                    data: dados,
+                    url: '/cepPorEndereco',
+                    dataType: 'json',
+                    success: function(response) {
+                        $("#modNewCep").val(response[0][1]);
+                        $("#modNewIdCep").val(response[0][0]);
+                    },
+                    error: function(response) {
+                        $("#modNewCep").val('0');
+                        $("#modNewIdCep").val('0');
+                        var html = 'Não foi possível localizar CEP para bairro/logradouro informado!';
+                        $("#msgErro").html(html);
+                        $("#msgErro").show();
+                    }
+                });
+            } else {
+                if(statusChangeSelect){
+                        $.ajax({
+                        type: "GET",
+                        data: dados,
+                        url: '/cepPorEndereco',
+                        dataType: 'json',
+                        success: function(response) {
+                            $("#modNewCep").val(response[0][1]);
+                            $("#modNewIdCep").val(response[0][0]);
+                        }
+                    });
+                }
+            }
+        };
+
+
+        $("#btnModNewCep").click(function() {
+            var lograd_ant = 0;
+            status=false;
+            var cep    = $("#modNewCep").val();
+
+            if(!cep){
+                var html = 'Informe o CEP!';
+                $("#msgErro").html(html);
+                $("#msgErro").show();
+                return;
+            }
+
+            // Limpa a lista
+            $("#modNewCidade option").each(function() {$(this).remove();});
+            $("#modNewDistrito option").each(function() {$(this).remove();});
+            $("#modNewBairro option").each(function() {$(this).remove();});
+            $("#modNewLogradouro option").each(function() {$(this).remove();});
+
+            // retira os (.) e (-) do código do cep
+            cep = cep.normalize('NFD').replace(/([\u0300-\u036f]|[^0-9a-zA-Z])/g, '');
+            var dados = { cep: cep };
+            $.ajax({
+                type: "POST",
+                url: '/enderecosModalEditCep',
+                data: dados,
+                dataType: 'json',
+                success: function (response) {
+                    var cidade   = $("#modNewCidade");
+                    var distrito = $("#modNewDistrito");
+                    var bairro   = $("#modNewBairro");
+                    var logradouro = $("#modNewLogradouro");
+                    var tplogradouro = $("#modNewTipoLogradouro");
+
+                    var temp = null;
+                    $.each(response, function() {
+                        temp = this;
+                        console.log(temp[8] + ' ' + temp[4]);
+                        if(temp[11] == 1){
+                            cidade.append($("<option />").val(temp[5]).text(temp[5]).prop('selected', true));
+                            distrito.append($("<option />").text(temp[9]).prop('selected', true));
+                            logradouro.append($("<option />").val(temp[7]).text(temp[3]).prop('selected', true));
+                            bairro.append($("<option />").val(temp[8]).text(temp[4]).prop('selected', true));
+
+                            lograd_ant = temp[7];
+                        }
+                        else {
+                            bairro.append($("<option />").val(temp[8]).text(temp[4]).prop('selected', false));
+                            
+                            if(lograd_ant != temp[7]){
+                                logradouro.append($("<option />").val(temp[7]).text(temp[3]).prop('selected', false));
+                                lograd_ant = temp[7];
+                            }
+                        }
+                    });
+
+                    tplogradouro.append($('<option />').val(temp[10]).text(temp[2]).prop('selected', true));
+                    $("#modNewIdCep").val(response[0][0]);
+                }
+            });
+        }); 
+
+        jQuery(".modNewCep").click(function() { 
+            jQuery(this).select(); 
+        } );
+
+        function validaCamposEndereco(){
+            var html = '';
+            var submit = true;
+            var value  = '';
+
+            value = document.getElementById("modNewTipoEndereco").value;
+            if(value == '-1'){
+                var html = 'Informe o tipo de Endereço!';
+                $("#msgErro").html(html);
+                $("#msgErro").show();
+                submit = false;
+                return;
+            };
+
+            value = document.getElementById("modNewCidade").value;
+            if(value == '-1'){
+                var html = 'Informe a cidade!';
+                $("#msgErro").html(html);
+                $("#msgErro").show();
+                submit = false;
+                return;
+            };
+
+            value = document.getElementById("modNewDistrito").value;
+            if(value == '-1'){
+                var html = 'Informe o distrito!';
+                $("#msgErro").html(html);
+                $("#msgErro").show();
+                submit = false;
+                return;
+            };
+
+            value = document.getElementById("modNewBairro").value;
+            if(value == '-1'){
+                var html = 'Informe o bairro!';
+                $("#msgErro").html(html);
+                $("#msgErro").show();
+                submit = false;
+                return;
+            };
+            
+            value = document.getElementById("modNewTipoLogradouro").value;
+            if(value == '-1'){
+                var html = 'Informe o Tipo do logradouro!';
+                $("#msgErro").html(html);
+                $("#msgErro").show();
+                submit = false;
+                return;
+            };
+
+            value = document.getElementById("modNewLogradouro").value;
+            if(value == '-1'){
+                var html = 'Informe o logradouro!';
+                $("#msgErro").html(html);
+                $("#msgErro").show();
+                submit = false;
+                return;
+            };
+
+            value = document.getElementById("modNewNumero").value;
+            if(value == ''){
+                var html = 'Informe o número!';
+                $("#msgErro").html(html);
+                $("#msgErro").show();
+                submit = false;
+                return;
+            };
+
+            if(submit){
+                // Insere os dados
+                event.preventDefault();
+                //receber dados do formulario
+                var dados = $("#enderModalNew").serialize();
+
+                $.post("enderecosModalSubmit",dados,function(response){
+                    if(response){
+                        //limpa os dados
+                        $('#enderModalNew')[0].reset();
+
+                        //fecha a janela
+                        $('#modalEnderNew').modal('hide');
+
+                        // refaz a lista
+                        montaListaEnderecos();
+
+                    }else{
+                        $("#msg").html(response);
+                    }
+                });
+            };
+        };
+
+        function setHeaderFooterEnd(data){
+
+            if(data == "N"){
+                //Novo
+                var element = document.getElementById("ModalHeaderNewEnd");
+                element.classList.remove("class_header_edit");
+                element.classList.add("class_header_new");
+                
+                var element = document.getElementById("ModalFooterNewEnd");
+                element.classList.remove("class_footer_edit");
+                element.classList.add("class_footer_new");
+            } else if(data == "E"){
+                // Edita/Altera
+                var element = document.getElementById("ModalHeaderEditEnd");
+                element.classList.remove("class_header_edit");
+                element.classList.add("class_header_edit");
+                
+                var element = document.getElementById("ModalFooterEditEnd");
+                element.classList.remove("class_footer_edit");
+                element.classList.add("class_footer_edit");
+            } else if(data == "X"){
+                // Delete
+                var element = document.getElementById("ModalHeaderDelEnd");
+                element.classList.remove("class_header_del");
+                element.classList.add("class_header_del");
+                
+                var element = document.getElementById("ModalFooterDelEnd");
+                element.classList.remove("class_footer_del");
+                element.classList.add("class_footer_del");
+            } else {
+                // Consulta
+                var element = document.getElementById("ModalHeaderSeaEnd");
+                element.classList.remove("class_header_Sea");
+                element.classList.add("class_header_Sea");
+                
+                var element = document.getElementById("ModalFooterSeaEnd");
+                element.classList.remove("class_footer_Sea");
+                element.classList.add("class_footer_Sea");
+            }
+        }; 
+    </script>
+</div>

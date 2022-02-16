@@ -1,0 +1,227 @@
+﻿<div id="montaListas">
+    <script>
+        var html = '';
+        //Monta lista de endereços
+        function montaListaEnderecos() {
+            id_pessoa = parseInt($("#inputIdpf").val());
+            if(!id_pessoa){id_pessoa = parseInt($("#inputIdpj").val())};
+
+            var dados = { id_pessoa: id_pessoa };
+
+            $.ajax({
+                type: "POST",
+                url: '/enderecosList',
+                data: dados,
+                dataType: 'json',
+                success: function (enderecos) {
+
+                    html = '';
+
+                    for (var i = 0; i < enderecos.length; i++) {
+                        html += '<tr>' +
+                        '<td id="listEnderId">' + enderecos[i][0] + '</td>' +
+                        '<td class="listEndertipoEndereco" name="listEndertipoEndereco" value="'+enderecos[i][1]+'" id="listEndertipoEndereco">' + enderecos[i][1] + '</td>' +
+                        '<td id="listEnderBairro">' + enderecos[i][9] + '</td>' +
+                        '<td id="listEnderTpLogradouro">' + enderecos[i][7] + '</td>' +
+                        '<td id="listEnderLogradouro">' + enderecos[i][8] + '</td>' +
+                        '<td id="listEnderCep">' + enderecos[i][2] + '</td>' +
+                        '<td id="listEnderNumero">' + enderecos[i][3] + '</td>' +
+                        '<td id="listEnderComplemento">' + enderecos[i][5] + '</td>' +
+                        '<td class="actions">' +
+                        '<a class="btn btn-success margem-button btn-xs detail_endereco"  id="' + enderecos[i][0] + '"cep="' + enderecos[i][6] + '" href="#">' + "Detalhar" + '</a>' +
+                        '<a class="btn btn-warning margem-button btn-xs edit_endereco"    id="' + enderecos[i][0] + '"cep="' + enderecos[i][6] + '" href="#">' + "Editar"   + '</a>' +
+                        '<a class="btn btn-danger  margem-button btn-xs  delete_endereco"  id="' + enderecos[i][0] + '"cep="' + enderecos[i][6] + '" href="#">' + "Excluir" + '</a>' +
+                        '</td>' +
+                        '</tr>';
+                    };
+                    $("#enderecosData").html(html);
+                }
+            });
+        };
+
+        //Monta lista de documentos
+        function montaListaDocumentos() {
+            id_pessoa = parseInt($("#inputIdpf").val());
+            listTilteNome = $("#inputNome").val() ;
+            
+            if(!id_pessoa){
+                id_pessoa = parseInt($("#inputIdpj").val())
+                listTilteNome = $("#inputNomepj").val() ;
+            };
+            
+            var dados = { id_pessoa: id_pessoa };
+
+            $.ajax({
+                type: "POST",
+                url: '/documentosList',
+                data: dados,
+                dataType: 'json',
+                success: function (documentos) {
+
+                    html = '';
+
+                    for (var i = 0; i < documentos.length; i++) {
+                        html += '<tr>' +
+                        '<td id="listDocumentId">' + documentos[i][0] + '</td>' +
+                        '<td class="listDocumentTipoDocumento" name="listDocumentTipoDocumento" value="'+documentos[i][22]+'" id="listDocumentTipoDocumento">' + documentos[i][22] + '</td>' +
+                        '<td id="listDocumentNroDoc">' + documentos[i][3] + '</td>' +
+                        '<td id="listEnderNumero">' + documentos[i][4] + '</td>' +
+                        '<td class="actions">' +
+                        '<a class="btn btn-success margem-button btn-xs detail_documento" id="' + documentos[i][0] + '" href="#">' + "Detalhar" + '</a>' +
+                        '<a class="btn btn-warning margem-button btn-xs edit_documento"   id="' + documentos[i][0] + '" href="#">' + "Editar"   + '</a>' +
+                        '<a class="btn btn-danger  margem-button btn-xs  delete_documento"  id="' + documentos[i][0] + '" href="#">' + "Excluir" + '</a>' +
+                        '</td>' +
+                        '</tr>';
+                    };
+                    $("#documentosData").html(html);
+                }
+            });
+        };
+
+        //Monta lista de contatos
+        function montaListaContatos() {
+            id_pessoa = parseInt($("#inputIdpf").val());
+            if(!id_pessoa){id_pessoa = parseInt($("#inputIdpj").val())};
+
+            var dados = { id_pessoa: id_pessoa };
+
+            $.ajax({
+                type: "POST",
+                url: '/contatosList',
+                data: dados,
+                dataType: 'json',
+                success: function (contatos) {
+
+                    html = '';
+
+                    for (var i = 0; i < contatos.length; i++) {
+                        html += '<tr>' +
+                            '<td id="listContatosId">' +  contatos[i][0] + '</td>' +
+                            '<td class="listContatosTpContato" name="listContatosTpContato" value="'+contatos[i][1]+'" id="listContatosTpContato">' + contatos[i][3] + '</td>' +
+                            '<td id="listContatosContato">' + contatos[i][2] + '</td>' +
+                            '<td class="actions">' +
+                            '<a class="btn btn-success margem-button btn-xs disabled detail_contato" id="' + contatos[i][0] + '" href="#">' + "Detalhar" + '</a>' +
+                            '<a class="btn btn-warning margem-button btn-xs edit_contato"   id="' + contatos[i][0] + '" idTp="'+ contatos[i][1] +'" contato="'+ contatos[i][2] +'" href="#">' + "Editar"   + '</a>' +
+                            '<a class="btn btn-danger  margem-button btn-xs  delete_contato"  id="' + contatos[i][0] + '" contato="'+ contatos[i][2] +'" tpContato="'+ contatos[i][3] +'" href="#">' + "Excluir" + '</a>' +
+                            '</td>' +
+                            '</tr>';
+                    };
+                    $("#contatosData").html(html);
+                }
+            });
+        };
+
+        //Monta lista de profissoes
+        function montaListaProfissoes() {
+            id_pessoa = parseInt($("#inputIdpf").val());
+            var dados = { id_pessoa: id_pessoa };
+
+            $.ajax({
+                type: "POST",
+                url: '/pessoasProfissoesList',
+                data: dados,
+                dataType: 'json',
+                success: function (profissoes) {
+
+                    html = '';
+
+                    for (var i = 0; i < profissoes.length; i++) {
+                        html += '<tr>' +
+                            '<td id="listprofissoesId">' +  profissoes[i][0] + '</td>' +
+                            '<td class="listProfissoes" name="listProfissoes" value="'+ profissoes[i][0] + '</td>' +
+                            '<td id="listlistProfissoes">' + profissoes[i][3] + '</td>' +
+                            '<td class="actions">' +
+                            '<a class="btn btn-success margem-button btn-xs disabled detail_profissao" id="' + profissoes[i][0] + '" href="#">' + "Detalhar" + '</a>' +
+                            '<a class="btn btn-warning margem-button btn-xs disabled edit_profissao"   id="' + profissoes[i][0] + '" href="#">' + "Editar"   + '</a>' +
+                            '<a class="btn btn-danger  margem-button btn-xs delete_profissao"  id="' + profissoes[i][0] + '" profissao="'+ profissoes[i][3]    +'" href="#">' + "Excluir" + '</a>' +
+                            '</td>' +
+                            '</tr>';
+                    };
+                    $("#profissoesData").html(html);
+                }
+            });
+        };
+
+        //Monta lista de empresas pessosa
+        function montaListaEmpresasPessoas() {
+            id_pessoa = parseInt($("#inputIdpf").val());
+            var dados = { id_pessoa: id_pessoa };
+
+            $.ajax({
+                type: "POST",
+                url: '/empresasPessoasList',
+                data: dados,
+                dataType: 'json',
+                success: function (empresasPessoas) {
+
+                    html = '';
+
+                    for (var i = 0; i < empresasPessoas.length; i++) {
+                        html += '<tr>' +
+                            '<td id="listEmpresasPessoasId">' +  empresasPessoas[i][0] + '</td>' +
+                            '<td class="listVinculoTpVinculo" name="listVinculoTpVinculo" value="'+empresasPessoas[i][3]+'" id="listVinculoTpVinculo">' + empresasPessoas[i][5] + '</td>' +
+                            '<td id="listEmpresasTpEmpresa">' +  empresasPessoas[i][6] + '</td>' +
+                            '<td id="listEmpresasNmEmpresa">' +  empresasPessoas[i][7] + '</td>' +
+                            '<td id="listEmpresasCnpjcpf">' +  empresasPessoas[i][9] + '</td>' +
+                            '<td id="listEmpresasParticipacao">' +  empresasPessoas[i][4] + '</td>' +
+                            '<td class="actions">' +
+                            '<a class="btn btn-success margem-button btn-xs disabled detail_EmpPessoa" id="' + empresasPessoas[i][0] + '" href="#">' + "Detalhar" + '</a>' +
+                            '<a class="btn btn-warning margem-button btn-xs edit_EmpPessoa"   id="' + empresasPessoas[i][0] + '" href="#">' + "Editar"   + '</a>' +
+                            '<a class="btn btn-danger margem-button btn-xs  delete_EmpPessoa" id="' + empresasPessoas[i][0] + '" href="#">' + "Excluir" + '</a>' +
+                            '</td>' +
+                            '</tr>';
+                    };
+                    $("#empresasData").html(html);
+                }
+
+            });
+
+        };
+    </script>
+</div>
+
+
+
+
+
+
+
+
+
+import { SelectItem } from 'primeng/api';
+import { DialogService } from 'primeng';
+import { MessageService } from 'primeng/api';
+import { Component, Injector, Input } from '@angular/core';
+import { BaseResourceFormComponent } from '../../../../shared/components/base-resource-form/base-resource-form.component';
+import { Validators } from '@angular/forms';
+
+import { EnderecosService } from '../enderecos.service';
+import { Enderecos } from './../../../../shared/models/enderecos';
+
+@Component({
+  selector: 'app-enderecos-list',
+  templateUrl: './enderecos-list.component.html',
+  styleUrls: ['./enderecos-list.component.css']
+})
+
+export class EnderecosListComponent extends BaseResourceFormComponent<Enderecos> {
+
+  @Input() pessoaId: number;
+  tipoEnderecosList: SelectItem[];
+
+  constructor(
+
+    protected enderecosService: EnderecosService,
+
+    protected injector: Injector,
+    public dialogService: DialogService ,
+    public messageService: MessageService,
+
+  ) {
+    super(injector, new Enderecos(), enderecosService, Enderecos.fromJson, new MessageService());
+   }
+
+  ngOnInit(): void {
+  }
+
+}

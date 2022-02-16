@@ -1,0 +1,182 @@
+﻿<div id="modalDocumentSearch" class="modal hide bd-example-modal-lg-edit" tabindex="-1" role="dialog-edit" aria-hidden="true"  aria-labelledby="exampleModalScrollableTitle">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content edit">
+            <div id="ModalHeaderSeaDoc" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 class="modal-title modal-edit-title" id="search">Detalha Documento</h4>
+            </div>
+
+            <form class="form-add" name="documentModalUpdate" id="documentModalUpdate">
+                <div class="form-row">
+                    <div class="form-group col-md-7">
+                        <label for="modDocSearchNome">Nome</label>
+                        <input type="text" class="form-control" id="modDocSearchNome" name="modDocSearchNome" readonly>
+                    </div>
+
+                    <div class="form-group col-md-5">
+                        <label id="lbModDocSearchCpfCnpj" for="modDocSearchCpfCnpj"></label>
+                        <input type="text" class="form-control" id="modDocSearchCpfCnpj" name="modDocSearchCpfCnpj" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="modSearchTipoDocumento">Tipo Documento</label>
+                        <input type="text" class="form-control" id="modSearchTipoDocumento" name="modSearchTipoDocumento" readonly>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="modDocSearchNroDocumento">Número Documento</label>
+                        <input type="text" class="form-control" id="modDocSearchNroDocumento" name="modDocSearchNroDocumento" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="modDocSearchDocumentoDt">Data Documento</label>
+                        <input type="date" id="modDocSearchDocumentoDt" name="modDocSearchDocumentoDt" class="form-control" readonly>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="modDocSearchOrigem">Origem Documento</label>
+                        <input type="text" class="form-control" id="modDocSearchOrigem" name="modDocSearchOrigem" readonly>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="modDocSearchDtExpedicao">Data Expedição</label>
+                        <input type="date" id="modDocSearchDtExpedicao" name="modDocSearchDtExpedicao" class="form-control" readonly>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="modDocSearchExpedidor">Orgão Expedidor</label>
+                        <input type="text" class="form-control" id="modDocSearchExpedidor" name="modDocSearchExpedidor" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="modDocSearchDtPricnh">Data Primeira CNH</label>
+                        <input type="date" id="modDocSearchDtPricnh" name="modDocSearchDtPricnh" class="form-control" readonly>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="modDocSearchDtValcnh">Data Validade CNH</label>
+                        <input type="date" id="modDocSearchDtValcnh" name="modDocSearchDtValcnh" class="form-control" readonly>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modDocSearchCatcnh">Categoria CNH</label>
+                        <input type="text" class="form-control" id="modDocSearchCatcnh" name="modDocSearchCatcnh" readonly>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modDocSearchZona">Zona</label>
+                        <input type="text" class="form-control" id="modDocSearchZona" name="modDocSearchZona" readonly>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modDocSearchSecao">Seção</label>
+                        <input type="text" class="form-control" id="modDocSearchSecao" name="modDocSearchSecao" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="modDocSearchDtEmiscert">Emissão Certidão</label>
+                        <input type="date" id="modDocSearchDtEmiscert" name="modDocSearchDtEmiscert" class="form-control" readonly>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="modDocSearchTermo">Termo</label>
+                        <input type="text" class="form-control" id="modDocSearchTermo" name="modDocSearchTermo" readonly>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="modDocSearchLivro">Livro</label>
+                        <input type="text" class="form-control" id="modDocSearchLivro" name="modDocSearchLivro" readonly>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="modDocSearchFolha">Folha</label>
+                        <input type="text" class="form-control" id="modDocSearchFolha" name="modDocSearchFolha" readonly>
+                    </div>
+                    
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="modSearchCartorio">Cartório</label>
+                        <input type="text" class="form-control" id="modSearchCartorio" name="modSearchCartorio" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer">
+                    </div>
+
+                    <div id="ModalFooterSeaDoc" class="modal-footer">
+                        <button type="button" class="btn btn-outline-info" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        //Abre a modal de Search documento e mostra os dados
+        $(document).on('click', '.detail_documento', function () {
+            // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui consulta
+            setHeaderFooterDoc("S");
+
+            id = $(this).attr("id");
+            var dados = { id: id };
+
+            var nomePessoa   = $("#inputNomepf").val();
+            cpfCnpj          = $("#inputCpfpf").val();
+
+            if(!cpfCnpj){
+                cpfCnpj      = $("#inputCnpjpj").val();
+                nomePessoa   = $("#inputNomepj").val();
+                document.getElementById("lbModDocDelCpfCnpj").innerHTML = 'C.N.P.J';
+            } else {
+                document.getElementById("lbModDocDelCpfCnpj").innerHTML = 'C.P.F';                
+            }
+
+            $("#modDocSearchNome").val(nomePessoa);
+            $("#modDocSearchCpfCnpj").val(cpfCnpj);
+
+            $('#modalDocumentSearch').modal({'show':true});
+
+            $.ajax({
+                type: "post",
+                url: '/documentosModalEdit',
+                data: dados,
+                dataType: 'json',
+                success: function (dados) {
+                    
+                    $("#modSearchTipoDocumento").val(dados.documento[0][20]);
+                    $("#modDocSearchNroDocumento").val(dados.documento[0][3]);
+                    $("#modDocSearchDocumentoDt").val(dados.documento[0][4]);
+                    $("#modDocSearchOrigem").val(dados.documento[0][6]);
+                    $("#modDocSearchDtExpedicao").val(dados.documento[0][5]);
+                    $("#modDocSearchExpedidor").val(dados.documento[0][7]);
+                    $("#modDocSearchDtPricnh").val(dados.documento[0][9]);
+                    $("#modDocSearchDtValcnh").val(dados.documento[0][10]);
+                    $("#modDocSearchCatcnh").val(dados.documento[0][11]);
+                    $("#modDocSearchZona").val(dados.documento[0][13]);
+                    $("#modDocSearchSecao").val(dados.documento[0][14]);
+                    $("#modDocSearchDtEmiscert").val(dados.documento[0][18]);
+                    $("#modDocSearchTermo").val(dados.documento[0][15]);
+                    $("#modDocSearchLivro").val(dados.documento[0][17]);
+                    $("#modDocSearchFolha").val(dados.documento[0][16]);
+                    $("#modSearchCartorio").val(dados.documento[0][21]);
+                }
+            });
+        });
+
+    </script>
+</div>
+    

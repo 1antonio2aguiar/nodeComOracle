@@ -1,0 +1,105 @@
+﻿<div id="montaListasSearch">
+    <script>
+        var html = '';
+        // LISTAS DA TELA DE CONSULTA.
+        //Monta lista de endereços -- Consulta --
+        function montaListaEnderecosSearch() {
+            id_pessoa = parseInt($("#inputIdpf").val());
+            if(!id_pessoa) {
+                id_pessoa = parseInt($("#inputIdpj").val());
+            };
+
+            var dados = { id_pessoa: id_pessoa };
+            $.ajax({
+                type: "GET",
+                url: '/pessoaSearchEnderecos',
+                data: dados,
+                dataType: 'json',
+                success: function (enderecos) {
+                    html = '';
+                    for (var i = 0; i < enderecos.length; i++) {
+                        html += '<tr>' +
+                        '<td id="listEnderId">' + enderecos[i][0] + '</td>' +
+                        '<td id="listEndertipoEndereco">' + enderecos[i][1] + '</td>' +
+                        '<td id="listEnderTpLogradouro">' + enderecos[i][2] + '</td>' +
+                        '<td id="listEnderLogradouro">' + enderecos[i][3] + '</td>' +
+                        '<td id="listEnderNumero">' + enderecos[i][4] + '</td>' +
+                        '<td id="listEnderComplemento">' + enderecos[i][5] + '</td>' +
+                        '<td id="listEnderBairro">' + enderecos[i][6] + '</td>' +
+                        '<td id="listEnderCidade">' + enderecos[i][7] + '</td>' +
+                        '<td id="listEnderCep">' + enderecos[i][8] + '</td>' +
+                        '</td>' +
+                        '</tr>';
+                    };
+                    $("#enderecosSearchData").html(html);
+                }
+            });
+        };
+
+        //Monta lista de documentos -- Consulta --
+        function montaListaDocumentosSearch() {
+            id_pessoa = parseInt($("#inputIdpf").val());
+            if(!id_pessoa) {
+                id_pessoa = parseInt($("#inputIdpj").val());
+            };
+
+            var dados = { id_pessoa: id_pessoa };
+            $.ajax({
+                type: "GET",
+                url: '/pessoaSearchDocumentos',
+                data: dados,
+                dataType: 'json',
+                success: function (documentos) {
+                    html = '';
+                    for (var i = 0; i < documentos.length; i++) {
+                        html += '<tr>' +
+                        '<td id="listDocrId">' + documentos[i][0] + '</td>' +
+                        '<td id="listDoctipoDocumento">' + documentos[i][1] + '</td>' +
+                        '<td id="listDocNro">' + documentos[i][2] + '</td>' +
+                        '<td id="listDocExpedicao">' + documentos[i][3] + '</td>' +
+                        '<td id="listDocOrgaoExped">' + documentos[i][4] + '</td>' +
+                        '<td id="listDocValidCnh">' + documentos[i][5] + '</td>' +
+                        '<td id="listDocCatCnh">' + documentos[i][6] + '</td>' +
+                        '<td id="listDocZona">' + documentos[i][7] + '</td>' +
+                        '<td id="listDocSecao">' + documentos[i][8] + '</td>' +
+                        '<td id="listDocTermo">' + documentos[i][9] + '</td>' +
+                        '<td id="listDocFolha">' + documentos[i][10] + '</td>' +
+                        '<td id="listDocLivro">' + documentos[i][11] + '</td>' +
+                        '</td>' +
+                        '</tr>';
+                    };
+                    $("#documentosSearchData").html(html);
+                }
+            });
+        };
+
+        //Monta lista de contatos -- Consulta --
+        function montaListaContatosSearch() {
+            id_pessoa = parseInt($("#inputIdpf").val());
+            if(!id_pessoa) {
+                id_pessoa = parseInt($("#inputIdpj").val());
+            };
+
+            var dados = { id_pessoa: id_pessoa };
+            $.ajax({
+                type: "GET",
+                url: '/pessoaSearchContatos',
+                data: dados,
+                dataType: 'json',
+                success: function (contatos) {
+                    html = '';
+                    for (var i = 0; i < contatos.length; i++) {
+                        html += '<tr>' +
+                        '<td id="listContatosId">' + contatos[i][0] + '</td>' +
+                        '<td id="listContatostipoContato">' + contatos[i][1] + '</td>' +
+                        '<td id="listContatosContato">' + contatos[i][2] + '</td>' +
+                        '</td>' +
+                        '</tr>';
+                    };
+                    $("#contatosSearchData").html(html);
+                }
+            });
+        };
+
+    </script>
+</div>

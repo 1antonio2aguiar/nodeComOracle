@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>Pessoas</title>
+        
+        <!-- define a viewport -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+        <meta charset="utf-8">
+        
+        <!-- adicionar CSS Bootstrap -->
+        <link href="../css/bootstrap.min.css" rel="stylesheet" media="all">
+        
+        <!-- css personalizado -->
+        <link href="../css/estilo.css" rel="stylesheet" media="all">
+    </head>
+    <body>
+        <div class="container-fluid">
+            
+            <!-- Menu Principal -->
+            <% include ../index/menuInclude %>
+
+            <nav class="navbar navbar-filter navbar-inverse" role="navigation">
+                <input type="hidden" name="pagina" value="1">
+
+                <form id="filter-form" action="/pessoasList" method="get">
+                    <div class="col-md-2">
+                        <div class="input-group navbar-brand">
+                            <h4>Lista de Pessoas</h4>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-5">
+                        <div class="input-group navbar-brand">
+                            <input name="inputNome" id="inputNome" class="form-control" type="text" value="<%=metadata.nomePessoa%>" placeholder="Pesquisar Nome">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" name="btnNome" id="btnNome">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="input-group navbar-brand">
+                            <input name="inputCpfCnpj" id="inputCpfCnpj" class="form-control" type="text" value="<%=metadata.nrocnpjcpf%>" placeholder="Pesquisar CPF">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" name="buttonCpf" id="buttonCpf">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="input-group navbar-brand navbar-right">
+                            <a class="btn btn-primary pull-right" href="/pessoasNew">Novo</a>
+                        </div>
+                    </div>
+                </form>
+            </nav>
+
+            <div id="list" class="row"></div>
+                <div class="table-responsive col-md-12">
+                    <table class="table table-list table-striped" id="table-list">
+                        <thead>
+                            <tr class="class_header_list"> 
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>C.P.F / C.N.P.J</th>
+                                <th>Tipo Pessoa</th>
+                                <th>Registro</th>
+                                <th class="actions" style="text-align-last: center">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(var i = 0; i < pessoas.length; i++) { %>
+                                <tr>
+                                    <td><%=pessoas[i][0]%></td>
+                                    <td><%=pessoas[i][1]%></td>
+                                    <td><%=pessoas[i][2]%></td>
+                                    <td><%=pessoas[i][3]%></td>
+                                    <td><%=pessoas[i][4]%></td>
+                                    <td class="actions" style="text-align: end"> 
+                                        <a class="btn btn-success btn-xs view_search" id="<%=pessoas[i][0]%>" fisjur="<%=pessoas[i][5]%>"href="#">Consultar</a>
+                                        <a class="btn btn-warning btn-xs view_edit"   id="<%=pessoas[i][0]%>" fisjur="<%=pessoas[i][5]%>"href="#">Editar</a>
+                                        <a class="btn btn-danger btn-xs  view_data"   id="<%=pessoas[i][0]%>" href="#">Excluir</a>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <nav class="class_paginator">
+            <ul class="pagination pagination-sm">
+                <li class="page-item">
+                    <span id="previous" class="btn btn-success btn-xs">Anterior</a>
+                </li>
+                <%- paginator %>                    
+                <li class="page-item">
+                    <span id="next" class="btn btn-success btn-xs">Próxima</a>
+                </li>
+            </ul>
+        </nav>
+    </body>
+
+    <input id="pagina" type="hidden" value="<%=metadata.page%>">
+    <input id="total-pagina" type="hidden" value="<%=metadata.totalPages%>">
+    <input id="nomePessoa" type="hidden" value="<%=metadata.nomePessoa%>">
+    <input id="nrocnpjcpf" type="hidden" value="<%=metadata.nrocnpjcpf%>">
+
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- Modal Deleta Pessoa -->
+    <% include modalDelPessoa %>
+
+    <script>
+        var id      = 0;
+        var fisjur  = 0;
+        var nome    = '';
+        var cnpjcpf = '';
+
+        $("#previous").click(function() {
+            previous();
+        });
+
+        $("#next").click(function() {
+            next();
+        });
+
+        function previous() {
+            var page         = parseInt($("#pagina").val());
+            var cpfCnpj       = parseInt($("#inputCpfCnpj").val());
+            var nomePessoa   = $("#nomePessoa").val();
+            
+            if (page > 1) {
+                //var filter = $("#nomeBairro").val();
+                page--;
+                window.location = "/pessoasList?pagina=" + page + 
+                (cpfCnpj   ? ("&cpf=" + cpfCnpj) : "") + 
+                (nomePessoa ? ("&inputNome=" + nomePessoa) : "") ;
+            }
+        };
+
+        function next() {
+            var page      = parseInt($("#pagina").val());
+            var totalPage = parseInt($("#total-pagina").val());
+            var cpfCnpj   = parseInt($("#inputCpfCnpj").val());
+            var nomePessoa   = $("#nomePessoa").val();
+
+            if (page <= totalPage) {
+                //var filter = $("#nomeBairro").val();
+                
+                page++;
+                window.location = "/pessoasList?pagina=" + page + 
+                (cpfCnpj   ? ("&cpf=" + cpfCnpj) : "") + 
+                (nomePessoa ? ("&inputNome=" + nomePessoa) : "") ; 
+            }
+        };
+
+        /*$("#inputNome").keypress(function() {
+            var filter = $("#inputNome").val();
+            if (filter && filter.length >= 2) {
+
+                setTimeout(function() {
+                    $("#filter-form").submit();
+                }, 800);
+            }
+        }); */
+
+        $("#btnNome").click(function() {
+            $("#inputCpfCnpj").val(null);
+            $("#filter-form").submit();
+        }); 
+
+        $("#buttonCpf").click(function() {
+            $("#inputNome").val(null);
+            $("#filter-form").submit();
+        }); 
+
+        $(document).ready(function() {
+            $(document).on('click','.view_edit', function(){
+                id     = $(this).attr("id");
+                fisjur = $(this).attr("fisjur");
+                nome   = $("#nomePessoa").val();
+                cnpjcpf= $("#inputCpfCnpj").val();
+                if(fisjur == 'F'){
+                    window.location.href = "/pessoaFisicaEdit?id_pessoa="+id+"&&nome="+nome+"&&cnpjcpf="+cnpjcpf;
+                } else {
+                    window.location.href = "/pessoaJuridicaEdit?id_pessoa="+id+"&&nome="+nome+"&&cnpjcpf="+cnpjcpf;
+                }
+            })
+        });
+
+        $(document).ready(function() {
+            $(document).on('click','.view_search', function(){
+                id     = $(this).attr("id");
+                nome   = $("#nomePessoa").val();
+                cnpjcpf= $("#inputCpfCnpj").val(); 
+                fisjur = $(this).attr("fisjur");
+
+                window.location.href = "/pessoaSearch?id_pessoa="+id+"&&nome="+nome+"&&cnpjcpf="+cnpjcpf+"&&fisjur="+fisjur;
+            });
+        });
+    
+    </script>
+</html>

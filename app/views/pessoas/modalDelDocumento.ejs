@@ -1,0 +1,111 @@
+﻿<div id="modalDocumentDelete" class="modal hide bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true"  aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id="ModalHeaderDelDoc" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 class="modal-title modal-ender-title" id="example">Confirma Excluir Documento?</h4>
+            </div>
+
+            <form class="form-add" name="enderDocModalDelete" id="enderDocModalDelete" method="post">
+                <div class="form-row">
+                    <div class="row">
+                        <input type="text" class="form-control" id="modDocDelId" name="modDocDelId" style="display:none;">
+                    </div>
+
+                    <div class="form-group col-md-7">
+                        <label for="modDocDelNome">Nome</label>
+                        <input type="text" class="form-control" id="modDocDelNome" name="modDocDelNome" readonly>
+                    </div>
+
+                    <div class="form-group col-md-5">
+                        <label id="lbModDocDelCpfCnpj" for="modDocDelCpfCnpj"></label>
+                        <input type="text" class="form-control" id="modDocDelCpfCnpj" name="modDocDelCpfCnpj" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="modDelDocTpDocumento">Tipo Documento</label>
+                        <input type="text" class="form-control" id="modDelDocTpDocumento" name="modDelDocTpDocumento" readonly>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="modDelDocNroDocumento">Número</label>
+                        <input type="text" class="form-control" id="modDelDocNroDocumento" name="modDelDocNroDocumento" readonly>
+                    </div>
+
+                    <div class="form-row"  id="actions">
+                        <div class="modal-footer">
+                        </div>
+    
+                        <div id="ModalFooterDelDoc" class="modal-footer">
+                            <button type="button" class="btn  btn-success" data-dismiss="modal">Não</button>
+                            <input type="submit" name="btnDel" id="btnDel" value="Sim" class="btn btn-outline-info">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        //DELETE abre a janela modal
+        $(document).on('click', '.delete_documento', function () {
+            // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui Delete
+            setHeaderFooterDoc("X");
+
+            var id = $(this).attr("id");
+            var dados = { id: id };
+    
+            $.ajax({
+                type: "POST",
+                url: '/documentosModalEdit',
+                data: dados,
+                dataType: 'json',
+                success: function (dados) {
+                    var nomePessoa   = $("#inputNomepf").val();
+                    cpfCnpj          = $("#inputCpfpf").val();
+
+                    if(!cpfCnpj){
+                        cpfCnpj      = $("#inputCnpjpj").val();
+                        nomePessoa   = $("#inputNomepj").val();
+                        document.getElementById("lbModDocDelCpfCnpj").innerHTML = 'C.N.P.J';
+                    } else {
+                        document.getElementById("lbModDocDelCpfCnpj").innerHTML = 'C.P.F';                
+                    }
+
+                    $("#modDocDelCpfCnpj").val(cpfCnpj);
+                    $("#modDocDelNome").val(nomePessoa);
+                    $("#modDocDelId").val(id);
+                    
+                    $("#modDelDocTpDocumento").val(dados.documento[0][20]);
+                    $("#modDelDocNroDocumento").val(dados.documento[0][3]);
+
+                    $('#modalDocumentDelete').modal({'show':true});   
+                } 
+            });
+        });
+    
+        $('#enderDocModalDelete').on('submit', function(event){
+            event.preventDefault();
+            //receber dados do formulario
+            var dados = $("#enderDocModalDelete").serialize();
+
+            $.post("documentoModalDelete",dados,function(response){
+                if(response){
+                    //limpa os dados
+                    $('#enderDocModalDelete')[0].reset();
+                    //fecha a janela
+                    $('#modalDocumentDelete').modal('hide');
+    
+                    // refaz a lista
+                    montaListaDocumentos();
+                } else {
+                    $("#msg").html(response);
+                }
+            });
+        });
+    </script>
+</div>

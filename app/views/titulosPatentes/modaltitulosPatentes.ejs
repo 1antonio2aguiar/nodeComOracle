@@ -1,0 +1,124 @@
+﻿<div id="modaltituloPatente" class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <form class="form-add" name="tituloPatente" id="tituloPatente" method="post">
+                    <div id="ModalHeaderTp" class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="white-text">&times;</span>
+                        </button>
+                        <h4 id="modal-title" class="modal-title white-text w-100 font-weight-bold py-2"></h4>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="row">
+                            <input type="text" value="0" class="form-control" id="modalId" name="modalId" style="display:none;">
+                        </div>
+    
+                        <div class="form-group col-md-6">
+                            <label for="modalDescricao">Descrição</label>
+                            <input type="text" class="form-control" id="modalDescricao" name="modalDescricao">
+                        </div>
+                    </div>
+        
+                    <div class="form-row"  id="actions">
+                        <div class="modal-footer"></div>
+    
+                        <div id="ModalFooterTp" class="modal-footer">
+                            <button type="button" class="btn btn-outline-info" data-dismiss="modal">Fechar</button>
+                            <input type="submit" name="btnModSubmit" id="btnModSubmit" value="Enviar" class="btn btn-outline-info">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    
+        //NOVO
+        $(document).on('click', '#btnNew', function () {
+            event.preventDefault();
+
+            $("#modal-title").html("Novo Título Patente");
+
+            // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui Edit
+            setHeaderFooterTp("N");
+
+            $('#tituloPatente')[0].reset();
+            $('#modaltituloPatente').modal({'show':true});
+        });
+    
+        $('#tituloPatente').on('submit', function(event){
+            event.preventDefault();
+
+            //receber dados do formulario
+            var dados = $("#tituloPatente").serialize();
+    
+            var id        = $("#modalId").val();
+            var descricao = $("#modalDescricao").val();
+
+            var dados = { id: id, descricao: descricao };
+    
+            $.post("tituloPatenteSave",dados,function(response){
+                if(response){
+    
+                    //limpa os dados
+                    $('#tituloPatente')[0].reset();
+                    // fecha janela
+                    $('#modaltituloPatente').modal('hide');
+                    window.location.href = '/titulosPatentesList';
+                }else{
+                    $("#msg").html(response);
+                }
+            });
+        });
+    
+        //EDIT
+        $(document).ready(function(){
+            $(document).on('click','.view_edit', function(){
+
+                $("#modal-title").html("Edita Título Patente");
+
+                // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui Edit
+                setHeaderFooterTp("E");
+
+                var id = $(this).attr("id");
+                var descricao = $(this).attr("descricao");
+    
+                $("#modalId").val(id);
+                $("#modalDescricao").val(descricao);
+    
+                var dados = {id: id};
+    
+                event.preventDefault();
+                $('#modaltituloPatente').modal({'show':true});
+    
+            });
+        });
+
+        function setHeaderFooterTp(data){
+            if(data == "N"){
+                //Novo
+                var element = document.getElementById("ModalHeaderTp");
+                element.classList.add("class_header_new");
+                
+                var element = document.getElementById("ModalFooterTp");
+                element.classList.add("class_footer_new");
+            } else if(data == "E"){
+                // Edita/Altera
+                var element = document.getElementById("ModalHeaderTp");
+                element.classList.add("class_header_edit");
+                
+                var element = document.getElementById("ModalFooterTp");
+                element.classList.add("class_footer_edit");
+            } else if(data == "X"){
+                // Delete
+                var element = document.getElementById("ModalHeaderDelTp");
+                element.classList.add("class_header_del");
+                
+                var element = document.getElementById("ModalFooterDelTp");
+                element.classList.add("class_footer_del");
+            }
+        }; 
+    
+    </script>

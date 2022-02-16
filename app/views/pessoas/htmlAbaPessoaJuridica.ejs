@@ -1,0 +1,120 @@
+﻿<div class="tab-pane active" id="pessoaPj" role="tabpanel" aria-labelledby="home-tab">
+    <nav class="navbar navbar-filter-tab navbar-inverse" role="navigation">
+        <div class="col-md-11">
+            <p class="h4" style="margin-top:13px;">Pessoa: <%=pessoa[0][2]%></p>
+        </div>
+    </nav>
+    <form class="form-add" action="/pessoaJuridicaUpdate" method="post">
+        
+        <input type="text" class="form-control" id="inputFilterNome" name="inputFilterNome" value="<%=filterNome%>" style="display:none;">
+        <input type="text" class="form-control" id="inputFiltercpf" name="inputFiltercpf" value="<%=filtercnpjcpf%>" style="display:none;">
+
+        <div class="form-row">
+            <div class="form-group col-md-1">
+                <label for="inputNome">Id</label>
+                <input type="text" class="form-control" id="inputIdpj" name="inputIdpj" value="<%=pessoa[0][0]%>" readonly>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="inputNome">Nome</label>
+                <input type="text" class="form-control" id="inputNomepj" name="inputNomepj" placeholder="Nome" value="<%=pessoa[0][2]%>">
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="inputTpPessoapj">Tipo Pessoa</label>
+                <select class="form-control" name="inputTpPessoapj" id="inputTpPessoapj">
+                    <option value="-1">Selecione...</option>
+                    <% for(var i = 0; i < tipos_pessoas.length; i++) { %>
+                        <% if (tipos_pessoas[i][0] == pessoa[0][1]) { %>
+                        <option value="<%=tipos_pessoas[i][0]%>" selected="true"><%=tipos_pessoas[i][1]%>
+                        </option>
+                        <% } else { %>
+                        <option value="<%=tipos_pessoas[i][0]%>"><%=tipos_pessoas[i][1]%></option>
+                        <% } %>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="inputCnpjpj">C.N.P.J</label>
+                <input type="text" class="form-control" id="inputCnpjpj" name="inputCnpjpj" placeholder="CNPJ"  onfocus="$(this).mask('00.000.000/0000-00')" value="<%=pessoa[0][6]%>">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                <label for="inputMicroEmpresapj">Micro Empresa?</label>
+                <select class="form-control" name="inputMicroEmpresapj" id="inputMicroEmpresapj">
+                    <% if (pessoa[0][10] == 'S') { %>
+                        <option value="S" selected="true">SIM</option>
+                        <option value="N">NÃO</option>
+                    <% } else { %>
+                        <option value="S">SIM</option>
+                        <option value="N" selected="true">NÃO</option>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="inputTpEmpresapj">Tipo Empresa</label>
+                <select class="form-control" name="inputTpEmpresapj" id="inputTpEmpresapj">
+                    <option value="-1">Selecione...</option>
+                    <% for(var i = 0; i < tipos_empresas.length; i++) { %>
+                        <% if (tipos_empresas[i][0] == pessoa[0][14]) { %>
+                            <option value="<%=tipos_empresas[i][0]%>" selected="true"><%=tipos_empresas[i][1]%></option>
+                        <% } else { %>
+                            <option value="<%=tipos_empresas[i][0]%>"><%=tipos_empresas[i][1]%></option>
+                        <% } %>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="inputConjugepj">Conjuge</label>
+                <input type="text" class="form-control" id="inputConjugepj" name="inputConjugepj" placeholder="Conjuge" value="<%=pessoa[0][11]%>">
+            </div>
+
+            <div class="col-md-1">
+                <label for="inputMesEnvioSicompj">Mes Sicom</label>
+                <input type="text" class="form-control" id="inputMesEnvioSicompj" name="inputMesEnvioSicompj" value="<%=pessoa[0][12]%>" disabled>
+            </div>
+
+            <div class="col-md-1">
+                <label for="inputAnoEnvioSicompj">Ano Sicom</label>
+                <input type="text" class="form-control" id="inputAnoEnvioSicompj" name="inputAnoEnvioSicompj" value="<%=pessoa[0][13]%>" disabled>
+            </div>
+
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="inputNmFantasiapj">Nome Fantasia</label>
+                <input type="text" class="form-control" id="inputNmFantasiapj" name="inputNmFantasiapj" placeholder="Nome Fantasia" value="<%=pessoa[0][8]%>">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="inputObjSocialpj">Objeto social</label>
+                <input type="text" class="form-control" id="inputObjSocialpj" name="inputObjSocialpj" placeholder="Objeto Social" value="<%=pessoa[0][9]%>">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="inputObspj">Observação</label>
+                <input type="text" class="form-control" id="inputObspj" name="inputObspj"
+                    placeholder="Observação" value="<%=pessoa[0][5]%>">
+            </div>
+        </div>
+
+        <div class="form-row" id="actions">
+            <div class="col-md-12 class_footer_buton">
+                <button type="button" name="btnCancelar" id="btnCancelar" class="btn btn-outline-info" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-outline-info">Enviar</button>
+            </div>
+        </div>
+
+        
+    </form>
+</div>

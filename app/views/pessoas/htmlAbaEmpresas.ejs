@@ -1,0 +1,38 @@
+﻿<div class="tab-pane" id="empresas" role="tabpanel" aria-labelledby="profile-tab">
+    <nav class="navbar navbar-filter-tab navbar-inverse" role="navigation">
+        <form id="filter-form" action="/empresasList" method="get">
+            <input type="hidden" name="pagina" value="1">
+    
+            <div class="form-row">
+                <div class="col-md-11">
+                    <p class="h4" style="margin-top:13px;">Empresas de: <%=pessoa[0][2]%></p>
+                </div>
+    
+                <div class="col-md-1">
+                    <input type="submit" name="btnNewEmpresa" id="btnNewEmpresa" value="Novo" class="btn btn-primary pull-right" style="margin-top:7px;">
+                </div>
+            </div>
+        </form>
+    </nav>
+
+    <div id="list" class="row">
+        <div id="divTab" class="table-responsive col-md-12">
+            <table id="empresasList" class="table table-striped" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr class="class_header_list">
+                        <th>ID</th>
+                        <th>Tipo Vinculo</th>
+                        <th>Tipo Empresa</th>
+                        <th>Nome</th>
+                        <th>C.N.P.J</th>
+                        <th>Participação</th>
+                        <th class="actions">Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="empresasData" cellspacing="5" cellpadding="5">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

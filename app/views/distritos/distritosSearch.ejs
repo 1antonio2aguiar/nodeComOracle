@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Distrito</title>
+
+    <!-- define a viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <meta charset="utf-8">
+
+    <!-- adicionar CSS Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="all">
+
+    <!-- css personalizado -->
+    <link href="css/estilo.css" rel="stylesheet" media="all">
+
+</head>
+<body> 
+    
+    <div id="main" class="container-fluid">
+        <h3 class="page-header">Consulta Distrito</h3>
+    </div>
+    
+    <form class="form-add">
+        <!-- area de campos do form -->
+        <div class="input-group input-group-sm col-md-4">
+            <span class="input-group-addon">Cidade</span>
+            <input type="text" class="form-control" id="cidade" name="cidade" value="<%=distrito[0][0]%>" readonly>
+        </div>  
+        <hr/>
+
+        <div class="input-group input-group-sm col-md-2">
+            <span class="input-group-addon">Distrito</span>
+            <input type="text" class="form-control" id="distrito" name="distrito" value="<%=distrito[0][1]%>" readonly>
+        </div>
+        <hr/>
+        
+        <div class="input-group input-group-sm col-md-2">
+            <span class="input-group-addon">Código INEP</span>
+            <input type="text" class="form-control" id="codigo_inep" name="codigo_inep" value="<%=distrito[0][2]%>" readonly>
+        </div>
+        <hr />
+        <div id="actions" class="row">
+            <div class="col-md-12">
+                <a href="/distritosList" class="btn btn-default">Voltar</a>
+            </div>
+        </div>
+    </form>
+    
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

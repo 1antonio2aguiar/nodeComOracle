@@ -1,0 +1,81 @@
+<link href="jsGrid.css" rel="stylesheet" type="text/css">
+<script language="javascript" src="jsGrid.js"></script>
+
+<script>
+	var grid;
+	function criaGrid(){
+		grid = new jsGrid("divJGrid");
+		grid.setTextMatrix(0,0,"0-0");
+		grid.rows.add();
+		grid.rows.add();
+		grid.rows.add();
+
+		grid.rows.addCol("100px");
+		grid.rows.addCol("150px");		
+
+		grid.setTextMatrix(0,0,"0-0");
+		grid.setTextMatrix(0,1,"0-1");
+		grid.setTextMatrix(0,2,"0-2");
+		grid.setTextMatrix(1,0,"1-0");
+		grid.setTextMatrix(1,1,"1-1");
+		grid.setTextMatrix(1,2,"1-2");
+		grid.setTextMatrix(2,0,"2-0");
+		grid.setTextMatrix(2,1,"2-1");
+		grid.setTextMatrix(2,2,"2-2");
+		grid.setTextMatrix(2,2,"2-2");
+
+	}
+	function RemoveUltimaRow(){
+		grid.rows.remove(grid.rows.count()-1);
+	}
+	function RemoveRowSelecionada(){
+		grid.rows.selectedRow.remove();
+	}
+	function AdicionaLinha(){
+		grid.rows.add();
+	}
+	function AdicionaColuna(){
+		var largura = document.getElementById('txtLargura').value;
+		grid.rows.addCol(largura);
+	}
+	function EditarTexto(){
+		var row =  document.getElementById('txtLinha').value;
+		var col  = document.getElementById('txtColuna').value;
+		var valor  = document.getElementById('txtValor').value;
+		grid.setTextMatrix(row,col,valor);
+	}
+	function ExibirValorCelula(){
+		var row =  document.getElementById('txtLinha2').value;
+		var col  = document.getElementById('txtColuna2').value;
+		alert(grid.getTextMatrix(row,col));
+	}	
+	function MudarLarguraColuna(){
+		var col =  document.getElementById('txtCol').value;
+		var width =  document.getElementById('txtWidth').value;
+		grid.rows.setColWidth(col,width);
+	}
+</script>
+
+	<html>
+		<body style="">
+			<div id="divJGrid"></div>
+			<input type="button" value="Deleta Ultima Linha" onClick="RemoveUltimaRow()"><br>
+			<input type="button" value="Deleta Linha Selecionada" onClick="RemoveRowSelecionada()"><br>
+			<input type="button" value="Adiconar Linha" onClick="AdicionaLinha()"><br>
+			<input type="button" value="Adiconar Coluna" onClick="AdicionaColuna()">
+				&nbsp;Largura: <input id='txtLargura' value='50px'><br>
+			<input type="button" value="Editar Texto" onClick="EditarTexto()">
+				&nbsp;Coluna: <input id='txtColuna' value='1'>
+				&nbsp;Linha: <input id='txtLinha' value='1'>
+				&nbsp;Valor: <input id='txtValor' value='Valor celula'><br>
+			<input type="button" value="Exibir Valor Celula" onClick="ExibirValorCelula()">
+				&nbsp;Coluna: <input id='txtColuna2' value='1'>
+				&nbsp;Linha: <input id='txtLinha2' value='1'><br>
+			<input type="button" value="Mudar Largura Coluna" onClick="MudarLarguraColuna()">
+				&nbsp;Coluna: <input id='txtCol' value='1'>
+				&nbsp;Linha: <input id='txtWidth' value='150px'><br>
+		</body>
+	</html>
+<script>
+	criaGrid();
+</script>

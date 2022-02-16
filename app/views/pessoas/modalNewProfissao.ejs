@@ -1,0 +1,148 @@
+﻿<div id="modalProfissaoNew" class="modal hide bd-example-modal-lg-edit" tabindex="-1" role="dialog-edit" aria-hidden="true"  aria-labelledby="myLargeModalLabelNew">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content edit">
+            <div id="ModalHeaderPro" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 class="modal-title modal-edit-title" id="New">Nova Profissão</h4>
+            </div>
+
+            <form class="form-add" name="profissaoModalNew" id="profissaoModalNew" method="post">
+                <div class="form-row">
+                    <div class="row">
+                        <input type="text" class="form-control" id="modNewIdPessoa" name="modNewIdPessoa" value="<%=pessoa[0][0]%>" style="display:none;">
+                    </div>
+                    <div class="row">
+                        <input type="text" class="form-control" id="modNewIdContato" name="modNewIdContato" style="display:none;">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="modProfissaoNewNome">Nome</label>
+                        <input type="text" class="form-control" id="modProfissaoNewNome" name="modProfissaoNewNome" readonly>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="modProfissaoNewCpf">C.P.F</label>
+                        <input type="text" class="form-control" id="modProfissaoNewCpf" name="modProfissaoNewCpf" readonly>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="modNewProfissao">Profissão</label>
+                        <select class="form-control" name="modNewProfissao" id="modNewProfissao">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer">
+                    </div>
+
+                    <div id="ModalFooterPro" class="modal-footer">
+                        <button type="button" class="btn btn-outline-info" data-dismiss="modal">Fechar</button>
+                        <input type="submit" name="btnModSubmit" id="btnModSubmit" value="Enviar" class="btn btn-outline-info">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var profissoesList;
+        var profissoesDdw;
+        var nomePessoa;
+        var cpf;
+        var profissao = 0;
+
+        //Abre a modal de novo Contato
+        $(document).on('click', '#btnNewProfissao', function () {
+            event.preventDefault();
+
+            // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui novo
+            setHeaderFooterPro("N");
+            
+            var nomePessoa   = $("#inputNomepf").val();
+            cpfCnpj          = $("#inputCpfpf").val();
+
+            if(!cpfCnpj){
+                cpfCnpj      = $("#inputCnpjpj").val();
+                nomePessoa   = $("#inputNomepj").val();
+            }
+
+            $("#modProfissaoNewNome").val(nomePessoa);
+            $("#modProfissaoNewCpf").val(cpfCnpj);
+
+            $('#modalProfissaoNew').modal({'show':true});
+
+            $.ajax({
+                type: "GET",
+                url: '/pessoasProfissoesModalNew',
+                dataType: 'json',
+                success: function (response) {
+                    $("#modNewProfissao option").each(function() {
+                        $(this).remove();
+                    });
+                    
+                    profissoesList = response;
+                    profissoesDdw = $("#modNewProfissao");
+                    profissoesDdw.append($("<option />").val("-1").text("Selecione..."));
+                    
+                    var temp = null;
+                    for (var i = 0; i < profissoesList.length; i++) {
+                        temp = profissoesList[i];
+                        profissoesDdw.append($("<option />").val(temp[0]).text(temp[1]));
+                    }
+
+                    $('#modalProfissaoNew').modal({'show':true});
+                }
+            });
+        });
+
+        // Insere os dados
+        $('#profissaoModalNew').on('submit', function(event){
+            event.preventDefault();
+            var dados = $("#profissaoModalNew").serialize();
+
+            $.post("pessoasProfissoesModalSubmit",dados,function(response){
+                if(response){
+                    //limpa os dados
+                    $('#profissaoModalNew')[0].reset();
+
+                    //fecha a janela
+                    $('#modalProfissaoNew').modal('hide');
+
+                    // refaz a lista de profissoes
+                    montaListaProfissoes();
+
+                }else{
+                    $("#msg").html(response);
+                }
+            });
+        });
+
+        function setHeaderFooterPro(data){
+
+            if(data == "N"){
+                //Novo
+                var element = document.getElementById("ModalHeaderPro");
+                element.classList.remove("class_header_edit");
+                element.classList.add("class_header_new");
+                
+                var element = document.getElementById("ModalFooterPro");
+                element.classList.remove("class_footer_edit");
+                element.classList.add("class_footer_new");
+            } else {
+                // Delete
+                var element = document.getElementById("ModalHeaderDelPro");
+                element.classList.remove("class_header_del");
+                element.classList.add("class_header_del");
+                
+                var element = document.getElementById("ModalFooterDelPro");
+                element.classList.remove("class_footer_del");
+                element.classList.add("class_footer_del");
+            }
+        }; 
+
+    </script>
+</div>

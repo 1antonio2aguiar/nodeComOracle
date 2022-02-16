@@ -1,0 +1,199 @@
+﻿<div id="modalEnderEdit" class="modal hide bd-example-modal-lg-edit" tabindex="-1" role="dialog-edit" aria-hidden="true"  aria-labelledby="myLargeModalLabelEdit">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content edit">
+            <div id="ModalHeaderEditEnd" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 class="modal-title modal-edit-title" id="New">Edita Endereço</h4>
+            </div>
+
+            <form class="form-add" name="enderModalUpdate" id="enderModalUpdate" method="post">
+                <div class="row">
+                    <input type="text" class="form-control" id="modEditId" name="modEditId" style="display:none;">
+                </div>
+                <div class="row">
+                    <input type="text" class="form-control" id="modEditCepId" name="modEditCepId" style="display:none;">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-7">
+                        <label for="modEditNome">Nome</label>
+                        <input type="text" class="form-control" id="modEditNome" name="modEditNome" readonly>
+                    </div>
+
+                    <div class="form-group col-md-5">
+                        <label id="lbmodEditCpfCnpj"for="modEditCpf"></label>
+                        <input type="text" class="form-control" id="modEditCpfCnpj" name="modEditCpfCnpj" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="modEditTipoEndereco">Tipo Endereço</label>
+                        <input type="text" class="form-control" id="modEditTipoEndereco" name="modEditTipoEndereco" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-5">
+                        <label for="modEditNomeCidade">Cidade</label>
+                        <input type="text" class="form-control" id="modEditNomeCidade" name="modEditNomeCidade" readonly>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modEditestado">Estado</label>
+                        <input type="text" class="form-control" id="modEditestado" name="modEditestado" readonly>
+                    </div>
+
+                    <div class="form-group col-md-5">
+                        <label for="modEditNomeBairro">Bairro</label>
+                        <input type="text" class="form-control" id="modEditIdBairro" name="modEditIdBairro" style="display:none;">
+                        <input type="text" class="form-control" id="modEditNomeBairro" name="modEditNomeBairro" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label for="modEditTipoLogradouro">Tipo Logradouro</label>
+                        <input type="text" class="form-control" id="modEditTipoLogradouro" name="modEditTipoLogradouro" readonly>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="modEditNomeLogradouro">Nome Logradouro</label>
+                        <input type="text" class="form-control" id="modEditIdLogradouro" name="modEditIdLogradouro" style="display:none;">
+                        <input type="text" class="form-control" id="modEditNomeLogradouro" name="modEditNomeLogradouro" readonly>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modEditNumero">Número</label>
+                        <input type="text" class="form-control" id="modEditNumero" name="modEditNumero" readonly>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modEditComplemento">Complemento</label>
+                        <input type="text" class="form-control" id="modEditComplemento" name="modEditComplemento">
+                    </div>
+                </div>
+                
+                <div class="form-row col-md-4">
+                        <label for="modEditCep">C.E.P</label>
+                    <div class="input-group">
+                        <input name="modEditCep" class="form-control" id="modEditCep" type="text" onfocus="$(this).mask('00.000-000')" readonly>
+                        <!-- <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button" name="btnModEditCep" id="btnModEditCep">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button> -->
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer">
+                    </div>
+
+                    <div id="ModalFooterEditEnd" class="modal-footer">
+                        <button type="button" class="btn btn-outline-info" data-dismiss="modal">Fechar</button>
+                        <input type="submit" name="btnModUpd" id="btnModUpd" value="Enviar" class="btn btn-outline-info">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+        $(document).on('click', '.edit_endereco', function () {
+            // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui Edit
+            setHeaderFooterEnd("E");
+
+            id  = $(this).attr("id");
+            cep = $(this).attr("cep");
+            var dados = { id: id, cep: cep };
+
+            $.ajax({
+                type: "POST",
+                url: '/enderecosModalEdit',
+                data: dados,
+                dataType: 'json',
+                success: function (response) {
+                    var nomePessoa   = $("#inputNomepf").val();
+                    cpfCnpj          = $("#inputCpfpf").val();
+
+                    if(!cpfCnpj){
+                        cpfCnpj      = $("#inputCnpjpj").val();
+                        nomePessoa   = $("#inputNomepj").val();
+                        document.getElementById("lbmodEditCpfCnpj").innerHTML = 'C.N.P.J';
+                    } else {
+                        document.getElementById("lbmodEditCpfCnpj").innerHTML = 'C.P.F';                
+                    }
+
+                    $("#modEditNome").val(nomePessoa);
+                    $("#modEditCpfCnpj").val(cpfCnpj);
+
+                    $("#modEditTipoEndereco").val(response[0][4]);
+                    $("#modEditCep").val(response[0][5]);
+                    $("#modEditTipoLogradouro").val(response[0][6]);
+                    $("#modEditNomeLogradouro").val(response[0][7]);
+                    $("#modEditIdLogradouro").val(response[0][13]);
+                    $("#modEditNumero").val(response[0][1]);
+                    $("#modEditComplemento").val(response[0][2]);
+                    $("#modEditNomeBairro").val(response[0][8]);
+                    $("#modEditIdBairro").val(response[0][14]);
+                    $("#modEditNomeCidade").val(response[0][9]);
+                    $("#modEditestado").val(response[0][10]);
+                    $("#modEditId").val(response[0][11]);
+                    $("#modEditCepId").val(response[0][12]);
+                    
+                    $('#modalEnderEdit').modal({'show':true});   
+                }
+            });
+        });
+
+        $('#enderModalUpdate').on('submit', function(event){
+            event.preventDefault();
+            //receber dados do formulario
+            var dados = $("#enderModalUpdate").serialize();
+            
+            $.post("enderecosModalUpdate",dados,function(response){
+                if(response){
+                    //limpa os dados
+                    $('#enderModalUpdate')[0].reset();
+                    //fecha a janela
+                    $('#modalEnderEdit').modal('hide');
+
+                    //atualiza lista de endereços
+                    montaListaEnderecos();
+                }else{
+                    $("#msg").html(response);
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            $("#btnModEditCep").click(function() {
+                var cep    = $("#modEditCep").val();
+                // retira os (.) e (-) do código do cep
+                cep = cep.normalize('NFD').replace(/([\u0300-\u036f]|[^0-9a-zA-Z])/g, '');
+                var dados = { cep: cep };
+                $.ajax({
+                    type: "POST",
+                    url: '/enderecosModalEditCep',
+                    data: dados,
+                    dataType: 'json',
+                    success: function (response) {
+                        $("#modEditCepId").val(response[0][0]);
+                        $("#modEditTipoLogradouro").val(response[0][2]);
+                        $("#modEditNomeLogradouro").val(response[0][3]);
+                        $("#modEditIdLogradouro").val(response[0][7]);
+                        $("#modEditNomeBairro").val(response[0][4]);
+                        $("#modEditIdBairro").val(response[0][8]);
+                        $("#modEditNomeCidade").val(response[0][5]);
+                        $("#modEditestado").val(response[0][6]);
+                    }
+                });
+            }); 
+        });
+        
+    </script>
+</div>

@@ -1,0 +1,122 @@
+﻿<div class="tab-pane active" id="pessoa" role="tabpanel" aria-labelledby="home-tab">
+    <nav class="navbar navbar-filter-tab navbar-inverse" role="navigation">
+        <div class="col-md-11">
+            <p class="h4" style="margin-top:13px;">Pessoa: <%=pessoa[0][1]%></p>
+        </div>
+    </nav>
+
+    <form class="form-add">
+        <div class="form-row">
+            <input type="text" class="form-control" id="inputFilterNome" name="inputFilterNome" value="<%=filterNome%>" style="display:none;">
+            <input type="text" class="form-control" id="inputFiltercpf" name="inputFiltercpf" value="<%=filtercnpjcpf%>" style="display:none;">
+
+            <div class="form-group col-md-1">
+                <label for="inputNomepf">ID</label>
+                <input type="text" class="form-control" id="inputIdpf" name="inputIdpf" value="<%=pessoa[0][0]%>" readonly>
+            </div>
+
+            <div class="form-group col-md-5">
+                <label for="inputNomepf">Nome</label>
+                <input type="text" class="form-control" id="inputNomepf" name="inputNomepf" value="<%=pessoa[0][1]%>" readonly>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="inputTpPessoapf">Tipo Pessoa</label>
+                <input class="form-control" name="inputTpPessoapf" id="inputTpPessoapf" value="<%=pessoa[0][23]%>" readonly>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="inputCpfpf">C.P.F</label>
+                <input type="text" class="form-control" id="inputCpfpf" name="inputCpfpf" placeholder="CPF"  value="<%=pessoa[0][9]%>" readonly>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="inputDtRegistropf">Data Nascimento</label>
+                <input type="text" id="inputDtRegistropf" name="inputDtRegistropf" class="form-control" value="<%=pessoa[0][3]%>" readonly>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                <label for="inputSexopf">Sexo</label>
+                <input class="form-control" name="inputSexopf" id="inputSexopf" value="<%=pessoa[0][16]%>" readonly>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="inputEstadoCivilpf">Estado Civil</label>
+                <input class="form-control" name="inputEstadoCivilpf" id="inputEstadoCivilpf" value="<%=pessoa[0][17]%>" readonly>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="inputRacapf">Raça</label>
+                <input class="form-control" name="inputRacapf" id="inputRacapf" value="<%=pessoa[0][11]%>" readonly>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="inputEtniapf">Etnia</label>
+                <input class="form-control" name="inputEtniapf" id="inputEtniapf" value="<%=pessoa[0][13]%>" readonly>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="inputCorpf">Cor</label>
+                <input class="form-control" name="inputCorpf" id="inputCorpf" value="<%=pessoa[0][12]%>" readonly>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="inputBolsaFamiliapf">Bolsa Familia?</label>
+                <input class="form-control" name="inputBolsaFamiliapf" id="inputBolsaFamiliapf" value="<%=pessoa[0][14]%>" readonly>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                <label for="inputTpPessoapf">Cidade Nascimento</label>
+                <input class="form-control" name="inputCidadeNascimentopf" id="inputCidadeNascimentopf" value="<%=pessoa[0][18]%>" readonly>
+            </div>
+
+            <div class="col-md-3">
+                <label for="inputNomePaipf">Nome Pai</label>
+                <input type="text" class="form-control" id="inputNomePaipf" name="inputNomePaipf" readonly value="<%=pessoa[0][20]%>">
+            </div>
+
+            <div class="col-md-3">
+                <label for="inputNomeMaepf">Nome Mãe</label>
+                <input type="text" class="form-control" id="inputNomeMaepf" name="inputNomeMaepf" readonly value="<%=pessoa[0][19]%>">
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="inputNmsocialpf">Nome Social</label>
+                <input type="text" class="form-control" id="inputNmsocialpf" name="inputNmsocialpf" readonly value="<%=pessoa[0][10]%>">
+            </div>
+
+            <div class="col-md-1">
+                <label for="inputMesEnvioSicompf">Mes Sicom</label>
+                <input type="text" class="form-control" id="inputMesEnvioSicompf" name="inputMesEnvioSicompf" value="<%=pessoa[0][21]%>" disabled>
+            </div>
+
+            <div class="col-md-1">
+                <label for="inputAnoEnvioSicompf">Ano Sicom</label>
+                <input type="text" class="form-control" id="inputAnoEnvioSicompf" name="inputAnoEnvioSicompf" value="<%=pessoa[0][22]%>" disabled>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-10">
+                <label for="inputObspf">Observação</label>
+                <input type="text" class="form-control" id="inputObspf" name="inputObspf" readonly value="<%=pessoa[0][5]%>">
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="inputCartaoSuspf">Nº Cartão SUS</label>
+                <input type="text" class="form-control" id="inputCartaoSuspf" name="inputCartaoSuspf" value="<%=pessoa[0][15]%>" readonly>
+            </div> 
+        </div>
+
+
+        <div class="form-row" id="actions">
+            <div class="col-md-12 class_footer_buton">
+                <button type="button" name="btnVoltar" id="btnVoltar" class="btn btn-outline-info" data-dismiss="modal">Voltar</button>
+            </div>
+        </div>
+    </form>
+</div>

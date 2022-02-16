@@ -1,0 +1,622 @@
+﻿<div id="modalLogradouro" class="modal bd-example-modal-lg-edit" tabindex="-1" role="dialog-edit" aria-hidden="true"  aria-labelledby="myLargeModalLabelNew">    
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content edit">
+            <div id="ModalHeader" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 id="modal-title" class="modal-title white-text w-100 font-weight-bold py-2"></h4>
+            </div>
+    
+            <form class="form-add" name="frmLogradouros" id="frmLogradouros" method="post">
+                <div class="form-row">
+                    <div class="row">
+                        <div class="alert alert-danger input-lg col-md-12 msg-error" role="alert" name="msgErro" id="msgErro" style="display:none;"></div>
+                        <input type="text" class="form-control" id="modalLogradId" name="modalLogradId" style="display:none;">
+                        <input type="text" class="form-control" id="modalLogradDadosId" name="modalLogradDadosId" style="display:none;">
+                        <input type="text" class="form-control" id="modalLogradBairroAnt" name="modalLogradBairroAnt" style="display:none;">
+                        <input type="text" class="form-control" id="modalTpOperacao" name="modalTpOperacao" style="display:none;">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputCidade">Cidade</label>
+                        <select class="form-control" name="modalSelCidade" id="modalSelCidade" onchange="changeCidade(), escondeMsg()">
+                            <option value="-1">Selecione...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="modalSelDistrito">Distrito</label>
+                        <select class="form-control" name="modalSelDistrito" id="modalSelDistrito" onchange="changeDistrito(), escondeMsg()">
+                            <option value="-1">Selecione...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="modalInputEstado">Estado</label>
+                        <input type="text" class="form-control" id="modalInputEstado" name="modalInputEstado" disabled="true">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="modalSelBairro">Bairro</label>
+                        <select class="form-control is-invalid" name="modalSelBairro" id="modalSelBairro"  onchange=" escondeMsg()">
+                            <option value="-1">Selecione...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="modalSelTpLograd">Tipo Logradouro</label>
+                        <select class="form-control is-invalid" name="modalSelTpLograd" id="modalSelTpLograd"  onchange=" escondeMsg()">
+                            <option value="-1">Selecione...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-9">
+                        <label for="modalInputNome">Nome</label>
+                        <input type="text" class="form-control" id="modalInputNome" name="modalInputNome" onkeyup=" escondeMsg()" placeholder="Nome Logradouro">
+                    </div>
+                </div>
+
+                <div class="form-row">
+
+                    <div class="form-group col-md-6">
+                        <label for="modalSelTituloPatente">Título Patente</label>
+                        <select class="form-control" name="modalSelTituloPatente" id="modalSelTituloPatente">
+                            <option value="-1">Selecione...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="inputPreposicao">Preposição</label>
+                        <select class="form-control" name="modalSelPreposicao" id="modalSelPreposicao">
+                            <option value="-1">Selecione...</option>
+                            <% for(var i = 0; i < preposicao.length; i++) { %>
+                                <option value="<%=preposicao[i].value%>"><%=preposicao[i].value%></option>
+                            <% } %>  
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="modInputNmReduzido">Nome Reduzido</label>
+                        <input type="text" class="form-control" id="modInputNmReduzido" name="modInputNmReduzido" placeholder="Nome reduzido">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="modInputLogradNmSimples">Nome Simples</label>
+                        <input type="text" class="form-control" id="modInputLogradNmSimples" name="modInputLogradNmSimples" placeholder="Nome Simplificado">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="modalDtCriacao">Data Criação</label>
+                        <input type="date" id="modalDtCriacao" name="modalDtCriacao" class="form-control">
+                    </div>
+    
+                    <div class="form-group col-md-3">
+                        <label for="modalInputLeiCriacao">Lei Criação</label>
+                        <input type="text" class="form-control" id="modalInputLeiCriacao" name="modalInputLeiCriacao">
+                    </div>
+    
+                    <div class="form-group col-md-3">
+                        <label for="modalDtDecreto">Data Decreto</label>
+                        <input type="date" id="modalDtDecreto" name="modalDtDecreto" class="form-control">
+                    </div>
+    
+                    <div class="form-group col-md-3">
+                        <label for="modalInputDecreto">Decreto</label>
+                        <input type="text" class="form-control" id="modalInputDecreto" name="modalInputDecreto">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="modalDtPortaria">Data Portaria</label>
+                        <input type="date" id="modalDtPortaria" name="modalDtPortaria" class="form-control">
+                    </div>
+    
+                    <div class="form-group col-md-3">
+                        <label for="modalInputPortaria">Portaria</label>
+                        <input type="text" class="form-control" id="modalInputPortaria" name="modalInputPortaria">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="modalInputComplemento">Complemento</label>
+                            <input type="text" class="form-control" id="modalInputComplemento" name="modalInputComplemento" placeholder="Complemento">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-row col-md-6">
+                        <input type="text" class="form-control" id="modalImputIdVereador" name="modalImputIdVereador" style="display:none;">
+
+                        <label for="modNewEmpCnpjCpf">Vereador</label>
+                        <div class="input-group">
+                            <input name="modInputNmVereador" class="form-control is-invalid" id="modInputNmVereador" type="text">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" name="btnNomeVereador" id="btnNomeVereador">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-row col-md-6">
+                        <label for="modNewEmpCnpjCpf">C.N.P.J / C.P.F</label>
+                        <div class="input-group">
+                            <input name="modalInputCnpjCpf" class="form-control is-invalid" id="modalInputCnpjCpf" type="text">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" name="btnCnpjCpf" id="btnCnpjCpf">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="modalInputObservacao">Observação</label>
+                        <input type="text" class="form-control" id="modalInputObservacao" name="modalInputObservacao" placeholder="Observação">
+                    </div>
+                </div>
+
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer">
+                    </div>
+
+                    <div id="ModalFooter" class="modal-footer">
+                        <button type="button" class="btn btn-outline-info" data-dismiss="modal">Fechar</button>
+                        <input type="submit" name="btnModSubmit" id="btnModSubmit" value="Enviar" class="btn btn-outline-info">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+    
+<script>
+    var submit = new Boolean(true);
+    var temp   = null;
+
+    //Novo -- Abre modal
+    $(document).on('click', '#btnNew', function () {
+        //limpa os dados
+        $('#frmLogradouros')[0].reset();
+        $("#modalTpOperacao").val('N'); // Novo registro
+
+        $("#modalSelCidade option").each(function() {$(this).remove();});
+        $("#modalSelDistrito option").each(function() {$(this).remove();});
+        $("#modalSelBairro option").each(function() {$(this).remove();});
+        $("#modalSelTpLograd option").each(function() {$(this).remove();});
+        $("#modalSelTituloPatente option").each(function() {$(this).remove();});
+        $("#modalSelPreposicao option").each(function() {$(this).remove();});
+        
+        document.getElementById("modalSelCidade").disabled = false;
+        document.getElementById("modalSelDistrito").disabled = false;
+        document.getElementById("modalSelCidade").disabled = false;
+        document.getElementById("modalSelDistrito").disabled = false;
+        document.getElementById("modInputNmVereador").disabled = false;
+        document.getElementById("modalInputCnpjCpf").disabled = false;
+        document.getElementById("btnNomeVereador").disabled = false;
+        document.getElementById("btnCnpjCpf").disabled = false;
+        
+        //Seta o título de acordo com a operacao
+        $("#modal-title").html("Novo Logradouro");
+        // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui novo
+        setHeaderFooter("N");
+        
+        $.ajax({
+            type: "get",
+            url: '/logradourosNew',
+            dataType: 'json',
+            success: function (dados) {
+                var cidades  = $("#modalSelCidade");
+                var tiposLogradouros = $("#modalSelTpLograd");
+                var tiposTituloPatente = $("#modalSelTituloPatente");
+                var preposicao  = $("#modalSelPreposicao");
+
+                cidades.append($('<option selected="true"/>').val("-1").text("Selecione..."));
+                for (var i = 0; i < dados.cidades.length; i++) {
+                    temp = dados.cidades[i];
+                    cidades.append($("<option />").val(temp[0]).text(temp[1]));
+                };
+
+                tiposLogradouros.append($('<option selected="true"/>').val("-1").text("Selecione..."));
+                for (var i = 0; i < dados.tiposLogradouros.length; i++) {
+                    temp = dados.tiposLogradouros[i];
+                    tiposLogradouros.append($("<option />").val(temp[0]).text(temp[1]));
+                };
+
+                tiposTituloPatente.append($('<option selected="true"/>').val("-1").text("Selecione..."));
+                for (var i = 0; i < dados.titulosPatentes.length; i++) {
+                    temp = dados.titulosPatentes[i];
+                    tiposTituloPatente.append($("<option />").val(temp[0]).text(temp[1]));
+                };
+
+                preposicao.append($('<option selected="true"/>').val("-1").text("Selecione..."));
+                for (var i = 0; i < dados.preposicao.length; i++) {
+                    temp = dados.preposicao[i];
+                    preposicao.append($("<option />").val(temp.value).text(temp.value));
+                };
+                $("#modalLogradId").val(dados.logradouro[0][0]);
+            }
+        });
+
+        event.preventDefault();
+        $('#modalLogradouro').modal({'show':true});
+    });
+
+    //Update -- Abre modal
+    $(document).on('click','.view_edit', function(){
+        $('#frmLogradouros')[0].reset();
+        $("#modalTpOperacao").val('U'); // Update no registro
+
+        //Seta o título de acordo com a operacao
+        $("#modal-title").html("Edita Logradouro");
+        // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui novo
+        setHeaderFooter("E");
+
+        $("#modalSelCidade option").each(function() {$(this).remove();});
+        $("#modalSelDistrito option").each(function() {$(this).remove();});
+        $("#modalSelBairro option").each(function() {$(this).remove();});
+        $("#modalSelTpLograd option").each(function() {$(this).remove();});
+        $("#modalSelTituloPatente option").each(function() {$(this).remove();});
+        $("#modalSelPreposicao option").each(function() {$(this).remove();});
+
+        document.getElementById("modalSelCidade").disabled = true;
+        document.getElementById("modalSelDistrito").disabled = true;
+
+        var id     = $(this).attr("id");
+        var bairro = $(this).attr("bairro");
+        var dados  = { id: id, bairro: bairro };
+
+        $.ajax({
+            type: "get",
+            url: '/logradourosEdit',
+            data: dados,
+            dataType: 'json',
+            success: function (dados) {
+
+                var cidade = $("#modalSelCidade");
+                cidade.append($("<option />").val(dados.logradouro[0][0]).text(dados.logradouro[0][0]));
+                
+                var distrito = $("#modalSelDistrito");
+                distrito.append($("<option />").val(dados.logradouro[0][1]).text(dados.logradouro[0][1]));
+                
+                var bairros = $("#modalSelBairro");
+                var temp = null;
+                for (var i = 0; i < dados.bairros.length; i++) {
+                    temp = dados.bairros[i];
+                    if(temp[0] == dados.bairroCep[0][0]){
+                        bairros.append($('<option selected="true"/>').val(temp[0]).text(temp[1]));
+                        $("#modalLogradBairroAnt").val(temp[0]);
+                        
+                    } else {
+                        bairros.append($("<option />").val(temp[0]).text(temp[1]));
+                    };
+                };
+
+                var tpLograd = $("#modalSelTpLograd");
+                temp = null;
+                for (var i = 0; i < dados.tiposLogradouros.length; i++) {
+                    temp = dados.tiposLogradouros[i];
+                    if(temp[0] == dados.logradouro[0][22]){
+                        tpLograd.append($('<option selected="true"/>').val(temp[0]).text(temp[1]));
+                    } else {
+                        tpLograd.append($("<option />").val(temp[0]).text(temp[1]));
+                    };
+                };
+
+                var tituPat = $("#modalSelTituloPatente");
+                temp = null;
+                for (var i = 0; i < dados.titulosPatentes.length; i++) {
+                    temp = dados.titulosPatentes[i];
+
+                    if(dados.logradouro[0][4]){
+                        if(temp[0] == dados.logradouro[0][4]){
+                            tituPat.append($('<option selected="true"/>').val(temp[0]).text(temp[1]));
+                        } else {
+                            tituPat.append($("<option />").val(temp[0]).text(temp[1]));
+                        };
+                    } else {
+                        if(i == 1){
+                            tituPat.append($('<option selected="true"/>').val("-1").text("Selecione..."));
+                        } else {
+                            tituPat.append($("<option />").val(temp[0]).text(temp[1]));
+                        };
+                    };
+                };
+
+                var preposicao = $("#modalSelPreposicao");
+                temp = null;
+                for (var i = 0; i < dados.preposicao.length; i++) {
+                    temp = dados.preposicao[i];
+
+                    if(dados.logradouro[0][5]){
+                        if(temp.value == dados.logradouro[0][5]){
+                            preposicao.append($('<option selected="true"/>').val(temp.value).text(temp.value));
+                        } else {
+                            preposicao.append($("<option />").val(temp.value).text(temp.value));
+                        };
+                    } else {
+                        if(i == 1){
+                            preposicao.append($('<option selected="true"/>').val("-1").text("Selecione..."));
+                        } else {
+                            preposicao.append($("<option />").val(temp.value).text(temp.value));
+                        };
+                    };
+                };
+
+                $("#modalLogradId").val(dados.logradouro[0][20]);
+                $("#modalLogradDadosId").val(dados.logradouro[0][21]); 
+                $("#modalInputEstado").val(dados.logradouro[0][23]);
+                $("#modalInputNome").val(dados.logradouro[0][3]);
+                $("#modInputNmReduzido").val(dados.logradouro[0][6]);
+                $("#modInputLogradNmSimples").val(dados.logradouro[0][7]);
+                $("#modalDtCriacao").val(dados.logradouro[0][8]);
+                $("#modalInputLeiCriacao").val(dados.logradouro[0][9]);
+                $("#modalDtDecreto").val(dados.logradouro[0][10]);
+                $("#modalInputDecreto").val(dados.logradouro[0][11]);
+                $("#modalDtPortaria").val(dados.logradouro[0][12]);
+                $("#modalInputPortaria").val(dados.logradouro[0][13]);
+                $("#modalInputComplemento").val(dados.logradouro[0][19]);
+                $("#modalInputObservacao").val(dados.logradouro[0][18]);
+
+                if(dados.logradouro[0][14]){
+                    $("#modalImputIdVereador").val(dados.logradouro[0][14]);
+                    $("#modInputNmVereador").val(dados.logradouro[0][15]);
+                    $("#modalInputCnpjCpf").val(dados.logradouro[0][17]);
+                    document.getElementById("modInputNmVereador").disabled = true;
+                    document.getElementById("modalInputCnpjCpf").disabled = true;
+                    document.getElementById("btnNomeVereador").disabled = true;
+                    document.getElementById("btnCnpjCpf").disabled = true;
+                } else {
+                    document.getElementById("modInputNmVereador").disabled = false;
+                    document.getElementById("modalInputCnpjCpf").disabled = false;
+                    document.getElementById("btnNomeVereador").disabled = false;
+                    document.getElementById("btnCnpjCpf").disabled = false;
+                };
+                
+                event.preventDefault();
+                $('#modalLogradouro').modal({'show':true});
+            }
+        });
+    });	
+
+    // Botão de salvar
+    $('#frmLogradouros').on('submit', function(event){
+        var id = 0;
+
+        value = document.getElementById("modalSelCidade").value;
+        if(value == '-1'){
+            var html = 'Informe a Cidade!';
+            $("#msgErro").html(html);
+            $("#msgErro").show();
+            submit = false;
+            return false;
+        };
+
+        value = document.getElementById("modalSelDistrito").value;
+        if(value == '-1'){
+            var html = 'Informe a Distrito!';
+            $("#msgErro").html(html);
+            $("#msgErro").show();
+            submit = false;
+            return false;
+        };
+
+        value = document.getElementById("modalSelBairro").value;
+        if(value == '-1'){
+            var html = 'Informe o Bairro!';
+            $("#msgErro").html(html);
+            $("#msgErro").show();
+            submit = false;
+            return false;
+        };
+
+        value = document.getElementById("modalSelTpLograd").value;
+        if(value == '-1'){
+            var html = 'Informe o tipo de logradouro!';
+            $("#msgErro").html(html);
+            $("#msgErro").show();
+            submit = false;
+            return false;
+        };
+
+        value = document.getElementById("modalInputNome").value;
+        if(!value){
+            var html = 'Informe o nome!';
+            $("#msgErro").html(html);
+            $("#msgErro").show();
+            submit = false;
+            return false;
+        };
+
+        if(submit){
+            // Insere ou faz update dos dados
+            //receber dados do formulario
+            event.preventDefault();
+            var dados = $("#frmLogradouros").serialize();
+
+            $.post("logradourosSave",dados,function(response){
+                if(response){
+                    //limpa os dados
+                    $('#frmLogradouros')[0].reset();
+
+                    //fecha a janela
+                    $('#modalLogradouro').modal('hide');
+                    
+                    window.location = "/logradourosList";
+                }else{
+                    $("#msgErro").html(response);
+                };
+            });
+        };
+    });
+
+    //Clik no botão nome vereador
+    $(document).on('click', '#btnNomeVereador', function () {
+        nomePessoa = $("#modInputNmVereador").val();
+
+        var dados = {
+            tipoBusca: 'N',
+            cpfCnpj: 0,
+            nomePessoa
+        };
+
+        $.ajax({
+            type: "GET",
+            data: dados,
+            url: '/empresasPessoasBuscaPorDocNome',
+            dataType: 'json',
+            success: function (dados) {
+                if(dados.length == 1){
+                    $("#modalImputIdVereador").val(dados[0][2]);
+                    $("#modInputNmVereador").val(dados[0][0]);
+                    $("#modalInputCnpjCpf").val(dados[0][1]);
+                } else {
+                    var html = '';
+
+                    for (var i = 0; i < dados.length; i++) {
+                        html += '<tr>' +
+                        '<td>' +
+                            '<input type="checkbox" class="custom-control-input" id="modallistVerChecked" onclick="SetSel(this,'+dados[i][2]+', '+"'"+dados[i][1]+"'"+',' +"'"+dados[i][0]+"'" +');">' +
+                        '</td>' +
+                        '<td id="listVereadoresId">' + dados[i][2] + '</td>' +
+                        '<td id="listVereadoresNome">' + dados[i][0] + '</td>' +
+                        '<td id="listVereadoresCpfCgc">' + dados[i][1] + '</td>' +
+                        '<td id="row" style="display:none;">' + i + '</td>' +
+                        '</tr>';
+                    };
+                    $("#modalVereadoresListData").html(html);
+
+                    $('#modalListVereadores').modal({'show':true});
+                };
+            }
+        }); 
+    });
+
+    // click no checkbox
+    function SetSel(elem,id,cnpjcpf,nome) {
+        var lista = document.getElementsByClassName("custom-control-input");
+        var currentState = elem.checked;
+        var elemsLength = lista.length;
+
+        $("#modalImputIdVereador").val(id);
+        $("#modalInputCnpjCpf").val(cnpjcpf);
+        $("#modInputNmVereador").val(nome);
+
+        for(i=0; i<elemsLength; i++)
+        {
+            if(lista[i].type === "checkbox")
+            {
+                lista[i].checked = false;   
+            }
+        }
+        elem.checked = currentState;
+    };
+
+    //Clik no botão cpf cnpj
+    $(document).on('click', '#btnCnpjCpf', function () {
+        cpfCnpj = $("#modalInputCnpjCpf").val();
+
+        // retira os (.) e (-) do código do cpf ou cnpj
+        cpfCnpj = cpfCnpj.normalize('NFD').replace(/([\u0300-\u036f]|[^0-9a-zA-Z])/g, '');
+
+        cpf_ou_cnpj = cpfCnpj.length;
+        cpf_ou_cnpj <= 11 ? tipoBusca = 'F' : tipoBusca = 'J';
+        nomePessoa = '';
+
+        var dados = {
+            tipoBusca,
+            cpfCnpj,
+            nomePessoa 
+        };
+
+        $.ajax({
+            type: "GET",
+            data: dados,
+            url: '/empresasPessoasBuscaPorDocNome',
+            dataType: 'json',
+            success: function (response) {
+                $("#modalImputIdVereador").val(response[0][2]);
+                $("#modInputNmVereador").val(response[0][0]);
+                $("#modalInputCnpjCpf").val(response[0][1]);
+            }
+        });
+    });
+
+    function changeCidade() {
+        var cidade = $("#modalSelCidade").val();
+        if (cidade !== -1)  {
+            $.ajax({
+                type: "GET",
+                url: '/distritos?cidade=' + cidade,
+                dataType: 'json',
+                success: function(response) {
+                    $("#modalInputEstado").val(response[0][2]);
+
+                    $("#modalSelDistrito option").each(function() {
+                        $(this).remove();
+                    });
+
+                    var distrito = $("#modalSelDistrito");
+                    distrito.append($("<option />").val("-1").text("Selecione..."));
+                    
+                    var temp = null;
+                    for (var i = 0; i < response.length; i++) {
+                        temp = response[i];
+                        distrito.append($("<option />").val(temp[0]).text(temp[1]));
+                    }
+                },
+                error: function(response) {
+                    console.log(response);
+                }
+            });
+        };
+    };
+
+    function changeDistrito() {
+        var cidade   = $("#modalSelCidade").val();
+        var distrito = $("#modalSelDistrito").val();
+
+        var dados = { cidade: cidade, distrito: distrito };
+        
+        $.ajax({
+        type: "get",
+            url: '/bairrosDdw',
+            data: dados,
+            dataType: 'json',
+            success: function(dados) {
+                $("#modalSelBairro option").each(function() {
+                    $(this).remove();
+                });
+
+                var bairro = $("#modalSelBairro");
+                bairro.append($("<option />").val("-1").text("Selecione..."));
+                
+                var temp = null;
+                for (var i = 0; i < dados.length; i++) {
+                    temp = dados[i];
+                    bairro.append($("<option />").val(temp[0]).text(temp[1]));
+                }
+            },
+            error: function(dados) {
+                console.log(dados);
+            }
+        });
+    };
+
+    
+    
+</script>

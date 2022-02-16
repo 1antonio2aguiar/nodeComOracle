@@ -1,0 +1,94 @@
+﻿<div id="modalTpDocumento" class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="modalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div id="ModalHeader" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 id="modal-title" class="modal-title white-text w-100 font-weight-bold py-2"></h4>
+            </div>
+
+            <form class="form-add" name="tipoDocumento" id="tipoDocumento" method="post">
+                <div class="form-row">
+                    <div class="row">
+                        <input type="text" value="0" class="form-control" id="modalId" name="modalId" style="display:none;">
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label for="modalDescricao">Descrição</label>
+                        <input type="text" class="form-control" id="modalDescricao" name="modalDescricao" required>
+                    </div>
+                </div>
+    
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer"></div>
+
+                    <div id="ModalFooter" class="modal-footer">
+                        <button type="button" class="btn btn-outline-info" data-dismiss="modal">Fechar</button>
+                        <input type="submit" name="btnModSubmit" id="btnModSubmit" value="Enviar" class="btn btn-outline-info">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+    
+<script>
+    var id        = 0;
+    var descricao = '';
+
+    //NOVO - Abre modal
+    $(document).on('click', '#btnNew', function () {
+        event.preventDefault();
+
+        //Seta o título de acordo com a operacao
+        $("#modal-title").html("Novo Tipo Documento");
+        // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui novo
+        setHeaderFooter("N");
+
+        $('#tipoDocumento')[0].reset();
+        $('#modalTpDocumento').modal({'show':true});
+    });
+
+    $('#tipoDocumento').on('submit', function(event){
+        event.preventDefault();
+        //receber dados do formulario
+        var dados = $("#tipoDocumento").serialize();
+
+        id        = $("#modalId").val();
+        descricao = $("#modalDescricao").val();
+
+        var dados = { id: id, descricao: descricao };
+
+        $.post("tiposDocumentosSave",dados,function(response){
+            if(response){
+
+                //limpa os dados
+                $('#tipoDocumento')[0].reset();
+                // fecha janela
+                $('#modalTpDocumento').modal('hide');
+                window.location.href = '/tiposDocumentosList';
+            }else{
+                $("#msg").html(response);
+            }
+        });
+    });
+
+    //EDIT - abre modal
+    $(document).on('click','.view_edit', function(){
+        //Seta o título de acordo com a operacao
+        $("#modal-title").html("Edita Tipo Documento");
+        // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui novo
+        setHeaderFooter("E");
+
+        id = $(this).attr("id");
+        descricao = $(this).attr("descricao");
+
+        $("#modalId").val(id);
+        $("#modalDescricao").val(descricao);
+
+        event.preventDefault();
+        $('#modalTpDocumento').modal({'show':true});
+    });
+    
+</script>

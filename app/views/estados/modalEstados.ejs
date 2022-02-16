@@ -1,0 +1,177 @@
+﻿<div id="modalEstado" class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div id="ModalHeader" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 id="modal-title" class="modal-title white-text w-100 font-weight-bold py-2"></h4>
+            </div>
+
+            <form class="form-add" name="frmEstados" id="frmEstados" method="post">
+                <div class="form-row">
+                    <div class="row">
+                        <div class="alert alert-danger input-lg col-md-12 msg-error-lg1" role="alert" name="msgErro" id="msgErro" style="display:none;"></div>
+                        <input type="text" value="0" class="form-control" id="modalId" name="modalId" style="display:none;">
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label for="modalDescricao">País</label>
+                        <select class="form-control" name="modalPais" id="modalPais" onchange="escondeMsg()">
+                            
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="modalDescricao">Nome</label>
+                        <input type="text" class="form-control" id="modalNmEstado" name="modalNmEstado" onkeyup="escondeMsg()">
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="modalSigla">Sigla</label>
+                        <input type="text" class="form-control" id="modalSigla" name="modalSigla" onkeyup="escondeMsg()">
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="modalSigla">Código INEP</label>
+                        <input type="text" class="form-control" id="modalCodigoInep" name="modalCodigoInep">
+                    </div>
+                </div>
+    
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer">
+                    </div>
+
+                    <div id="ModalFooter" class="modal-footer">
+                        <button type="button" class="btn btn-outline-info" data-dismiss="modal">Fechar</button>
+                        <input type="submit" name="btnModSubmit" id="btnModSubmit" value="Enviar" class="btn btn-outline-info">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+    
+<script>
+    var submit = new Boolean(true);
+
+    //NOVO Abre a janela modal
+    $(document).on('click', '#btnNew', function () {
+        event.preventDefault();
+
+        //limpa os dados
+        $('#frmEstados')[0].reset();
+
+        //Seta o título de acordo com a operacao
+        $("#modal-title").html("Novo Estado");
+        // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui novo
+        setHeaderFooter("N");
+
+        $('#frmEstados')[0].reset();
+        $('#modalPais').removeAttr("disabled");
+
+        $.ajax({
+            type: "post",
+            url: '/paisesLista',
+            dataType: 'json',
+            success: function (dados) {
+                var html = '';
+                for(var i = 0; i < dados.paises.length; i++) {
+                    html += '<option value="'+dados.paises[i][0]+'">'+dados.paises[i][1]+'</option>'                                
+                };
+                $("#modalPais").html(html);
+            } 
+        });
+        $('#modalEstado').modal({'show':true});
+    });
+
+    // Update abre modal com os dados gravados
+    $(document).on('click','.view_edit', function(){
+        $('#frmEstados')[0].reset();
+        
+        //Seta o título de acordo com a operacao
+        $("#modal-title").html("Edita Estado");
+        // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui novo
+        setHeaderFooter("E");
+
+        $("#modalPais").attr("disabled","disabled");
+
+        var id = $(this).attr("id");
+        var dados = { id: id };
+
+        $.ajax({
+            type: "post",
+            url: '/estadosEdit',
+            data: dados,
+            dataType: 'json',
+            success: function (dados) {
+
+                var html = '<option value="'+dados[0][5]+'">'+dados[0][3]+'</option>'                                
+                $("#modalPais").html(html);
+
+                $("#modalId").val(dados[0][0]);
+                $("#modalNmEstado").val(dados[0][1]);
+                $("#modalSigla").val(dados[0][2]);
+                $("#modalCodigoInep").val(dados[0][4]);
+            
+                event.preventDefault();
+                $('#modalEstado').modal({'show':true});
+            }
+        });
+    });
+
+    // Botão de salvar
+    $('#frmEstados').on('submit', function(event){
+        value = document.getElementById("modalPais").value;
+        if(value == '104'){
+            var html = 'Informe o País!';
+            $("#msgErro").html(html);
+            $("#msgErro").show();
+            submit = false;
+            return false;
+        };
+
+        value = document.getElementById("modalNmEstado").value;
+        if(!value){
+            var html = 'Informe o nome do estado!';
+            $("#msgErro").html(html);
+            $("#msgErro").show();
+            submit = false;
+            return false;
+        };
+
+        value = document.getElementById("modalSigla").value;
+        if(!value){
+            var html = 'Informe a sigla do estado!';
+            $("#msgErro").html(html);
+            $("#msgErro").show();
+            submit = false;
+            return false;
+        };
+
+        if(submit){
+            event.preventDefault();
+
+            //receber dados do formulario
+            var dados = $("#frmEstados").serialize();
+
+            $.post("estadosSave",dados,function(response){
+                if(response){
+                    //limpa os dados
+                    $('#frmEstados')[0].reset();
+
+                    //fecha a janela
+                    $('#modalEstado').modal('hide');
+
+                    // refaz a lista
+                    window.location.href = '/estadosList';
+
+                }else{
+                    $("#msg").html(response);
+                }
+            });
+        };
+    });
+</script>

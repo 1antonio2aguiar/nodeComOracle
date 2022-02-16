@@ -1,0 +1,241 @@
+﻿<div id="modalCidade" class="modal fade" id="modalScrollable" tabindex="-1" role="dialog" aria-labelledby="modalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div id="ModalHeader" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 id="modal-title" class="modal-title white-text w-100 font-weight-bold py-2"></h4>
+            </div>
+    
+            <form class="form-add" name="frmCidades" id="frmCidades" method="post">
+                <div class="form-row">
+                    <div class="row">
+                        <div class="alert alert-danger input-lg col-md-12 msg-error-lg1" role="alert" name="msgErro" id="msgErro" style="display:none;"></div>
+                        <input type="text" value="0" class="form-control" id="modalId" name="modalId" style="display:none;">
+                    </div>
+    
+                    <div class="form-group col-md-6">
+                        <label for="modalDescricao">País</label>
+                        <select class="form-control" name="modalPais" id="modalPais" onchange="changePais()">
+                            
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="modalDescricao">Estado</label>
+                        <select class="form-control" name="modalEstado" id="modalEstado" onchange="escondeMsg()">
+                            
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="modalDescricao">Nome</label>
+                        <input type="text" class="form-control" id="modalNmCidade" name="modalNmCidade" onkeyup="escondeMsg()">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="modalSigla">Sigla</label>
+                        <input type="text" class="form-control" id="modalSigla" name="modalSigla" maxlength="6" size="6">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="modalCodigoInep">Código INEP</label>
+                        <input type="text" class="form-control" id="modalCodigoInep" name="modalCodigoInep">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="modalDescricao">Código IBGE</label>
+                        <input type="text" class="form-control" id="modalCodigoIbge" name="modalCodigoIbge">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="modalCodigoSicom">Código SICOM</label>
+                        <input type="text" class="form-control" id="modalCodigoSicom" name="modalCodigoSicom">
+                    </div>
+                </div>
+
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer">
+                    </div>
+
+                    <div id="ModalFooter" class="modal-footer">
+                        <button type="button" class="btn btn-outline-info" data-dismiss="modal">Fechar</button>
+                        <input type="submit" name="btnModSubmit" id="btnModSubmit" value="Enviar" class="btn btn-outline-info">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+    
+<script>
+    var submit = new Boolean(true);
+
+    //Novo -- Abre modal
+    $(document).on('click', '#btnNew', function () {
+        //limpa os dados
+        $('#frmCidade')[0].reset();
+
+        //Seta o título de acordo com a operacao
+        $("#modal-title").html("Nova Cidade");
+        // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui novo
+        setHeaderFooter("N");
+
+        $('#modalPais').removeAttr("disabled");
+        $('#modalEstado').removeAttr("disabled");
+
+        $.ajax({
+            type: "get",
+            url: '/paisesEstadosBusca',
+            dataType: 'json',
+            success: function (dados) {
+                var moveuPais = false;
+                var paises  = $("#modalPais");
+
+                var estados = $("#modalEstado");
+                $("#modalEstado option").each(function() {$(this).remove();});
+                estados.append($("<option />").val("-1").text("Selecione..."));
+
+                var temp = null;
+                for (var i = 0; i < dados.length; i++) {
+                    temp = dados[i];
+                    if(temp[0] == 1){
+                        if(!moveuPais){
+                            paises.append($('<option selected="true"/>').val(temp[0]).text(temp[1]));
+                            moveuPais = true;
+                        } else {
+                            estados.append($("<option />").val(temp[2]).text(temp[3]));
+                        }
+                    } else {
+                        paises.append($("<option />").val(temp[0]).text(temp[1]));
+                    };
+                };
+            } 
+        });
+
+        event.preventDefault();
+        $('#modalCidade').modal({'show':true});
+    });
+
+    //Update -- Abre modal
+    $(document).on('click','.view_edit', function(){
+        $('#frmCidade')[0].reset();
+
+        //Seta o título de acordo com a operacao
+        $("#modal-title").html("Edita Cidade");
+        // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui novo
+        setHeaderFooter("E");
+
+        $("#modalPais option").each(function() {$(this).remove();});
+        $("#modalEstado option").each(function() {$(this).remove();});
+        
+        var id = $(this).attr("id");
+        var dados = { id: id };
+
+        $.ajax({
+            type: "post",
+            url: '/cidadesEdit',
+            data: dados,
+            dataType: 'json',
+            success: function (dados) {
+                var paises = $("#modalPais");
+                paises.append($("<option />").val(dados[0][9]).text(dados[0][10]));
+                $("#modalPais").attr("disabled","disabled");
+
+                var estado = $("#modalEstado");
+                estado.append($("<option />").val(dados[0][7]).text(dados[0][8]));
+                $("#modalEstado").attr("disabled","disabled");
+
+                $("#modalId").val(dados[0][0]);
+                $("#modalNmCidade").val(dados[0][2]);
+                $("#modalSigla").val(dados[0][3]);
+                $("#modalCodigoIbge").val(dados[0][5]);
+                $("#modalCodigoSicom").val(dados[0][4]);
+                $("#modalCodigoInep").val(dados[0][6]);
+                
+                event.preventDefault();
+                $('#modalCidade').modal({'show':true});
+            }
+        });
+    });	
+
+    // Botão de salvar
+    $('#frmCidades').on('submit', function(event){
+        value = document.getElementById("modalEstado").value;
+        if(value == '-1'){
+            var html = 'Informe o Estado!';
+            $("#msgErro").html(html);
+            $("#msgErro").show();
+            submit = false;
+            return false;
+        };
+
+        value = document.getElementById("modalNmCidade").value;
+        if(!value){
+            var html = 'Informe o nome da cidade!';
+            $("#msgErro").html(html);
+            $("#msgErro").show();
+            submit = false;
+            return false;
+        };
+
+        if(submit){
+            // Insere ou faz update dos dados
+            event.preventDefault();
+
+            //receber dados do formulario
+            var dados = $("#frmCidades").serialize();
+
+            $.post("cidadesSave",dados,function(response){
+                if(response){
+                    //limpa os dados
+                    $('#frmCidade')[0].reset();
+
+                    //fecha a janela
+                    $('#modalCidade').modal('hide');
+                    
+                    window.location = "/cidadesList";
+                }else{
+                    $("#msgErro").html(response);
+                }
+            });
+        };
+    });
+
+    // Ao alterar select pais
+    function changePais() {
+        var pais = $("#modalPais").val();
+        
+        if (pais !== -1)  {
+            $.ajax({
+                type: "get",
+                url: '/estadosLista?pais=' + pais,
+                dataType: 'json',
+                success: function(dados) {
+                    $("#modalEstado option").each(function() {
+                        $(this).remove();
+                    });
+
+                    var estados = $("#modalEstado");
+                    estados.append($("<option />").val("-1").text("Selecione..."));
+                    
+                    var temp = null;
+                    for (var i = 0; i < dados.estados.length; i++) {
+                        temp = dados.estados[i];
+                        estados.append($("<option />").val(temp[0]).text(temp[1]));
+                    }
+                },
+                error: function(dados) {
+                    console.log(dados.estados);
+                }
+            });
+        };
+    };
+</script>

@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Empresas Pessoas</title>
+
+        <!-- define a viewport -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+        <meta charset="utf-8">
+
+        <!-- adicionar CSS Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet" media="all">
+
+        <!-- css personalizado -->
+        <link href="css/estilo.css" rel="stylesheet" media="all">
+
+    </head>
+    <body>
+        <div class="container container-fluid">
+            <form class="form-add" action="/empresasPessoasSave" method="post">
+                <div class="row">
+                    <input type="text" class="form-control" id="inputPessoaId" name="inputPessoaId" style="display:none;">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="selectVinculo">Vinculo</label>
+                        <select class="form-control" name="selectVinculo" id="selectVinculo">
+                            <option value="-1">Selecione...</option>
+                            <% for(var i = 0; i < tipos_vinculos.length; i++) { %>
+                                <option value="<%=tipos_vinculos[i][0]%>"><%=tipos_vinculos[i][1]%></option>
+                            <% } %> 
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <div class="row">
+                            <input type="text" class="form-control" id="inputIdEmpresa" name="inputIdEmpresa" style="display:none;">
+                        </div>
+                        <label for="inputNmEmpresa">Empresa</label>
+                        <input type="text" class="form-control" id="inputNmEmpresa" name="inputNmEmpresa">
+                    </div>
+    
+                    <div class="form-row col-md-3">
+                        <label for="inputCnpjEmpresa">C.N.P.J</label>
+                        <div class="input-group">
+                            <input name="inputCnpjEmpresa" class="form-control is-invalid" id="inputCnpjEmpresa" type="text" onfocus="$(this).mask('00.000-000')" required>
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" name="btnNewCnpj" id="btnNewCnpj">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                        <div class="row">
+                            <input type="text" class="form-control" id="modNewIdPessoaEmp" name="modNewIdPessoaEmp" style="display:none;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row" id="actions">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <a href="/pessoasList" class="btn btn-default">Cancelar</a>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </body>
+
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $(function () {
+                $("#inputNmEmpresa").autocomplete({
+                    source: function (request, response) {
+                        $.ajax({
+                            url: "pessoasBuscaPj",
+                            dataType: "json",
+                            type: "post",
+                            data: {
+                                search: request.term
+                            },
+                            success: function (data) {
+                                var jsonObj = JSON.parse(data);
+                                
+                                response($.map(jsonObj, function (el) {
+                                    return {
+                                        id: el.id,
+                                        value: el.nome,
+                                        cgccpf: el.cgccpf
+                                    };
+                                }));
+                            }
+                        });
+                    },
+                    
+                    // The minimum number of characters a user must type before a search is performed.
+                    minLength: 3,
+                    
+                    // set an onFocus event to show the result on input field when result is focused
+                    focus: function (event, ui) {
+                        this.value = ui.item.label;
+                        // Prevent other event from not being execute
+                        event.preventDefault();
+                    },
+                    select: function (event, ui) {
+                        // Prevent value from being put in the input:
+                        this.value = ui.item.label;
+                        $("#inputCnpjEmpresa").val(ui.item.cgccpf);
+                        $("#modNewIdPessoaEmp").val(ui.item.id);
+                        
+                        // Set the id to the next input hidden field
+                        $(this).next("input").val(ui.item.value);
+                        // Prevent other event from not being execute            
+                        event.preventDefault();
+                        // optionnal: submit the form after field has been filled up
+                        $('#inputNmEmpresa').submit();
+                    }
+                });
+
+            });
+        });
+    </script>
+</html>

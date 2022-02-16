@@ -1,0 +1,243 @@
+﻿<div id="modalContatoNew" class="modal hide bd-example-modal-lg-edit" tabindex="-1" role="dialog-edit" aria-hidden="true"  aria-labelledby="myLargeModalLabelNew">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content edit">
+
+            <div id="ModalHeaderCon" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+                <h4 class="modal-title modal-edit-title" id="New">Novo Contato</h4>
+            </div>
+
+            <form class="form-add" name="contatoModalNew" id="contatoModalNew" method="post">
+                <div class="form-row">
+                    <div class="row">
+                        <div class="alert alert-danger input-lg" role="alert" name="msgErro" id="msgErro" style="display:none;"></div>
+                        <input type="text" class="form-control" id="modNewIdPessoa" name="modNewIdPessoa" value="<%=pessoa[0][0]%>" style="display:none;">
+                        <input type="text" class="form-control" id="modNewIdContato" name="modNewIdContato" style="display:none;">
+                    </div>
+
+                    <div class="form-group col-md-7">
+                        <label for="modContatoNewNome">Nome</label>
+                        <input type="text" class="form-control" id="modContatoNewNome" name="modContatoNewNome" readonly>
+                    </div>
+
+                    <div class="form-group col-md-5">
+                        <label id="lbModContatoNewCpfCnpj" for="modContatoNewCpfCnpj"></label>
+                        <input type="text" class="form-control" id="modContatoNewCpfCnpj" name="modContatoNewCpfCnpj" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-7">
+                        <label for="modNewTipoContato">Tipo Contato</label>
+                        <select class="form-control" name="modNewTipoContato" id="modNewTipoContato">
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-5 mb-3">
+                        <label for="modDocNewContato">Contato</label>
+                        <input type="text" class="form-control is-invalid" id="modDocNewContato" name="modDocNewContato" required>
+                    </div>
+                </div>
+
+                <div class="form-row"  id="actions">
+                    <div class="modal-footer">
+                    </div>
+
+                    <div id="ModalFooterCon" class="modal-footer">
+                        <button type="button" class="btn btn-outline-info" data-dismiss="modal">Fechar</button>
+                        <input type="button" name="btnModSubmit" id="btnModSubmit" value="Enviar" class="btn btn-outline-info" onclick="validaCamposContatos();">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var tiposContatosList;
+        var tiposContatosDdw;
+        var nomePessoa;
+        var cpf;
+        var tpContato = 0;
+        var contato = 0;
+
+        //Abre a modal de novo Contato
+        $(document).on('click', '#btnNewContato', function () {
+            event.preventDefault();
+
+            // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui novo
+            setHeaderFooterCon("N");
+            
+            var nomePessoa   = $("#inputNomepf").val();
+            cpfCnpj          = $("#inputCpfpf").val();
+
+            if(!cpfCnpj){
+                cpfCnpj      = $("#inputCnpjpj").val();
+                nomePessoa   = $("#inputNomepj").val();
+                document.getElementById("lbModContatoNewCpfCnpj").innerHTML = 'C.N.P.J';
+            } else {
+                document.getElementById("lbModContatoNewCpfCnpj").innerHTML = 'C.P.F';                
+            }
+
+            $("#modContatoNewNome").val(nomePessoa);
+            $("#modContatoNewCpfCnpj").val(cpfCnpj);
+
+            $.ajax({
+                type: "GET",
+                url: '/contatosModalNew',
+                dataType: 'json',
+                success: function (response) {
+                    $("#modNewTipoContato option").each(function() {
+                        $(this).remove();
+                    });
+                    
+                    tiposContatosList = response;
+                    tiposContatosDdw = $("#modNewTipoContato");
+                    tiposContatosDdw.append($("<option />").val("-1").text("Selecione..."));
+                    
+                    var temp = null;
+                    for (var i = 0; i < tiposContatosList.length; i++) {
+                        temp = tiposContatosList[i];
+                        tiposContatosDdw.append($("<option />").val(temp[0]).text(temp[1]));
+                    }
+
+                    $('#modalContatoNew').modal({'show':true});
+                }
+            });
+        });
+
+        function validaCamposContatos(){
+            var html = '';
+            var submit = true;
+            var value  = '';
+
+            value = document.getElementById("modNewTipoContato").value;//valor do select
+            if(value == '-1'){
+                console.log('ta no valida -1')
+                var html = 'Informe o tipo de contato!';
+                $("#msgErro").html(html);
+                $("#msgErro").show();
+                submit = false;
+                return;
+            };
+
+            value = document.getElementById("modDocNewContato").value;
+            if (!value ){
+                console.log('ta no valida -2')
+                var html = 'Informe o nome pessoa!';
+                $("#msgErro").html(html);
+                $("#msgErro").show();
+                submit = false;
+                return;
+            };
+
+            if(submit){
+                // Insere os dados
+                event.preventDefault();
+                var dados = $("#contatoModalNew").serialize();
+
+                $.post("contatosModalSubmit",dados,function(response){
+                    if(response){
+                        //limpa os dados
+                        $('#contatoModalNew')[0].reset();
+
+                        //fecha a janela
+                        $('#modalContatoNew').modal('hide');
+
+                        // refaz a lista de contatos
+                        montaListaContatos();
+
+                    }else{
+                        $("#msg").html(response);
+                    }
+                });
+            };
+        };
+
+        //Abre a mesma modal de new, porem aqui clica no botão edit
+        // Aqui não e possível alterar o campo tipo contato, por isso recupera apenas o que esta gravado
+        $(document).on('click', '.edit_contato', function () {
+            event.preventDefault();
+
+            // Seta a cor do cebeçalho e rodape de acordo com a operação. Aqui Edit
+            setHeaderFooterCon("E");
+
+            tpContato = $(this).attr("idTp");
+            idContato = $(this).attr("id");
+            contato = $(this).attr("contato");
+
+            var nomePessoa   = $("#inputNomepf").val();
+            var cpfCnpj      = $("#inputCpfpf").val();
+
+            if(!cpfCnpj){
+                cpfCnpj      = $("#inputCnpjpj").val();
+                nomePessoa   = $("#inputNomepj").val();
+                document.getElementById("lbModContatoNewCpfCnpj").innerHTML = 'C.N.P.J';
+            } else {
+                document.getElementById("lbModContatoNewCpfCnpj").innerHTML = 'C.P.F';                
+            }
+
+            $("#modContatoNewNome").val(nomePessoa);
+            $("#modContatoNewCpfCnpj").val(cpfCnpj);
+            $("#modNewIdContato").val(idContato);
+            $("#modDocNewContato").val(contato);
+
+            $.ajax({
+                type: "GET",
+                url: '/contatosModalNew',
+                dataType: 'json',
+                success: function (response) {
+                    tiposContatosList = response;
+                    tiposContatosDdw = $("#modNewTipoContato");
+
+                    $("#modNewTipoContato option").each(function() {
+                        $(this).remove();
+                    });
+                    
+                    var temp = null;
+                    for (var i = 0; i < tiposContatosList.length; i++) {
+                        temp = tiposContatosList[i];
+                        if(tpContato == temp[0]){
+                            tiposContatosDdw.append($("<option selected />").val(temp[0]).text(temp[1]));
+                        }
+                    }
+
+                    $('#modalContatoNew').modal({'show':true});
+                }
+            });
+        });
+
+        function setHeaderFooterCon(data){
+
+            if(data == "N"){
+                //Novo
+                var element = document.getElementById("ModalHeaderCon");
+                element.classList.remove("class_header_edit");
+                element.classList.add("class_header_new");
+                
+                var element = document.getElementById("ModalFooterCon");
+                element.classList.remove("class_footer_edit");
+                element.classList.add("class_footer_new");
+            } else if(data == "E"){
+                // Edita/Altera
+                var element = document.getElementById("ModalHeaderCon");
+                element.classList.remove("class_header_edit");
+                element.classList.add("class_header_edit");
+                
+                var element = document.getElementById("ModalFooterCon");
+                element.classList.remove("class_footer_edit");
+                element.classList.add("class_footer_edit");
+            } else if(data == "X"){
+                // Delete
+                var element = document.getElementById("ModalHeaderDelCon");
+                element.classList.remove("class_header_del");
+                element.classList.add("class_header_del");
+                
+                var element = document.getElementById("ModalFooterDelCon");
+                element.classList.remove("class_footer_del");
+                element.classList.add("class_footer_del");
+            }
+        }; 
+    </script>
+</div>

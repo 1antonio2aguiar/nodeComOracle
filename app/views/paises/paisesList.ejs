@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Países</title>
+
+        <!-- define a viewport -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+        <meta charset="utf-8">
+
+        <!-- adicionar CSS Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet" media="all">
+
+        <!-- css personalizado -->
+        <link href="css/estilo.css" rel="stylesheet" media="all">
+
+    </head>
+    
+    <body> 
+        <div class="container-fluid" style="background-color: #efefef;">
+            <!-- Menu Principal -->
+            <% include ../index/menuInclude %>
+
+            <nav class="navbar navbar-filter navbar-inverse" role="navigation">
+                <input type="hidden" name="pagina" value="1">
+
+                <form id="filter-form" action="/paisesList" method="get">
+                    <div class="form-row">
+                        <div class="col-md-11">
+                            <div class="input-group navbar-brand">
+                                <h4>Países</h4>
+                            </div>
+                        </div>
+        
+                        <div class="col-md-1">
+                            <input type="submit" name="btnNew" id="btnNew" value="Novo" class="btn btn-primary pull-right h2">
+                        </div>
+                    </div>
+                </form>
+            </nav>
+
+            <div id="list" class="row">
+                <div class="table-responsive col-md-12">
+                    <table class="table table-list table-striped" cellspacing="0" cellpadding="0" id="table-list">
+                        <thead>
+                            <tr class="class_header_list">
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Sigla</th>
+                                <th>Nacionalidade</th>
+                                <th>Código INEP</th>
+                                <th class="actions">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(var i = 0; i < paises.length; i++) { %>
+                                <tr>
+                                    <td><%=paises[i][0]%></td>
+                                    <td><%=paises[i][1]%></td>
+                                    <td><%=paises[i][2]%></td>
+                                    <td><%=paises[i][4]%></td>
+                                    <td><%=paises[i][3]%></td>
+                                    <td class="actions">
+                                        <a class="btn btn-success btn-xs" href="#" disabled>Consultar</a>
+                                        <a class="btn btn-warning btn-xs view_edit" id="<%=paises[i][0]%>" href="#">Editar</a>
+                                        <a class="btn btn-danger btn-xs view_data"  id="<%=paises[i][0]%>" href="#">Excluir</a>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div> <!-- /#list -->
+        </div>
+
+        <nav class="class_paginator">
+            <ul class="pagination pagination-sm">
+                <li class="page-item">
+                    <span id="previous" class="btn btn-success btn-xs">Anterior</a>
+                </li>
+                <%- paginator %>                    
+                <li class="page-item">
+                    <span id="next" class="btn btn-success btn-xs">Próxima</a>
+                </li>
+            </ul>
+        </nav>
+    </body>
+
+    <input id="pagina" type="hidden" value="<%=metadata.page%>">
+    <input id="total-pagina" type="hidden" value="<%=metadata.totalPages%>">
+    <input id="descricao" type="hidden" value="<%=metadata.descricao%>">
+        
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- Modal edit e new -->
+    <% include modalPaises %>
+
+    <!-- Modal delete -->
+    <% include modalPaisesDel %>
+
+    <script>
+        var pais = null;
+
+        $("#previous").click(function() {
+            previous();
+        });
+
+        $("#next").click(function() {
+            next();
+        });
+
+        function previous() {
+            var page     = parseInt($("#pagina").val());
+            
+            if (page > 1) {
+                page--;
+                window.location = "/paisesList?pagina=" + page ;
+            };
+        };
+
+        function next() {
+            var page      = parseInt($("#pagina").val());
+            var totalPage = parseInt($("#total-pagina").val());
+            var descricao = $("#descricao").val();
+
+            if (page <= totalPage) {
+                page++;
+                window.location = "/paisesList?pagina=" + page ; 
+            };
+        };
+
+        function setHeaderFooter(data){
+            if(data == "N"){
+                //Novo
+                var element = document.getElementById("ModalHeader");
+                element.classList.remove("class_header_edit");
+                element.classList.add("class_header_new");
+                
+                var element = document.getElementById("ModalFooter");
+                element.classList.remove("class_footer_edit");
+                element.classList.add("class_footer_new");
+            } else if(data == "E"){
+                // Edita/Altera
+                var element = document.getElementById("ModalHeader");
+                element.classList.remove("class_header_edit");
+                element.classList.add("class_header_edit");
+                
+                var element = document.getElementById("ModalFooter");
+                element.classList.remove("class_footer_edit");
+                element.classList.add("class_footer_edit");
+                
+            } ;
+        };
+    </script>
+</html>
